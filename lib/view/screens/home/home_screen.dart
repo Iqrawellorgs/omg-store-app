@@ -90,7 +90,7 @@ class HomeScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                    borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
                     color: Theme.of(context).cardColor,
                     boxShadow: [
                       BoxShadow(
@@ -110,7 +110,12 @@ class HomeScreen extends StatelessWidget {
                     authController.profileModel != null
                         ? Switch(
                             value: !authController.profileModel!.restaurants![0].active!,
-                            activeColor: Theme.of(context).primaryColor,
+                            activeColor: Colors.red,
+                            inactiveThumbColor: Colors.green,
+                            inactiveTrackColor: Colors.green[100],
+                            trackOutlineColor: const MaterialStatePropertyAll(
+                              Colors.transparent,
+                            ),
                             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             onChanged: (bool isActive) {
                               Get.dialog(ConfirmationDialog(
@@ -136,16 +141,16 @@ class HomeScreen extends StatelessWidget {
                     Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          color: Color(0xffFFFFFF),
+                          color: const Color(0xffFFFFFF),
                           boxShadow: [
                             BoxShadow(
                                 color: Colors.grey.shade200.withOpacity(0.5),
                                 spreadRadius: 5,
                                 blurRadius: 7,
-                                offset: Offset(0, 3)),
+                                offset: const Offset(0, 3)),
                           ]),
-                      height: 115,
-                      width: 156,
+                      height: context.height * 0.15,
+                      width: context.width * 0.45,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -154,7 +159,7 @@ class HomeScreen extends StatelessWidget {
                                 ? PriceConverter.convertPrice(
                                     authController.profileModel!.thisWeekEarning)
                                 : '0',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: "Sen",
                               fontSize: 30,
                               fontWeight: FontWeight.w700,
@@ -164,7 +169,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                           Text(
                             'this_week'.tr,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: "Sen",
                               fontSize: 13,
                               fontWeight: FontWeight.w700,
@@ -176,20 +181,20 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          color: Color(0xffFFFFFF),
+                          color: const Color(0xffFFFFFF),
                           boxShadow: [
                             BoxShadow(
                                 color: Colors.grey.shade200.withOpacity(0.5),
                                 spreadRadius: 5,
                                 blurRadius: 7,
-                                offset: Offset(0, 3)),
+                                offset: const Offset(0, 3)),
                           ]),
-                      height: 115,
-                      width: 156,
+                      height: context.height * 0.15,
+                      width: context.width * 0.45,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -198,7 +203,7 @@ class HomeScreen extends StatelessWidget {
                                 ? PriceConverter.convertPrice(
                                     authController.profileModel!.thisMonthEarning)
                                 : '0',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: "Sen",
                               fontSize: 30,
                               fontWeight: FontWeight.w700,
@@ -208,7 +213,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                           Text(
                             'this_month'.tr,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: "Sen",
                               fontSize: 13,
                               fontWeight: FontWeight.w700,
@@ -228,13 +233,13 @@ class HomeScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
-                      color: Color(0xffFFFFFF),
+                      color: const Color(0xffFFFFFF),
                       boxShadow: [
                         BoxShadow(
                             color: Colors.grey.shade200.withOpacity(0.5),
                             spreadRadius: 5,
                             blurRadius: 7,
-                            offset: Offset(0, 3)),
+                            offset: const Offset(0, 3)),
                       ]),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 8.0),
@@ -244,7 +249,7 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         Text(
                           'today'.tr,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: "Sen",
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
@@ -258,7 +263,7 @@ class HomeScreen extends StatelessWidget {
                               ? PriceConverter.convertPrice(
                                   authController.profileModel!.todaysEarning)
                               : '0',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: "Sen",
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
@@ -270,6 +275,14 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(
+                  height: Dimensions.paddingSizeDefault,
+                ),
+                Image.asset(
+                  'assets/image/produce_monthly.png',
+                  // height: 100,
+                  width: context.width,
+                )
                 // Container(
                 //   padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
                 //   decoration: BoxDecoration(
@@ -374,97 +387,102 @@ class HomeScreen extends StatelessWidget {
                 orderList = orderController.runningOrders![orderController.orderIndex].orderList;
               }
 
-              return Column(children: [
-                orderController.runningOrders != null
-                    ? Container(
-                        height: 40,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Theme.of(context).disabledColor, width: 1),
-                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                        ),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: orderController.runningOrders!.length,
-                          itemBuilder: (context, index) {
-                            return OrderButton(
-                              title: orderController.runningOrders![index].status.tr,
-                              index: index,
-                              orderController: orderController,
-                              fromHistory: false,
-                            );
-                          },
-                        ),
-                      )
-                    : const SizedBox(),
-                Row(children: [
+              return Column(
+                children: [
                   orderController.runningOrders != null
-                      ? InkWell(
-                          onTap: () => orderController.toggleCampaignOnly(),
-                          child: Row(children: [
-                            Checkbox(
-                              activeColor: Theme.of(context).primaryColor,
-                              value: orderController.campaignOnly,
-                              onChanged: (isActive) => orderController.toggleCampaignOnly(),
-                            ),
-                            Text(
-                              'campaign_order'.tr,
-                              style: senRegular.copyWith(
-                                  fontSize: Dimensions.fontSizeSmall,
-                                  color: themeController.darkTheme
-                                      ? Colors.white
-                                      : Theme.of(context).disabledColor),
-                            ),
-                          ]),
+                      ? SizedBox(
+                          height: 40,
+                          // decoration: BoxDecoration(
+                          //   border: Border.all(color: Theme.of(context).disabledColor, width: 1),
+                          //   borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                          // ),
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: orderController.runningOrders!.length,
+                            itemBuilder: (context, index) {
+                              return OrderButton(
+                                title: orderController.runningOrders![index].status.tr,
+                                index: index,
+                                orderController: orderController,
+                                fromHistory: false,
+                              );
+                            },
+                          ),
                         )
                       : const SizedBox(),
-                  // orderController.runningOrders != null
-                  //     ? InkWell(
-                  //         onTap: () => orderController.toggleSubscriptionOnly(),
-                  //         child: Row(children: [
-                  //           Checkbox(
-                  //             activeColor: Theme.of(context).primaryColor,
-                  //             value: orderController.subscriptionOnly,
-                  //             onChanged: (isActive) =>
-                  //                 orderController.toggleSubscriptionOnly(),
-                  //           ),
-                  //           Text(
-                  //             'subscription_order'.tr,
-                  //             style: robotoRegular.copyWith(
-                  //                 fontSize: Dimensions.fontSizeSmall,
-                  //                 color: themeController.darkTheme
-                  //                     ? Colors.white
-                  //                     : Theme.of(context).disabledColor),
-                  //           ),
-                  //         ]),
-                  //       )
-                  //     : const SizedBox(),
-                ]),
-                orderController.runningOrders != null
-                    ? orderList.isNotEmpty
-                        ? ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: orderList.length,
-                            itemBuilder: (context, index) {
-                              return OrderWidget(
-                                  orderModel: orderList[index],
-                                  hasDivider: index != orderList.length - 1,
-                                  isRunning: true);
-                            },
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.only(top: 50),
-                            child: Center(child: Text('no_order_found'.tr)),
-                          )
-                    : ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                          return OrderShimmer(isEnabled: orderController.runningOrders == null);
-                        },
-                      ),
-              ]);
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      orderController.runningOrders != null
+                          ? InkWell(
+                              onTap: () => orderController.toggleCampaignOnly(),
+                              child: Row(children: [
+                                Checkbox(
+                                  activeColor: Theme.of(context).primaryColor,
+                                  value: orderController.campaignOnly,
+                                  onChanged: (isActive) => orderController.toggleCampaignOnly(),
+                                ),
+                                Text(
+                                  'campaign_order'.tr,
+                                  style: senRegular.copyWith(
+                                      fontSize: Dimensions.fontSizeSmall,
+                                      color: themeController.darkTheme
+                                          ? Colors.white
+                                          : Theme.of(context).disabledColor),
+                                ),
+                              ]),
+                            )
+                          : const SizedBox(),
+                      // orderController.runningOrders != null
+                      //     ? InkWell(
+                      //         onTap: () => orderController.toggleSubscriptionOnly(),
+                      //         child: Row(children: [
+                      //           Checkbox(
+                      //             activeColor: Theme.of(context).primaryColor,
+                      //             value: orderController.subscriptionOnly,
+                      //             onChanged: (isActive) =>
+                      //                 orderController.toggleSubscriptionOnly(),
+                      //           ),
+                      //           Text(
+                      //             'subscription_order'.tr,
+                      //             style: robotoRegular.copyWith(
+                      //                 fontSize: Dimensions.fontSizeSmall,
+                      //                 color: themeController.darkTheme
+                      //                     ? Colors.white
+                      //                     : Theme.of(context).disabledColor),
+                      //           ),
+                      //         ]),
+                      //       )
+                      //     : const SizedBox(),
+                    ],
+                  ),
+                  orderController.runningOrders != null
+                      ? orderList.isNotEmpty
+                          ? ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: orderList.length,
+                              itemBuilder: (context, index) {
+                                return OrderWidget(
+                                    orderModel: orderList[index],
+                                    hasDivider: index != orderList.length - 1,
+                                    isRunning: true);
+                              },
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(top: 50),
+                              child: Center(child: Text('no_order_found'.tr)),
+                            )
+                      : ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: 10,
+                          itemBuilder: (context, index) {
+                            return OrderShimmer(isEnabled: orderController.runningOrders == null);
+                          },
+                        ),
+                ],
+              );
             }),
           ]),
         ),

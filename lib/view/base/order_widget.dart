@@ -89,7 +89,7 @@ class OrderWidget extends StatelessWidget {
                 : Icon(Icons.keyboard_arrow_right, size: 30, color: Theme.of(context).primaryColor),
           ]),
         ),
-        hasDivider ? Divider(color: Theme.of(context).disabledColor) : const SizedBox(),
+        hasDivider ? Divider(color: Colors.grey[100]) : const SizedBox(),
       ]),
     );
   }

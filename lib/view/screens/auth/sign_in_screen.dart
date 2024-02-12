@@ -10,6 +10,7 @@ import 'package:efood_multivendor_restaurant/view/base/custom_app_bar.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_button.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_snackbar.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_text_field.dart';
+import 'package:efood_multivendor_restaurant/view/screens/auth/widget/condition_check_box.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -174,7 +175,8 @@ class SignInScreen extends StatelessWidget {
                               child: Text('${'forgot_password'.tr}?'),
                             ),
                           ]),
-                          const SizedBox(height: 50),
+                          ConditionCheckBox(authController: authController),
+                          const SizedBox(height: 10),
                           !authController.isLoading
                               ? CustomButton(
                                   buttonText: 'sign_in'.tr,
