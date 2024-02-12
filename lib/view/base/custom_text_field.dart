@@ -33,6 +33,7 @@ class CustomTextField extends StatefulWidget {
   final bool showBorder;
   final double iconSize;
   final Color? fillColor;
+  final int? maxlength;
 
   const CustomTextField({
     Key? key,
@@ -61,6 +62,7 @@ class CustomTextField extends StatefulWidget {
     this.showBorder = true,
     this.iconSize = 18,
     this.fillColor,
+    this.maxlength,
   }) : super(key: key);
 
   @override
@@ -80,6 +82,7 @@ class CustomTextFieldState extends State<CustomTextField> {
             : const SizedBox(),
         SizedBox(height: widget.showTitle ? Dimensions.paddingSizeExtraSmall : 0),
         TextField(
+          maxLength: widget.maxlength,
           maxLines: widget.maxLines,
           controller: widget.controller,
           focusNode: widget.focusNode,
@@ -116,6 +119,7 @@ class CustomTextFieldState extends State<CustomTextField> {
                             ]
                           : null,
           decoration: InputDecoration(
+            counterText: '',
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
               borderSide: BorderSide(

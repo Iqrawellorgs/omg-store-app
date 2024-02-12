@@ -88,6 +88,7 @@ class AuthController extends GetxController implements GetxService {
   bool _uppercaseCheck = false;
   bool _lowercaseCheck = false;
   bool _spatialCheck = false;
+  bool _acceptTerms = true;
 
   bool get isLoading => _isLoading;
   bool get notification => _notification;
@@ -128,6 +129,12 @@ class AuthController extends GetxController implements GetxService {
   bool get uppercaseCheck => _uppercaseCheck;
   bool get lowercaseCheck => _lowercaseCheck;
   bool get spatialCheck => _spatialCheck;
+  bool get acceptTerms => _acceptTerms;
+
+  void toggleTerms() {
+    _acceptTerms = !_acceptTerms;
+    update();
+  }
 
   void initializeRenew() {
     _renewStatus = 'packages';

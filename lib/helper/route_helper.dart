@@ -91,7 +91,9 @@ class RouteHelper {
   static const String coupon = '/coupon';
   static const String expense = '/expense';
   static const String productImages = '/product-Images';
+  static const String html = '/html';
 
+  static String getHtmlRoute(String page) => '$html?page=$page';
   static String getInitialRoute() => initial;
   static String getSplashRoute(NotificationBody? body) {
     String data = 'null';
@@ -211,6 +213,7 @@ class RouteHelper {
   static String getOrderHistoryRoute() => orderHistory;
 
   static List<GetPage> routes = [
+    GetPage(name: html, page: () => const HtmlViewerScreen(isPrivacyPolicy: false)),
     GetPage(name: orderHistory, page: () => const OrderHistoryScreen()),
     GetPage(name: initial, page: () => const DashboardScreen(pageIndex: 0)),
     GetPage(

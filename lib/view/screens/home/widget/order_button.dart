@@ -35,6 +35,7 @@ class OrderButton extends StatelessWidget {
     }
     bool isSelected = selectedIndex == index;
     return InkWell(
+      borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
       onTap: () => fromHistory
           ? orderController.setHistoryIndex(index)
           : orderController.setOrderIndex(index),
@@ -42,7 +43,7 @@ class OrderButton extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+            borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
             color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).cardColor,
           ),
           alignment: Alignment.center,
@@ -60,13 +61,13 @@ class OrderButton extends StatelessWidget {
             ),
           ),
         ),
-        (index != titleLength - 1 && index != selectedIndex && index != selectedIndex - 1)
-            ? Container(
-                height: 15,
-                width: 1,
-                color: Theme.of(context).disabledColor,
-              )
-            : const SizedBox(),
+        // (index != titleLength - 1 && index != selectedIndex && index != selectedIndex - 1)
+        //     ? Container(
+        //         height: 15,
+        //         width: 1,
+        //         color: Theme.of(context).disabledColor,
+        //       )
+        //     : const SizedBox(),
       ]),
     );
   }

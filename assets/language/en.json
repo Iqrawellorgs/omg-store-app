@@ -247,7 +247,7 @@
   "next": "Next",
   "restaurant_temporarily_closed": "Store Temporarily Closed",
   "are_you_sure_to_open_restaurant": "Are you sure want to change the active status to open for this store?",
-  "are_you_sure_to_close_restaurant": "Are you sure want to change the active status to close for this store temporary?",
+  "are_you_sure_to_close_restaurant": "Are you sure you want to temporarily close the store?",
   "food_is_on_the_way": "Item is on the way",
   "gst": "GST",
   "enter_gst_code": "Enter GST code",

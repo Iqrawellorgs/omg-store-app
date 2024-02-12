@@ -18,6 +18,7 @@ import 'package:efood_multivendor_restaurant/view/base/custom_app_bar.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_button.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_snackbar.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_text_field.dart';
+import 'package:efood_multivendor_restaurant/view/screens/auth/widget/condition_check_box.dart';
 import 'package:efood_multivendor_restaurant/view/screens/auth/widget/custom_time_picker.dart';
 import 'package:efood_multivendor_restaurant/view/screens/auth/widget/pass_view.dart';
 import 'package:efood_multivendor_restaurant/view/screens/auth/widget/select_location_view.dart';
@@ -218,11 +219,6 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                   Visibility(
                                     visible: authController.storeStatus == 0.4,
                                     child: Column(children: [
-                                      authController.zoneList != null
-                                          ? const SelectLocationView(fromView: true)
-                                          : const Center(child: CircularProgressIndicator()),
-                                      const SizedBox(height: Dimensions.paddingSizeLarge),
-
                                       Row(children: [
                                         Expanded(
                                           flex: 4,
@@ -391,7 +387,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                           ]),
                                         ),
                                       ]),
-                                      const SizedBox(height: Dimensions.paddingSizeExtraLarge),
+                                      const SizedBox(height: Dimensions.paddingSizeDefault),
 
                                       ListView.builder(
                                           itemCount: _languageList!.length,
@@ -400,7 +396,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                           itemBuilder: (context, index) {
                                             return Padding(
                                               padding: const EdgeInsets.only(
-                                                  bottom: Dimensions.paddingSizeExtraLarge),
+                                                  bottom: Dimensions.paddingSizeDefault),
                                               child: CustomTextField(
                                                 fillColor: Color.fromARGB(255, 240, 245, 250),
                                                 showBorder: false,
@@ -417,6 +413,10 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                               ),
                                             );
                                           }),
+                                      authController.zoneList != null
+                                          ? const SelectLocationView(fromView: true)
+                                          : const Center(child: CircularProgressIndicator()),
+                                      const SizedBox(height: Dimensions.paddingSizeDefault),
                                       // const SizedBox(height: Dimensions.paddingSizeExtraLarge),
 
                                       // authController.zoneList != null
@@ -431,7 +431,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                           itemBuilder: (context, index) {
                                             return Padding(
                                               padding: const EdgeInsets.only(
-                                                  bottom: Dimensions.paddingSizeExtraLarge),
+                                                  bottom: Dimensions.paddingSizeDefault),
                                               child: Column(
                                                 children: [
                                                   CustomTextField(
@@ -468,7 +468,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                                     fillColor: Color.fromARGB(255, 240, 245, 250),
                                                     showBorder: false,
                                                     hintText:
-                                                        '${'Apartment/Road/Area'.tr} ', //(${_languageList![index].value!})
+                                                        '${'Apartment/Road/Area'.tr} (optional)', //(${_languageList![index].value!})
                                                     controller: _floorNoController,
                                                     inputType: TextInputType.number,
                                                     capitalization: TextCapitalization.sentences,
@@ -480,7 +480,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                                     fillColor: Color.fromARGB(255, 240, 245, 250),
                                                     showBorder: false,
                                                     hintText:
-                                                        '${'Landmark'.tr} ', //(${_languageList![index].value!})
+                                                        '${'Landmark'.tr} (optional)', //(${_languageList![index].value!})
                                                     controller: _floorNoController,
                                                     inputType: TextInputType.number,
                                                     capitalization: TextCapitalization.sentences,
@@ -501,10 +501,11 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                           itemBuilder: (context, index) {
                                             return Padding(
                                               padding: const EdgeInsets.only(
-                                                  bottom: Dimensions.paddingSizeExtraLarge),
+                                                  bottom: Dimensions.paddingSizeDefault),
                                               child: CustomTextField(
                                                 fillColor: Color.fromARGB(255, 240, 245, 250),
                                                 showBorder: false,
+                                                maxlength: 6,
                                                 hintText: 'Pincode *',
                                                 controller: _pinCodeController,
                                                 focusNode: _pinCodeFocus,
@@ -530,7 +531,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                         inputType: TextInputType.number,
                                         isAmount: true,
                                       ),
-                                      const SizedBox(height: Dimensions.paddingSizeExtraLarge),
+                                      const SizedBox(height: Dimensions.paddingSizeDefault),
                                       Theme(
                                         data: Theme.of(context)
                                             .copyWith(dividerColor: Colors.transparent),
@@ -736,7 +737,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                       //     ),
                                       //   ),
                                       // ]),
-                                      const SizedBox(height: Dimensions.paddingSizeLarge),
+                                      const SizedBox(height: Dimensions.paddingSizeDefault),
 
                                       InkWell(
                                         onTap: () {
@@ -803,7 +804,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                               capitalization: TextCapitalization.words,
                                             )),
                                           ]),
-                                          const SizedBox(height: Dimensions.paddingSizeExtraLarge),
+                                          const SizedBox(height: Dimensions.paddingSizeDefault),
                                           CustomTextField(
                                             fillColor: Color.fromARGB(255, 240, 245, 250),
                                             showBorder: false,
@@ -829,7 +830,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                                     .locale
                                                     .countryCode,
                                           ),
-                                          const SizedBox(height: Dimensions.paddingSizeExtraLarge),
+                                          const SizedBox(height: Dimensions.paddingSizeDefault),
                                           CustomTextField(
                                             fillColor: Color.fromARGB(255, 240, 245, 250),
                                             showBorder: false,
@@ -839,7 +840,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                             nextFocus: _passwordFocus,
                                             inputType: TextInputType.emailAddress,
                                           ),
-                                          const SizedBox(height: Dimensions.paddingSizeExtraLarge),
+                                          const SizedBox(height: Dimensions.paddingSizeDefault),
                                           CustomTextField(
                                             fillColor: Color.fromARGB(255, 240, 245, 250),
                                             showBorder: false,
@@ -868,7 +869,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                           // authController.showPassView
                                           //     ? const PassView()
                                           //     : const SizedBox(),
-                                          const SizedBox(height: Dimensions.paddingSizeExtraLarge),
+                                          const SizedBox(height: Dimensions.paddingSizeDefault),
                                           CustomTextField(
                                             fillColor: Color.fromARGB(255, 240, 245, 250),
                                             showBorder: false,
@@ -879,6 +880,9 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                             inputAction: TextInputAction.done,
                                             isPassword: true,
                                           ),
+                                          const SizedBox(height: Dimensions.paddingSizeLarge),
+                                          ConditionCheckBox(
+                                              authController: authController, fromSignUp: true),
                                         ]),
                                   ),
                                 ]),
