@@ -8,18 +8,17 @@ import 'package:efood_multivendor_restaurant/helper/responsive_helper.dart';
 import 'package:efood_multivendor_restaurant/util/dimensions.dart';
 import 'package:efood_multivendor_restaurant/util/styles.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_image.dart';
-import 'package:efood_multivendor_restaurant/view/screens/chat/widget/image_dialog.dart';
 import 'package:efood_multivendor_restaurant/view/screens/image_viewer_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../controller/theme_controller.dart';
-import '../../../../helper/route_helper.dart';
 
 class OrderProductWidget extends StatefulWidget {
   final OrderModel? order;
   final OrderDetailsModel orderDetails;
-  const OrderProductWidget({Key? key, required this.order, required this.orderDetails})
+  const OrderProductWidget(
+      {Key? key, required this.order, required this.orderDetails})
       : super(key: key);
 
   @override
@@ -43,7 +42,8 @@ class _OrderProductWidgetState extends State<OrderProductWidget> {
   Widget build(BuildContext context) {
     String addOnText = '';
     for (var addOn in widget.orderDetails.addOns!) {
-      addOnText = '$addOnText${(addOnText.isEmpty) ? '' : ', '} ${addOn.name}(${addOn.quantity})';
+      addOnText =
+          '$addOnText${(addOnText.isEmpty) ? '' : ', '} ${addOn.name}(${addOn.quantity})';
     }
 
     String variationText = '';
@@ -78,6 +78,7 @@ class _OrderProductWidgetState extends State<OrderProductWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                const SizedBox(height: Dimensions.paddingSizeDefault),
                 Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -109,69 +110,91 @@ class _OrderProductWidgetState extends State<OrderProductWidget> {
                       sliderImages(),
                       const SizedBox(width: Dimensions.paddingSizeSmall),
                       Expanded(
-                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text(
-                            widget.orderDetails.foodDetails!.name!,
-                            style: senBold.copyWith(fontSize: Dimensions.fontSizeLarge),
-                            // maxLines: 2,
-                            overflow: TextOverflow.clip,
-                          ),
-                          Row(children: [
-                            Text('${'quantity'.tr}:',
-                                style: senRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
-                            Text(
-                              widget.orderDetails.quantity.toString(),
-                              style: senMedium.copyWith(
-                                  color: Theme.of(context).primaryColor,
-                                  fontSize: Dimensions.fontSizeSmall),
-                            ),
-                          ]),
-                          const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                          Row(children: [
-                            FittedBox(
-                                child: Text(
-                              PriceConverter.convertPrice(widget.orderDetails.price),
-                              style: senMedium,
-                              textDirection: TextDirection.ltr,
-                            )),
-                            Get.find<SplashController>().configModel!.toggleVegNonVeg!
-                                ? Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: Dimensions.paddingSizeExtraSmall,
-                                        horizontal: Dimensions.paddingSizeSmall),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                      color: Theme.of(context).primaryColor.withOpacity(0.1),
-                                    ),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.orderDetails.foodDetails!.name!,
+                                style: senBold.copyWith(
+                                    fontSize: Dimensions.fontSizeLarge),
+                                // maxLines: 2,
+                                overflow: TextOverflow.clip,
+                              ),
+                              Row(children: [
+                                Text('${'quantity'.tr}:',
+                                    style: senRegular.copyWith(
+                                        fontSize: Dimensions.fontSizeSmall)),
+                                Text(
+                                  widget.orderDetails.quantity.toString(),
+                                  style: senMedium.copyWith(
+                                      color: Theme.of(context).primaryColor,
+                                      fontSize: Dimensions.fontSizeSmall),
+                                ),
+                              ]),
+                              const SizedBox(
+                                  height: Dimensions.paddingSizeExtraSmall),
+                              Row(children: [
+                                FittedBox(
                                     child: Text(
-                                      widget.orderDetails.foodDetails!.veg == 0
-                                          ? 'non_veg'.tr
-                                          : 'veg'.tr,
-                                      style: senRegular.copyWith(
-                                          fontSize: Dimensions.fontSizeExtraSmall,
-                                          color: Theme.of(context).primaryColor),
-                                    ),
-                                  )
-                                : const SizedBox(),
-                          ]),
-                          (widget.orderDetails.foodDetails?.variations != null &&
-                                      widget.orderDetails.foodDetails!.variations!.isNotEmpty ||
-                                  addOnText.isNotEmpty)
-                              ? Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall),
-                                  child: Text(
-                                      "$variationText${(variationText != '' && addOnText != '') ? ', ' : ''}$addOnText",
-                                      style: senRegular.copyWith(
-                                        fontSize: Dimensions.fontSizeDefault,
-                                        overflow: TextOverflow.clip,
-                                        color: Get.find<ThemeController>().darkTheme
-                                            ? Colors.white
-                                            : Colors.black,
-                                      )),
-                                )
-                              : const SizedBox(),
-                        ]),
+                                  PriceConverter.convertPrice(
+                                      widget.orderDetails.price),
+                                  style: senMedium,
+                                  textDirection: TextDirection.ltr,
+                                )),
+                                Get.find<SplashController>()
+                                        .configModel!
+                                        .toggleVegNonVeg!
+                                    ? Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: Dimensions
+                                                .paddingSizeExtraSmall,
+                                            horizontal:
+                                                Dimensions.paddingSizeSmall),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              Dimensions.radiusSmall),
+                                          color: Theme.of(context)
+                                              .primaryColor
+                                              .withOpacity(0.1),
+                                        ),
+                                        child: Text(
+                                          widget.orderDetails.foodDetails!
+                                                      .veg ==
+                                                  0
+                                              ? 'non_veg'.tr
+                                              : 'veg'.tr,
+                                          style: senRegular.copyWith(
+                                              fontSize:
+                                                  Dimensions.fontSizeExtraSmall,
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                              ]),
+                              (widget.orderDetails.foodDetails?.variations !=
+                                              null &&
+                                          widget.orderDetails.foodDetails!
+                                              .variations!.isNotEmpty ||
+                                      addOnText.isNotEmpty)
+                                  ? Padding(
+                                      padding: const EdgeInsets.only(
+                                          top:
+                                              Dimensions.paddingSizeExtraSmall),
+                                      child: Text(
+                                          "$variationText${(variationText != '' && addOnText != '') ? ', ' : ''}$addOnText",
+                                          style: senRegular.copyWith(
+                                            fontSize:
+                                                Dimensions.fontSizeDefault,
+                                            overflow: TextOverflow.clip,
+                                            color: Get.find<ThemeController>()
+                                                    .darkTheme
+                                                ? Colors.white
+                                                : Colors.black,
+                                          )),
+                                    )
+                                  : const SizedBox(),
+                            ]),
                       ),
                     ]),
                 if (widget.orderDetails.specialNote != null &&
@@ -209,8 +232,11 @@ class _OrderProductWidgetState extends State<OrderProductWidget> {
                 //         ]),
                 //       )
                 //     : const SizedBox(),
-                const Divider(height: Dimensions.paddingSizeLarge),
-                const SizedBox(height: Dimensions.paddingSizeSmall),
+                const Divider(
+                  height: Dimensions.paddingSizeLarge,
+                  color: Color(0xffF0F4F9),
+                  thickness: 0.0,
+                ),
               ]),
         ),
       ),

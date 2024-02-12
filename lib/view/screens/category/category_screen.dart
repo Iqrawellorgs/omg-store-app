@@ -11,7 +11,8 @@ import 'package:get/get.dart';
 
 class CategoryScreen extends StatelessWidget {
   final CategoryModel? categoryModel;
-  const CategoryScreen({Key? key, required this.categoryModel}) : super(key: key);
+  const CategoryScreen({Key? key, required this.categoryModel})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +20,13 @@ class CategoryScreen extends StatelessWidget {
     if (isCategory) {
       Get.find<RestaurantController>().getCategoryList(null);
     } else {
-      Get.find<RestaurantController>().getSubCategoryList(categoryModel!.id, null);
+      Get.find<RestaurantController>()
+          .getSubCategoryList(categoryModel!.id, null);
     }
 
     return Scaffold(
-      appBar: CustomAppBar(title: isCategory ? 'categories'.tr : categoryModel!.name),
+      appBar: CustomAppBar(
+          title: isCategory ? 'categories'.tr : categoryModel!.name),
       body: GetBuilder<RestaurantController>(builder: (restController) {
         List<CategoryModel>? categories;
         if (isCategory && restController.categoryList != null) {
@@ -38,32 +41,40 @@ class CategoryScreen extends StatelessWidget {
                 ? RefreshIndicator(
                     onRefresh: () async {
                       if (isCategory) {
-                        await Get.find<RestaurantController>().getCategoryList(null);
+                        await Get.find<RestaurantController>()
+                            .getCategoryList(null);
                       } else {
                         await Get.find<RestaurantController>()
                             .getSubCategoryList(categoryModel!.id, null);
                       }
                     },
                     child: ListView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                      padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                      physics: const AlwaysScrollableScrollPhysics(
+                          parent: BouncingScrollPhysics()),
+                      padding:
+                          const EdgeInsets.all(Dimensions.paddingSizeSmall),
                       itemCount: categories.length,
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
                             if (isCategory) {
-                              Get.toNamed(RouteHelper.getSubCategoriesRoute(categories![index]));
+                              Get.toNamed(RouteHelper.getSubCategoriesRoute(
+                                  categories![index]));
                             }
                           },
                           child: Container(
-                            margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
-                            padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                            margin: const EdgeInsets.only(
+                                bottom: Dimensions.paddingSizeSmall),
+                            padding: const EdgeInsets.all(
+                                Dimensions.paddingSizeSmall),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                              borderRadius:
+                                  BorderRadius.circular(Dimensions.radiusSmall),
                               color: Theme.of(context).cardColor,
                               boxShadow: [
                                 BoxShadow(
-                                    color: Colors.grey[Get.isDarkMode ? 700 : 300]!,
+                                    color: Colors
+                                        .grey[Get.isDarkMode ? 700 : 300]!,
                                     spreadRadius: 1,
                                     blurRadius: 5)
                               ],
@@ -71,7 +82,8 @@ class CategoryScreen extends StatelessWidget {
                             child: Row(children: [
                               if (isCategory)
                                 ClipRRect(
-                                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.radiusSmall),
                                   child: CustomImage(
                                     image:
                                         '${Get.find<SplashController>().configModel!.baseUrls!.categoryImageUrl}/${categories![index].image}',
@@ -80,23 +92,26 @@ class CategoryScreen extends StatelessWidget {
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-                              const SizedBox(width: Dimensions.paddingSizeSmall),
-                              Expanded(
-                                  child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
+                              const SizedBox(
+                                  width: Dimensions.paddingSizeSmall),
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
                                     Text(categories?[index].name ?? "",
                                         style: senRegular,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis),
-                                    const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                                    Text(
-                                      '${'id'.tr}: ${categories?[index].id}',
-                                      style: senRegular.copyWith(
-                                          fontSize: Dimensions.fontSizeSmall,
-                                          color: Theme.of(context).disabledColor),
-                                    ),
-                                  ])),
+                                    // const SizedBox(
+                                    //     height:
+                                    //         Dimensions.paddingSizeExtraSmall),
+                                    // Text(
+                                    //   '${'id'.tr}: ${categories?[index].id}',
+                                    //   style: senRegular.copyWith(
+                                    //       fontSize: Dimensions.fontSizeSmall,
+                                    //       color:
+                                    //           Theme.of(context).disabledColor),
+                                    // ),
+                                  ]),
                             ]),
                           ),
                         );
@@ -104,7 +119,9 @@ class CategoryScreen extends StatelessWidget {
                     ),
                   )
                 : Center(
-                    child: Text(isCategory ? 'no_category_found'.tr : 'no_subcategory_found'.tr),
+                    child: Text(isCategory
+                        ? 'no_category_found'.tr
+                        : 'no_subcategory_found'.tr),
                   )
             : const Center(child: CircularProgressIndicator());
       }),

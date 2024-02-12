@@ -16,7 +16,10 @@ class NewPassScreen extends StatefulWidget {
   final String? email;
   final bool fromPasswordChange;
   const NewPassScreen(
-      {Key? key, required this.resetToken, required this.email, required this.fromPasswordChange})
+      {Key? key,
+      required this.resetToken,
+      required this.email,
+      required this.fromPasswordChange})
       : super(key: key);
 
   @override
@@ -24,8 +27,11 @@ class NewPassScreen extends StatefulWidget {
 }
 
 class _NewPassScreenState extends State<NewPassScreen> {
+  final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  final FocusNode _oldPasswordFocus = FocusNode();
   final FocusNode _newPasswordFocus = FocusNode();
   final FocusNode _confirmPasswordFocus = FocusNode();
 
@@ -33,7 +39,9 @@ class _NewPassScreenState extends State<NewPassScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-          title: widget.fromPasswordChange ? 'change_password'.tr : 'reset_password'.tr),
+          title: widget.fromPasswordChange
+              ? 'change_password'.tr
+              : 'reset_password'.tr),
       body: SafeArea(
           child: Center(
               child: Scrollbar(
@@ -44,42 +52,41 @@ class _NewPassScreenState extends State<NewPassScreen> {
             child: SizedBox(
                 width: 1170,
                 child: Column(children: [
-                  Text('enter_new_password'.tr, style: senRegular, textAlign: TextAlign.center),
+                  Text('enter_new_password'.tr,
+                      style: senRegular, textAlign: TextAlign.center),
                   const SizedBox(height: 50),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                      color: Theme.of(context).cardColor,
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
-                            spreadRadius: 1,
-                            blurRadius: 5)
-                      ],
+                  Column(children: [
+                    CustomTextField(
+                      hintText: 'Old Password',
+                      controller: _oldPasswordController,
+                      focusNode: _oldPasswordFocus,
+                      inputType: TextInputType.visiblePassword,
+                      prefixImage: Images.lock,
+                      isPassword: true,
                     ),
-                    child: Column(children: [
-                      CustomTextField(
-                        hintText: 'new_password'.tr,
-                        controller: _newPasswordController,
-                        focusNode: _newPasswordFocus,
-                        nextFocus: _confirmPasswordFocus,
-                        inputType: TextInputType.visiblePassword,
-                        prefixImage: Images.lock,
-                        isPassword: true,
-                        divider: true,
-                      ),
-                      CustomTextField(
-                        hintText: 'confirm_password'.tr,
-                        controller: _confirmPasswordController,
-                        focusNode: _confirmPasswordFocus,
-                        inputAction: TextInputAction.done,
-                        inputType: TextInputType.visiblePassword,
-                        prefixImage: Images.lock,
-                        isPassword: true,
-                        onSubmit: (text) => GetPlatform.isWeb ? _resetPassword() : null,
-                      ),
-                    ]),
-                  ),
+                    const SizedBox(height: 10),
+                    CustomTextField(
+                      hintText: 'new_password'.tr,
+                      controller: _newPasswordController,
+                      focusNode: _newPasswordFocus,
+                      nextFocus: _confirmPasswordFocus,
+                      inputType: TextInputType.visiblePassword,
+                      prefixImage: Images.lock,
+                      isPassword: true,
+                    ),
+                    const SizedBox(height: 10),
+                    CustomTextField(
+                      hintText: 'confirm_password'.tr,
+                      controller: _confirmPasswordController,
+                      focusNode: _confirmPasswordFocus,
+                      inputAction: TextInputAction.done,
+                      inputType: TextInputType.visiblePassword,
+                      prefixImage: Images.lock,
+                      isPassword: true,
+                      onSubmit: (text) =>
+                          GetPlatform.isWeb ? _resetPassword() : null,
+                    ),
+                  ]),
                   const SizedBox(height: 30),
                   GetBuilder<AuthController>(builder: (authController) {
                     return !authController.isLoading
@@ -109,10 +116,13 @@ class _NewPassScreenState extends State<NewPassScreen> {
         Get.find<AuthController>().changePassword(user, password);
       } else {
         Get.find<AuthController>()
-            .resetPassword(widget.resetToken, widget.email, password, confirmPassword)
+            .resetPassword(
+                widget.resetToken, widget.email, password, confirmPassword)
             .then((value) {
           if (value.isSuccess) {
-            Get.find<AuthController>().login(widget.email, password).then((value) async {
+            Get.find<AuthController>()
+                .login(widget.email, password)
+                .then((value) async {
               Get.offAllNamed(RouteHelper.getInitialRoute());
             });
           } else {
