@@ -239,15 +239,15 @@ class _ProductWidgetState extends State<ProductWidget> {
               ),
             ]),
           )),
-          desktop
-              ? const SizedBox()
-              : Padding(
-                  padding: EdgeInsets.only(left: desktop ? 130 : 0),
-                  child: Divider(
-                      color: widget.index == widget.length - 1
-                          ? Colors.transparent
-                          : Theme.of(context).disabledColor),
-                ),
+          // desktop
+          //     ? const SizedBox()
+          //     : Padding(
+          //         padding: EdgeInsets.only(left: desktop ? 130 : 0),
+          //         child: Divider(
+          //             color: widget.index == widget.length - 1
+          //                 ? Colors.transparent
+          //                 : Theme.of(context).disabledColor),
+          //       ),
         ]),
       ),
     );

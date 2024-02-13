@@ -8,6 +8,8 @@ class CampaignController extends GetxController implements GetxService {
   final CampaignRepo campaignRepo;
   CampaignController({required this.campaignRepo});
 
+  String selectedFilter = 'all';
+
   List<CampaignModel>? _campaignList;
   late List<CampaignModel> _allCampaignList;
   bool _isLoading = false;
@@ -17,28 +19,29 @@ class CampaignController extends GetxController implements GetxService {
 
   Future<void> getCampaignList() async {
     Response response = await campaignRepo.getCampaignList();
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       _campaignList = [];
       _allCampaignList = [];
       response.body.forEach((campaign) {
         _campaignList!.add(CampaignModel.fromJson(campaign));
         _allCampaignList.add(CampaignModel.fromJson(campaign));
       });
-    }else {
+    } else {
       ApiChecker.checkApi(response);
     }
     update();
   }
 
   void filterCampaign(String status) {
+    selectedFilter = status;
     _campaignList = [];
-    if(status == 'joined') {
+    if (status == 'joined') {
       for (var campaign in _allCampaignList) {
-        if(campaign.isJoined!) {
+        if (campaign.isJoined!) {
           _campaignList!.add(campaign);
         }
       }
-    }else {
+    } else {
       _campaignList!.addAll(_allCampaignList);
     }
     update();
@@ -49,13 +52,13 @@ class CampaignController extends GetxController implements GetxService {
     update();
     Response response = await campaignRepo.joinCampaign(campaignID);
     Get.back();
-    if(response.statusCode == 200) {
-      if(fromDetails) {
+    if (response.statusCode == 200) {
+      if (fromDetails) {
         Get.back();
       }
       showCustomSnackBar('successfully_joined'.tr, isError: false);
       getCampaignList();
-    }else {
+    } else {
       ApiChecker.checkApi(response);
     }
     _isLoading = false;
@@ -67,17 +70,16 @@ class CampaignController extends GetxController implements GetxService {
     update();
     Response response = await campaignRepo.leaveCampaign(campaignID);
     Get.back();
-    if(response.statusCode == 200) {
-      if(fromDetails) {
+    if (response.statusCode == 200) {
+      if (fromDetails) {
         Get.back();
       }
       showCustomSnackBar('successfully_leave'.tr, isError: false);
       getCampaignList();
-    }else {
+    } else {
       ApiChecker.checkApi(response);
     }
     _isLoading = false;
     update();
   }
-
 }

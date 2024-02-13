@@ -110,9 +110,9 @@ class HomeScreen extends StatelessWidget {
                     authController.profileModel != null
                         ? Switch(
                             value: !authController.profileModel!.restaurants![0].active!,
-                            activeColor: Colors.red,
-                            inactiveThumbColor: Colors.green,
-                            inactiveTrackColor: Colors.green[100],
+                            activeColor: Colors.green,
+                            inactiveThumbColor: Colors.red,
+                            inactiveTrackColor: Colors.red[100],
                             trackOutlineColor: const MaterialStatePropertyAll(
                               Colors.transparent,
                             ),

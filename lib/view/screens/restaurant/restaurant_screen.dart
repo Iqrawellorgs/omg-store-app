@@ -132,140 +132,173 @@ class _RestaurantScreenState extends State<RestaurantScreen> with TickerProvider
                       width: 1170,
                       padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                       color: Theme.of(context).cardColor,
-                      child: Column(children: [
-                        Row(children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                            child: CustomImage(
-                              image:
-                                  '${Get.find<SplashController>().configModel!.baseUrls!.restaurantImageUrl}/${restaurant.logo}',
-                              height: 100,
-                              width: 100,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          const SizedBox(width: Dimensions.paddingSizeSmall),
-                          Expanded(
-                              child:
-                                  Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                            Text(
-                              restaurant.name!,
-                              style: senBold.copyWith(fontSize: Dimensions.fontSizeLarge),
-                              // maxLines: 1,
-                              overflow: TextOverflow.clip,
-                            ),
-                            const SizedBox(height: Dimensions.paddingSizeSmall),
-                            Text(
-                              restaurant.address ?? '',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: senRegular.copyWith(
-                                  fontSize: Dimensions.fontSizeSmall,
-                                  color: themeController.darkTheme
-                                      ? Colors.white
-                                      : Theme.of(context).disabledColor),
-                            ),
-                          ])),
-                        ]),
-                        const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-
-                        // _restaurant.availableTimeStarts != null ? Row(children: [
-                        //   Text('daily_time'.tr, style: robotoRegular.copyWith(
-                        //     fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL, color: Theme.of(context).disabledColor,
-                        //   )),
-                        //   SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                        //   Text(
-                        //     '${DateConverter.convertStringTimeToTime(_restaurant.availableTimeStarts)}'
-                        //         ' - ${DateConverter.convertStringTimeToTime(_restaurant.availableTimeEnds)}',
-                        //     style: robotoMedium.copyWith(fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL, color: Theme.of(context).primaryColor),
-                        //   ),
-                        // ]) : SizedBox(),
-                        // SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
-
-                        Row(children: [
-                          Icon(Icons.star, color: Theme.of(context).primaryColor, size: 18),
-                          Text(
-                            restaurant.avgRating!.toStringAsFixed(1),
-                            style: senRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
-                          ),
-                          const SizedBox(width: Dimensions.paddingSizeSmall),
-                          Text(
-                            '(${restaurant.ratingCount} ${'ratings'.tr})',
-                            style: senRegular.copyWith(
-                                fontSize: Dimensions.fontSizeSmall,
-                                color: themeController.darkTheme ? Colors.white : Colors.black),
-                          ),
-                        ]),
-                        const SizedBox(height: Dimensions.paddingSizeSmall),
-
-                        restaurant.discount != null
-                            ? Container(
-                                width: context.width,
-                                margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                    color: Theme.of(context).primaryColor),
-                                padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                child:
-                                    Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                                  Text(
-                                    '${restaurant.discount!.discount}% ${'off'.tr}',
-                                    style: senMedium.copyWith(
-                                        fontSize: Dimensions.fontSizeLarge,
-                                        color: themeController.darkTheme
-                                            ? Colors.white
-                                            : Theme.of(context).cardColor),
-                                    textDirection: TextDirection.ltr,
-                                  ),
-                                  Text(
-                                    '${'enjoy'.tr} ${restaurant.discount!.discount}% ${'off_on_all_categories'.tr}',
-                                    style: senMedium.copyWith(
-                                        fontSize: Dimensions.fontSizeSmall,
-                                        color: themeController.darkTheme
-                                            ? Colors.white
-                                            : Theme.of(context).cardColor),
-                                    textDirection: TextDirection.ltr,
-                                  ),
-                                  SizedBox(
-                                      height: (restaurant.discount!.minPurchase != 0 ||
-                                              restaurant.discount!.maxDiscount != 0)
-                                          ? 5
-                                          : 0),
-                                  restaurant.discount!.minPurchase != 0
-                                      ? Text(
-                                          '[ ${'minimum_purchase'.tr}: ${PriceConverter.convertPrice(restaurant.discount!.minPurchase)} ]',
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                child: CustomImage(
+                                  image:
+                                      '${Get.find<SplashController>().configModel!.baseUrls!.restaurantImageUrl}/${restaurant.logo}',
+                                  height: 100,
+                                  width: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              const SizedBox(width: Dimensions.paddingSizeSmall),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      restaurant.name!,
+                                      style: senBold.copyWith(fontSize: Dimensions.fontSizeLarge),
+                                      // maxLines: 1,
+                                      overflow: TextOverflow.clip,
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      restaurant.address ?? '',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: senRegular.copyWith(
+                                          fontSize: Dimensions.fontSizeSmall,
+                                          color: themeController.darkTheme
+                                              ? Colors.white
+                                              : Theme.of(context).disabledColor),
+                                    ),
+                                    const SizedBox(height: Dimensions.paddingSizeSmall),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.star,
+                                            color: Theme.of(context).primaryColor, size: 18),
+                                        const SizedBox(width: 5),
+                                        Text(
+                                          restaurant.avgRating!.toStringAsFixed(1),
                                           style: senRegular.copyWith(
-                                              fontSize: Dimensions.fontSizeExtraSmall,
+                                              fontSize: Dimensions.fontSizeSmall),
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Text(
+                                          '(${restaurant.ratingCount} ${'ratings'.tr})',
+                                          style: senRegular.copyWith(
+                                              fontSize: Dimensions.fontSizeSmall,
+                                              color: themeController.darkTheme
+                                                  ? Colors.white
+                                                  : Colors.black),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          // const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
+                          // _restaurant.availableTimeStarts != null ? Row(children: [
+                          //   Text('daily_time'.tr, style: robotoRegular.copyWith(
+                          //     fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL, color: Theme.of(context).disabledColor,
+                          //   )),
+                          //   SizedBox(width: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                          //   Text(
+                          //     '${DateConverter.convertStringTimeToTime(_restaurant.availableTimeStarts)}'
+                          //         ' - ${DateConverter.convertStringTimeToTime(_restaurant.availableTimeEnds)}',
+                          //     style: robotoMedium.copyWith(fontSize: Dimensions.FONT_SIZE_EXTRA_SMALL, color: Theme.of(context).primaryColor),
+                          //   ),
+                          // ]) : SizedBox(),
+                          // SizedBox(height: Dimensions.PADDING_SIZE_EXTRA_SMALL),
+
+                          // Row(children: [
+                          //   Icon(Icons.star, color: Theme.of(context).primaryColor, size: 18),
+                          //   const SizedBox(width: 5),
+                          //   Text(
+                          //     restaurant.avgRating!.toStringAsFixed(1),
+                          //     style: senRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                          //   ),
+                          //   const SizedBox(width: 5),
+                          //   Text(
+                          //     '(${restaurant.ratingCount} ${'ratings'.tr})',
+                          //     style: senRegular.copyWith(
+                          //         fontSize: Dimensions.fontSizeSmall,
+                          //         color: themeController.darkTheme ? Colors.white : Colors.black),
+                          //   ),
+                          // ]),
+                          // const SizedBox(height: Dimensions.paddingSizeSmall),
+
+                          restaurant.discount != null
+                              ? Container(
+                                  width: context.width,
+                                  margin:
+                                      const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                      color: Theme.of(context).primaryColor),
+                                  padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                  child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          '${restaurant.discount!.discount}% ${'off'.tr}',
+                                          style: senMedium.copyWith(
+                                              fontSize: Dimensions.fontSizeLarge,
                                               color: themeController.darkTheme
                                                   ? Colors.white
                                                   : Theme.of(context).cardColor),
                                           textDirection: TextDirection.ltr,
-                                        )
-                                      : const SizedBox(),
-                                  restaurant.discount!.maxDiscount != 0
-                                      ? Text(
-                                          '[ ${'maximum_discount'.tr}: ${PriceConverter.convertPrice(restaurant.discount!.maxDiscount)} ]',
-                                          style: senRegular.copyWith(
-                                              fontSize: Dimensions.fontSizeExtraSmall,
+                                        ),
+                                        Text(
+                                          '${'enjoy'.tr} ${restaurant.discount!.discount}% ${'off_on_all_categories'.tr}',
+                                          style: senMedium.copyWith(
+                                              fontSize: Dimensions.fontSizeSmall,
                                               color: themeController.darkTheme
                                                   ? Colors.white
                                                   : Theme.of(context).cardColor),
                                           textDirection: TextDirection.ltr,
-                                        )
-                                      : const SizedBox(),
-                                ]),
-                              )
-                            : const SizedBox(),
+                                        ),
+                                        SizedBox(
+                                            height: (restaurant.discount!.minPurchase != 0 ||
+                                                    restaurant.discount!.maxDiscount != 0)
+                                                ? 5
+                                                : 0),
+                                        restaurant.discount!.minPurchase != 0
+                                            ? Text(
+                                                '[ ${'minimum_purchase'.tr}: ${PriceConverter.convertPrice(restaurant.discount!.minPurchase)} ]',
+                                                style: senRegular.copyWith(
+                                                    fontSize: Dimensions.fontSizeExtraSmall,
+                                                    color: themeController.darkTheme
+                                                        ? Colors.white
+                                                        : Theme.of(context).cardColor),
+                                                textDirection: TextDirection.ltr,
+                                              )
+                                            : const SizedBox(),
+                                        restaurant.discount!.maxDiscount != 0
+                                            ? Text(
+                                                '[ ${'maximum_discount'.tr}: ${PriceConverter.convertPrice(restaurant.discount!.maxDiscount)} ]',
+                                                style: senRegular.copyWith(
+                                                    fontSize: Dimensions.fontSizeExtraSmall,
+                                                    color: themeController.darkTheme
+                                                        ? Colors.white
+                                                        : Theme.of(context).cardColor),
+                                                textDirection: TextDirection.ltr,
+                                              )
+                                            : const SizedBox(),
+                                      ]),
+                                )
+                              : const SizedBox.shrink(),
 
-                        (restaurant.delivery! && restaurant.freeDelivery!)
-                            ? Text(
-                                'free_delivery'.tr,
-                                style: senRegular.copyWith(
-                                    fontSize: Dimensions.fontSizeSmall,
-                                    color: Theme.of(context).primaryColor),
-                              )
-                            : const SizedBox(),
-                      ]),
+                          (restaurant.delivery! && restaurant.freeDelivery!)
+                              ? Text(
+                                  'free_delivery'.tr,
+                                  style: senRegular.copyWith(
+                                      fontSize: Dimensions.fontSizeSmall,
+                                      color: Theme.of(context).primaryColor),
+                                )
+                              : const SizedBox.shrink(),
+                        ],
+                      ),
                     ))),
                     SliverPersistentHeader(
                       pinned: true,

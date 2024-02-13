@@ -64,8 +64,14 @@ class _SwitchButtonState extends State<SwitchButton> {
                     }
                     widget.onTap();
                   },
-                  activeColor: Theme.of(context).primaryColor,
-                  activeTrackColor: Theme.of(context).primaryColor.withOpacity(0.5),
+                  activeColor: Colors.green,
+                  activeTrackColor: Colors.green.withOpacity(0.5),
+                  inactiveThumbColor: Colors.red,
+                  inactiveTrackColor: Colors.red[100],
+                  trackOutlineColor: const MaterialStatePropertyAll(
+                    Colors.transparent,
+                  ),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 )
               : const SizedBox(),
         ]),

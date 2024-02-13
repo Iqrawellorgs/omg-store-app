@@ -54,139 +54,149 @@ class DailyTimeWidget extends StatelessWidget {
                   itemCount: scheduleList.length + 1,
                   itemBuilder: (context, index) {
                     if (index == scheduleList.length) {
-                      return InkWell(
-                        onTap: () => Get.dialog(
-                            Dialog(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(Dimensions.radiusLarge)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
-                                child: Column(mainAxisSize: MainAxisSize.min, children: [
-                                  Text(
-                                    '${'schedule_for'.tr} ${dayString.tr}',
-                                    style: senRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                      return (scheduleList.isEmpty && scheduleList.isEmpty)
+                          ? InkWell(
+                              onTap: () => Get.dialog(
+                                  Dialog(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(Dimensions.radiusLarge)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
+                                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                                        Text(
+                                          '${'Select schedule for'.tr} ${dayString.tr}',
+                                          style: senRegular.copyWith(
+                                              fontSize: Dimensions.fontSizeLarge),
+                                        ),
+                                        const SizedBox(height: Dimensions.paddingSizeLarge),
+                                        Row(children: [
+                                          Expanded(
+                                            child: CustomTimePicker(
+                                              title: 'open_time'.tr,
+                                              time: openingTime,
+                                              onTimeChanged: (time) => openingTime = time,
+                                            ),
+                                          ),
+                                          const SizedBox(width: Dimensions.paddingSizeSmall),
+                                          Expanded(
+                                              child: CustomTimePicker(
+                                            title: 'close_time'.tr,
+                                            time: closingTime,
+                                            onTimeChanged: (time) => closingTime = time,
+                                          )),
+                                        ]),
+                                        const SizedBox(height: Dimensions.paddingSizeLarge),
+                                        GetBuilder<RestaurantController>(builder: (restController) {
+                                          return restController.scheduleLoading
+                                              ? const Center(child: CircularProgressIndicator())
+                                              : Row(children: [
+                                                  Expanded(
+                                                      child: TextButton(
+                                                    onPressed: () => Get.back(),
+                                                    style: TextButton.styleFrom(
+                                                      backgroundColor: Theme.of(context)
+                                                          .disabledColor
+                                                          .withOpacity(0.3),
+                                                      minimumSize: const Size(1170, 40),
+                                                      padding: EdgeInsets.zero,
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(
+                                                              Dimensions.radiusSmall)),
+                                                    ),
+                                                    child: Text(
+                                                      'cancel'.tr,
+                                                      textAlign: TextAlign.center,
+                                                      style: senBold.copyWith(
+                                                          color: Theme.of(context)
+                                                              .textTheme
+                                                              .bodyLarge!
+                                                              .color),
+                                                    ),
+                                                  )),
+                                                  const SizedBox(
+                                                      width: Dimensions.paddingSizeLarge),
+                                                  Expanded(
+                                                      child: CustomButton(
+                                                    buttonText: 'add'.tr,
+                                                    onPressed: () {
+                                                      bool overlapped = false;
+                                                      if (openingTime != null &&
+                                                          closingTime != null) {
+                                                        for (int index = 0;
+                                                            index < scheduleList.length;
+                                                            index++) {
+                                                          if (_isUnderTime(
+                                                                  scheduleList[index].openingTime!,
+                                                                  openingTime!,
+                                                                  closingTime) ||
+                                                              _isUnderTime(
+                                                                  scheduleList[index].closingTime!,
+                                                                  openingTime!,
+                                                                  closingTime) ||
+                                                              _isUnderTime(
+                                                                  openingTime!,
+                                                                  scheduleList[index].openingTime!,
+                                                                  scheduleList[index]
+                                                                      .closingTime) ||
+                                                              _isUnderTime(
+                                                                  closingTime!,
+                                                                  scheduleList[index].openingTime!,
+                                                                  scheduleList[index]
+                                                                      .closingTime)) {
+                                                            overlapped = true;
+                                                            break;
+                                                          }
+                                                        }
+                                                      }
+                                                      if (openingTime == null) {
+                                                        showCustomSnackBar('pick_start_time'.tr);
+                                                      } else if (closingTime == null) {
+                                                        showCustomSnackBar('pick_end_time'.tr);
+                                                      } else if (DateConverter
+                                                              .convertTimeToDateTime(openingTime!)
+                                                          .isAfter(
+                                                              DateConverter.convertTimeToDateTime(
+                                                                  openingTime!))) {
+                                                        showCustomSnackBar(
+                                                            'closing_time_must_be_after_the_opening_time'
+                                                                .tr);
+                                                      } else if (overlapped) {
+                                                        showCustomSnackBar(
+                                                            'this_schedule_is_overlapped'.tr);
+                                                      } else {
+                                                        restController.addSchedule(Schedules(
+                                                          day: weekDay,
+                                                          openingTime: openingTime,
+                                                          closingTime: closingTime,
+                                                        ));
+                                                      }
+                                                    },
+                                                    height: 40,
+                                                  )),
+                                                ]);
+                                        }),
+                                      ]),
+                                    ),
                                   ),
-                                  const SizedBox(height: Dimensions.paddingSizeLarge),
-                                  Row(children: [
-                                    Expanded(
-                                        child: CustomTimePicker(
-                                      title: 'open_time'.tr,
-                                      time: openingTime,
-                                      onTimeChanged: (time) => openingTime = time,
-                                    )),
-                                    const SizedBox(width: Dimensions.paddingSizeSmall),
-                                    Expanded(
-                                        child: CustomTimePicker(
-                                      title: 'close_time'.tr,
-                                      time: closingTime,
-                                      onTimeChanged: (time) => closingTime = time,
-                                    )),
-                                  ]),
-                                  const SizedBox(height: Dimensions.paddingSizeLarge),
-                                  GetBuilder<RestaurantController>(builder: (restController) {
-                                    return restController.scheduleLoading
-                                        ? const Center(child: CircularProgressIndicator())
-                                        : Row(children: [
-                                            Expanded(
-                                                child: TextButton(
-                                              onPressed: () => Get.back(),
-                                              style: TextButton.styleFrom(
-                                                backgroundColor: Theme.of(context)
-                                                    .disabledColor
-                                                    .withOpacity(0.3),
-                                                minimumSize: const Size(1170, 40),
-                                                padding: EdgeInsets.zero,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(
-                                                        Dimensions.radiusSmall)),
-                                              ),
-                                              child: Text(
-                                                'cancel'.tr,
-                                                textAlign: TextAlign.center,
-                                                style: senBold.copyWith(
-                                                    color: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyLarge!
-                                                        .color),
-                                              ),
-                                            )),
-                                            const SizedBox(width: Dimensions.paddingSizeLarge),
-                                            Expanded(
-                                                child: CustomButton(
-                                              buttonText: 'add'.tr,
-                                              onPressed: () {
-                                                bool overlapped = false;
-                                                if (openingTime != null && closingTime != null) {
-                                                  for (int index = 0;
-                                                      index < scheduleList.length;
-                                                      index++) {
-                                                    if (_isUnderTime(
-                                                            scheduleList[index].openingTime!,
-                                                            openingTime!,
-                                                            closingTime) ||
-                                                        _isUnderTime(
-                                                            scheduleList[index].closingTime!,
-                                                            openingTime!,
-                                                            closingTime) ||
-                                                        _isUnderTime(
-                                                            openingTime!,
-                                                            scheduleList[index].openingTime!,
-                                                            scheduleList[index].closingTime) ||
-                                                        _isUnderTime(
-                                                            closingTime!,
-                                                            scheduleList[index].openingTime!,
-                                                            scheduleList[index].closingTime)) {
-                                                      overlapped = true;
-                                                      break;
-                                                    }
-                                                  }
-                                                }
-                                                if (openingTime == null) {
-                                                  showCustomSnackBar('pick_start_time'.tr);
-                                                } else if (closingTime == null) {
-                                                  showCustomSnackBar('pick_end_time'.tr);
-                                                } else if (DateConverter.convertTimeToDateTime(
-                                                        openingTime!)
-                                                    .isAfter(DateConverter.convertTimeToDateTime(
-                                                        openingTime!))) {
-                                                  showCustomSnackBar(
-                                                      'closing_time_must_be_after_the_opening_time'
-                                                          .tr);
-                                                } else if (overlapped) {
-                                                  showCustomSnackBar(
-                                                      'this_schedule_is_overlapped'.tr);
-                                                } else {
-                                                  restController.addSchedule(Schedules(
-                                                    day: weekDay,
-                                                    openingTime: openingTime,
-                                                    closingTime: closingTime,
-                                                  ));
-                                                }
-                                              },
-                                              height: 40,
-                                            )),
-                                          ]);
-                                  }),
-                                ]),
+                                  barrierDismissible: false),
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                child: const Icon(Icons.add, color: Colors.white),
                               ),
-                            ),
-                            barrierDismissible: false),
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                            color: Theme.of(context).secondaryHeaderColor,
-                          ),
-                          child: const Icon(Icons.add, color: Colors.white),
-                        ),
-                      );
+                            )
+                          : const SizedBox.shrink();
                     }
 
                     return Padding(
                       padding: const EdgeInsets.only(right: Dimensions.paddingSizeExtraSmall),
                       child: Container(
-                        width: MediaQuery.sizeOf(context).width * 0.6,
+                        width: MediaQuery.sizeOf(context).width * 0.72,
                         decoration: BoxDecoration(
                           border: Border.all(
                               color: Theme.of(context).textTheme.bodyLarge!.color!, width: 1),
@@ -197,8 +207,8 @@ class DailyTimeWidget extends StatelessWidget {
                             horizontal: Dimensions.paddingSizeExtraSmall),
                         child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                           Text(
-                            '${DateConverter.convertStringTimeToTime(scheduleList[index].openingTime!.substring(0, 5))} '
-                            '- ${DateConverter.convertStringTimeToTime(scheduleList[index].closingTime!.substring(0, 5))}',
+                            '${DateConverter.convertStringTimeToTime(scheduleList[0].openingTime!.substring(0, 5))} '
+                            '- ${DateConverter.convertStringTimeToTime(scheduleList[0].closingTime!.substring(0, 5))}',
                           ),
                           const SizedBox(width: Dimensions.paddingSizeExtraSmall),
                           InkWell(

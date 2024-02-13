@@ -37,15 +37,16 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: senRegular.copyWith(
-            fontSize: Dimensions.fontSizeSmall,
+            fontSize: Dimensions.fontSizeDefault,
             color: Get.find<ThemeController>().darkTheme
                 ? Colors.white
-                : Theme.of(context).disabledColor),
+                : Theme.of(context).dividerColor),
       ),
       const SizedBox(height: Dimensions.paddingSizeExtraSmall),
       InkWell(
         onTap: () async {
           TimeOfDay? time = await showTimePicker(
+            initialEntryMode: TimePickerEntryMode.input,
             context: context,
             initialTime: TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute),
             builder: (BuildContext context, Widget? child) {
@@ -75,21 +76,24 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
             borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
             boxShadow: [
               BoxShadow(
-                  color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: const Offset(0, 5))
+                color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, 5),
+              )
             ],
           ),
-          child: Row(children: [
-            Text(
-              _myTime != null ? DateConverter.convertStringTimeToTime(_myTime!) : 'pick_time'.tr,
-              style: senRegular,
-              maxLines: 1,
-            ),
-            const Expanded(child: SizedBox()),
-            const Icon(Icons.access_time, size: 20),
-          ]),
+          child: Row(
+            children: [
+              Text(
+                _myTime != null ? DateConverter.convertStringTimeToTime(_myTime!) : 'pick_time'.tr,
+                style: senRegular.copyWith(fontSize: _myTime != null ? 16 : 14),
+                maxLines: 1,
+              ),
+              const Expanded(child: SizedBox()),
+              const Icon(Icons.access_time, size: 20),
+            ],
+          ),
         ),
       ),
     ]);

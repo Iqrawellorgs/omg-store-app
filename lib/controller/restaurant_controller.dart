@@ -122,8 +122,7 @@ class RestaurantController extends GetxController implements GetxService {
       for (var modelCuisine in _cuisineModel!.cuisines!) {
         for (Cuisine cuisine in cuisines!) {
           if (modelCuisine.id == cuisine.id) {
-            _selectedCuisines!
-                .add(_cuisineModel!.cuisines!.indexOf(modelCuisine));
+            _selectedCuisines!.add(_cuisineModel!.cuisines!.indexOf(modelCuisine));
           }
         }
       }
@@ -177,8 +176,7 @@ class RestaurantController extends GetxController implements GetxService {
           options.add(
             Option(
                 optionNameController: TextEditingController(text: option.level),
-                optionPriceController:
-                    TextEditingController(text: option.optionPrice)),
+                optionPriceController: TextEditingController(text: option.optionPrice)),
           );
         }
 
@@ -309,8 +307,7 @@ class RestaurantController extends GetxController implements GetxService {
     List<int?> addonsIds = await Get.find<AddonController>().getAddonList();
     if (product != null && product.addOns != null) {
       for (int index = 0; index < product.addOns!.length; index++) {
-        setSelectedAddonIndex(
-            addonsIds.indexOf(product.addOns![index].id), false);
+        setSelectedAddonIndex(addonsIds.indexOf(product.addOns![index].id), false);
       }
     }
     if (product != null && product.images != null) {
@@ -334,18 +331,14 @@ class RestaurantController extends GetxController implements GetxService {
     Response response = await restaurantRepo.getCategoryList();
     if (response.statusCode == 200) {
       _categoryList = [];
-      response.body.forEach(
-          (category) => _categoryList!.add(CategoryModel.fromJson(category)));
+      response.body.forEach((category) => _categoryList!.add(CategoryModel.fromJson(category)));
       if (_categoryList != null) {
         for (int index = 0; index < _categoryList!.length; index++) {
           _categoryIds.add(_categoryList![index].id);
         }
         if (product != null) {
-          setCategoryIndex(
-              _categoryIds.indexOf(int.parse(product.categoryIds![0].id!)),
-              false);
-          await getSubCategoryList(
-              int.parse(product.categoryIds![0].id!), product);
+          setCategoryIndex(_categoryIds.indexOf(int.parse(product.categoryIds![0].id!)), false);
+          await getSubCategoryList(int.parse(product.categoryIds![0].id!), product);
         }
       }
     } else {
@@ -363,16 +356,15 @@ class RestaurantController extends GetxController implements GetxService {
       Response response = await restaurantRepo.getSubCategoryList(categoryID);
       if (response.statusCode == 200) {
         _subCategoryList = [];
-        response.body.forEach((category) =>
-            _subCategoryList!.add(CategoryModel.fromJson(category)));
+        response.body
+            .forEach((category) => _subCategoryList!.add(CategoryModel.fromJson(category)));
         if (_subCategoryList != null) {
           for (int index = 0; index < _subCategoryList!.length; index++) {
             _subCategoryIds.add(_subCategoryList![index].id);
           }
           if (product != null && product.categoryIds!.length > 1) {
             setSubCategoryIndex(
-                _subCategoryIds.indexOf(int.parse(product.categoryIds![1].id!)),
-                false);
+                _subCategoryIds.indexOf(int.parse(product.categoryIds![1].id!)), false);
           }
         }
       } else {
@@ -382,8 +374,8 @@ class RestaurantController extends GetxController implements GetxService {
     update();
   }
 
-  Future<void> updateRestaurant(Restaurant restaurant, List<String> cuisines,
-      String token, List<Translation> translation) async {
+  Future<void> updateRestaurant(Restaurant restaurant, List<String> cuisines, String token,
+      List<Translation> translation) async {
     _isLoading = true;
     update();
     Response response = await restaurantRepo.updateRestaurant(
@@ -391,8 +383,7 @@ class RestaurantController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       Get.back();
       Get.find<AuthController>().getProfile();
-      showCustomSnackBar('restaurant_settings_updated_successfully'.tr,
-          isError: false);
+      showCustomSnackBar('restaurant_settings_updated_successfully'.tr, isError: false);
     } else {
       ApiChecker.checkApi(response);
     }
@@ -406,11 +397,9 @@ class RestaurantController extends GetxController implements GetxService {
       _pickedCover = null;
     } else {
       if (isLogo) {
-        _pickedLogo =
-            await ImagePicker().pickImage(source: ImageSource.gallery);
+        _pickedLogo = await ImagePicker().pickImage(source: ImageSource.gallery);
       } else {
-        _pickedCover =
-            await ImagePicker().pickImage(source: ImageSource.gallery);
+        _pickedCover = await ImagePicker().pickImage(source: ImageSource.gallery);
       }
       update();
     }
@@ -458,9 +447,7 @@ class RestaurantController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       Get.offAllNamed(RouteHelper.getInitialRoute());
       showCustomSnackBar(
-          isAdd
-              ? 'product_added_successfully'.tr
-              : 'product_updated_successfully'.tr,
+          isAdd ? 'product_added_successfully'.tr : 'product_updated_successfully'.tr,
           isError: false);
       getProductList('1', 'all');
     } else {
@@ -487,12 +474,10 @@ class RestaurantController extends GetxController implements GetxService {
 
   Future<void> getRestaurantReviewList(int? restaurantID) async {
     _tabIndex = 0;
-    Response response =
-        await restaurantRepo.getRestaurantReviewList(restaurantID);
+    Response response = await restaurantRepo.getRestaurantReviewList(restaurantID);
     if (response.statusCode == 200) {
       _restaurantReviewList = [];
-      response.body.forEach(
-          (review) => _restaurantReviewList!.add(ReviewModel.fromJson(review)));
+      response.body.forEach((review) => _restaurantReviewList!.add(ReviewModel.fromJson(review)));
     } else {
       ApiChecker.checkApi(response);
     }
@@ -504,8 +489,7 @@ class RestaurantController extends GetxController implements GetxService {
     Response response = await restaurantRepo.getProductReviewList(productID);
     if (response.statusCode == 200) {
       _productReviewList = [];
-      response.body.forEach(
-          (review) => _productReviewList!.add(ReviewModel.fromJson(review)));
+      response.body.forEach((review) => _productReviewList!.add(ReviewModel.fromJson(review)));
     } else {
       ApiChecker.checkApi(response);
     }
@@ -517,8 +501,7 @@ class RestaurantController extends GetxController implements GetxService {
   }
 
   void toggleAvailable(int? productID) async {
-    Response response = await restaurantRepo.updateProductStatus(
-        productID, _isAvailable ? 0 : 1);
+    Response response = await restaurantRepo.updateProductStatus(productID, _isAvailable ? 0 : 1);
     if (response.statusCode == 200) {
       getProductList('1', 'all');
       _isAvailable = !_isAvailable;
@@ -534,8 +517,8 @@ class RestaurantController extends GetxController implements GetxService {
   }
 
   void toggleRecommendedProduct(int? productID) async {
-    Response response = await restaurantRepo.updateRecommendedProductStatus(
-        productID, _isRecommended ? 0 : 1);
+    Response response =
+        await restaurantRepo.updateRecommendedProductStatus(productID, _isRecommended ? 0 : 1);
     if (response.statusCode == 200) {
       getProductList('1', 'all');
       _isRecommended = !_isRecommended;

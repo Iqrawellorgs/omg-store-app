@@ -12,71 +12,62 @@ class WithdrawHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-          title: 'withdraw_history'.tr,
-          menuWidget: PopupMenuButton(
-            itemBuilder: (context) {
-              return <PopupMenuEntry>[
-                getMenuItem(Get.find<BankController>().statusList[0], context),
-                const PopupMenuDivider(),
-                getMenuItem(Get.find<BankController>().statusList[1], context),
-                const PopupMenuDivider(),
-                getMenuItem(Get.find<BankController>().statusList[2], context),
-                const PopupMenuDivider(),
-                getMenuItem(Get.find<BankController>().statusList[3], context),
-              ];
-            },
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
-            offset: const Offset(-25, 25),
-            child: Container(
-              width: 40,
-              height: 40,
-              margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Theme.of(context).disabledColor.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+      appBar: AppBar(
+        title: Text('withdraw_history'.tr),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          GetBuilder<BankController>(builder: (bankController) {
+            return Wrap(
+              children: List<Widget>.generate(
+                Get.find<BankController>().statusList.length,
+                (index) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: ChoiceChip(
+                    // padding: const EdgeInsets.symmetric(horizontal: 10),
+                    // labelPadding: const EdgeInsets.symmetric(horizontal: 10),
+                    shape: StadiumBorder(side: BorderSide(color: Colors.transparent)),
+                    showCheckmark: false,
+                    label: Text(
+                      Get.find<BankController>().statusList[index].toLowerCase().tr,
+                      style: senRegular.copyWith(
+                          color: Get.find<BankController>().selectedStatusIndex == index
+                              ? Colors.white
+                              : Colors.black),
+                    ),
+                    selectedColor: Theme.of(context).primaryColor,
+                    selected: Get.find<BankController>().selectedStatusIndex == index,
+                    onSelected: (bool selected) {
+                      if (selected) {
+                        Get.find<BankController>().selectedStatusIndex = index;
+                        Get.find<BankController>().filterWithdrawList(index);
+                      }
+                    },
+                  ),
+                ),
               ),
-              child: const Icon(Icons.arrow_drop_down, size: 30),
-            ),
-            onSelected: (dynamic value) {
-              int index = Get.find<BankController>().statusList.indexOf(value);
-              Get.find<BankController>().filterWithdrawList(index);
-            },
-          )),
-      body: GetBuilder<BankController>(builder: (bankController) {
-        return bankController.withdrawList!.isNotEmpty
-            ? ListView.builder(
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemCount: bankController.withdrawList!.length,
-                padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                itemBuilder: (context, index) {
-                  return WithdrawWidget(
-                    withdrawModel: bankController.withdrawList![index],
-                    showDivider: index != bankController.withdrawList!.length - 1,
-                  );
-                },
-              )
-            : Center(child: Text('no_withdraw_history_found'.tr));
-      }),
-    );
-  }
-
-  PopupMenuItem getMenuItem(String status, BuildContext context) {
-    return PopupMenuItem(
-      value: status,
-      height: 30,
-      child: Text(status.toLowerCase().tr,
-          style: senRegular.copyWith(
-            color: status == 'Pending'
-                ? Theme.of(context).primaryColor
-                : status == 'Approved'
-                    ? Colors.green
-                    : status == 'Denied'
-                        ? Colors.red
-                        : null,
-          )),
+            );
+          }),
+          Expanded(
+            child: GetBuilder<BankController>(builder: (bankController) {
+              return bankController.withdrawList!.isNotEmpty
+                  ? ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemCount: bankController.withdrawList!.length,
+                      padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                      itemBuilder: (context, index) {
+                        return WithdrawWidget(
+                          withdrawModel: bankController.withdrawList![index],
+                          showDivider: index != bankController.withdrawList!.length - 1,
+                        );
+                      },
+                    )
+                  : Center(child: Text('no_withdraw_history_found'.tr));
+            }),
+          ),
+        ],
+      ),
     );
   }
 }

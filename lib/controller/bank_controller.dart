@@ -13,6 +13,8 @@ class BankController extends GetxController implements GetxService {
   final BankRepo bankRepo;
   BankController({required this.bankRepo});
 
+  int selectedStatusIndex = 0;
+
   bool _isLoading = false;
   List<WithdrawModel>? _withdrawList;
   late List<WithdrawModel> _allWithdrawList;

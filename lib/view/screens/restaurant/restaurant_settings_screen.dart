@@ -37,7 +37,6 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
   final TextEditingController _gstController = TextEditingController();
   final TextEditingController _streetController = TextEditingController();
   final TextEditingController _floorNoController = TextEditingController();
-  TextEditingController _c = TextEditingController();
   final List<FocusNode> _nameNode = [];
   final FocusNode _contactNode = FocusNode();
   final List<FocusNode> _addressNode = [];
@@ -106,571 +105,599 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
               physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            'select_restaurant_logo'.tr,
-                            style: senRegular.copyWith(
-                                fontSize: Dimensions.fontSizeSmall,
-                                color: Theme.of(context).disabledColor),
-                          ),
-                          const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                          Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                child: restController.pickedLogo != null
-                                    ? GetPlatform.isWeb
-                                        ? Image.network(
-                                            restController.pickedLogo!.path,
-                                            width: 100,
-                                            height: 100,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Image.file(
-                                            File(restController.pickedLogo!.path),
-                                            width: 100,
-                                            height: 100,
-                                            fit: BoxFit.cover,
-                                          )
-                                    : FadeInImage.assetNetwork(
-                                        placeholder: Images.placeholder,
-                                        image:
-                                            '${Get.find<SplashController>().configModel!.baseUrls!.restaurantImageUrl}/${widget.restaurant.logo}',
-                                        height: 100,
-                                        width: 100,
-                                        fit: BoxFit.cover,
-                                        imageErrorBuilder: (c, o, s) => Image.asset(
-                                            Images.placeholder,
-                                            height: 100,
-                                            width: 100,
-                                            fit: BoxFit.cover),
-                                      ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                top: 0,
-                                left: 0,
-                                child: InkWell(
-                                  onTap: () => restController.pickImage(true, false),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.3),
-                                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                      border: Border.all(
-                                          width: 1, color: Theme.of(context).primaryColor),
-                                    ),
+              child: Form(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              'select_restaurant_logo'.tr,
+                              style: senRegular.copyWith(
+                                  fontSize: Dimensions.fontSizeSmall,
+                                  color: Theme.of(context).disabledColor),
+                            ),
+                            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                  child: restController.pickedLogo != null
+                                      ? GetPlatform.isWeb
+                                          ? Image.network(
+                                              restController.pickedLogo!.path,
+                                              width: 100,
+                                              height: 100,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.file(
+                                              File(restController.pickedLogo!.path),
+                                              width: 100,
+                                              height: 100,
+                                              fit: BoxFit.cover,
+                                            )
+                                      : FadeInImage.assetNetwork(
+                                          placeholder: Images.placeholder,
+                                          image:
+                                              '${Get.find<SplashController>().configModel!.baseUrls!.restaurantImageUrl}/${widget.restaurant.logo}',
+                                          height: 100,
+                                          width: 100,
+                                          fit: BoxFit.cover,
+                                          imageErrorBuilder: (c, o, s) => Image.asset(
+                                              Images.placeholder,
+                                              height: 100,
+                                              width: 100,
+                                              fit: BoxFit.cover),
+                                        ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  top: 0,
+                                  left: 0,
+                                  child: InkWell(
+                                    onTap: () => restController.pickImage(true, false),
                                     child: Container(
-                                      margin: const EdgeInsets.all(25),
                                       decoration: BoxDecoration(
-                                        border: Border.all(width: 2, color: Colors.white),
-                                        shape: BoxShape.circle,
+                                        color: Colors.black.withOpacity(0.3),
+                                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                        border: Border.all(
+                                            width: 1, color: Theme.of(context).primaryColor),
                                       ),
-                                      child: const Icon(Icons.add_a_photo_outlined,
-                                          color: Colors.white),
+                                      child: Container(
+                                        margin: const EdgeInsets.all(25),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(width: 2, color: Colors.white),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: const Icon(Icons.add_a_photo_outlined,
+                                            color: Colors.white),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: Dimensions.paddingSizeLarge),
-                      Column(
-                        children: [
-                          Text(
-                            'select_restaurant_cover_photo'.tr,
-                            style: senRegular.copyWith(
-                                fontSize: Dimensions.fontSizeSmall,
-                                color: Theme.of(context).disabledColor),
-                          ),
-                          const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                          Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                child: restController.pickedCover != null
-                                    ? GetPlatform.isWeb
-                                        ? Image.network(
-                                            restController.pickedCover!.path,
-                                            width: context.width / 2,
-                                            height: 100,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Image.file(
-                                            File(restController.pickedCover!.path),
-                                            width: context.width / 2,
-                                            height: 100,
-                                            fit: BoxFit.cover,
-                                          )
-                                    : FadeInImage.assetNetwork(
-                                        placeholder: Images.restaurantCover,
-                                        image:
-                                            '${Get.find<SplashController>().configModel!.baseUrls!.restaurantCoverPhotoUrl}/${widget.restaurant.coverPhoto}',
-                                        height: 100,
-                                        width: context.width / 2,
-                                        fit: BoxFit.cover,
-                                        imageErrorBuilder: (c, o, s) => Image.asset(
-                                            Images.placeholder,
-                                            height: 100,
-                                            width: context.width / 2,
-                                            fit: BoxFit.cover),
-                                      ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                top: 0,
-                                left: 0,
-                                child: InkWell(
-                                  onTap: () => restController.pickImage(false, false),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.3),
-                                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                      border: Border.all(
-                                          width: 1, color: Theme.of(context).primaryColor),
-                                    ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(width: Dimensions.paddingSizeLarge),
+                        Column(
+                          children: [
+                            Text(
+                              'select_restaurant_cover_photo'.tr,
+                              style: senRegular.copyWith(
+                                  fontSize: Dimensions.fontSizeSmall,
+                                  color: Theme.of(context).disabledColor),
+                            ),
+                            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                  child: restController.pickedCover != null
+                                      ? GetPlatform.isWeb
+                                          ? Image.network(
+                                              restController.pickedCover!.path,
+                                              width: context.width / 2,
+                                              height: 100,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.file(
+                                              File(restController.pickedCover!.path),
+                                              width: context.width / 2,
+                                              height: 100,
+                                              fit: BoxFit.cover,
+                                            )
+                                      : FadeInImage.assetNetwork(
+                                          placeholder: Images.restaurantCover,
+                                          image:
+                                              '${Get.find<SplashController>().configModel!.baseUrls!.restaurantCoverPhotoUrl}/${widget.restaurant.coverPhoto}',
+                                          height: 100,
+                                          width: context.width / 2,
+                                          fit: BoxFit.cover,
+                                          imageErrorBuilder: (c, o, s) => Image.asset(
+                                              Images.placeholder,
+                                              height: 100,
+                                              width: context.width / 2,
+                                              fit: BoxFit.cover),
+                                        ),
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  top: 0,
+                                  left: 0,
+                                  child: InkWell(
+                                    onTap: () => restController.pickImage(false, false),
                                     child: Container(
-                                      margin: const EdgeInsets.all(25),
                                       decoration: BoxDecoration(
-                                        border: Border.all(width: 3, color: Colors.white),
-                                        shape: BoxShape.circle,
+                                        color: Colors.black.withOpacity(0.3),
+                                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                        border: Border.all(
+                                            width: 1, color: Theme.of(context).primaryColor),
                                       ),
-                                      child: const Icon(Icons.add_a_photo_outlined,
-                                          color: Colors.white, size: 25),
+                                      child: Container(
+                                        margin: const EdgeInsets.all(25),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(width: 3, color: Colors.white),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: const Icon(Icons.add_a_photo_outlined,
+                                            color: Colors.white, size: 25),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: Dimensions.paddingSizeLarge),
-
-                  ListView.builder(
-                      itemCount: _languageList!.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeLarge),
-                          child: MyTextField(
-                            isBorderenabled: false,
-                            fillColor: Color.fromARGB(255, 240, 245, 250),
-
-                            hintText:
-                                '${'restaurant_name'.tr} ', //(${_languageList![index].value!})
-                            controller: _nameController[index],
-                            focusNode: _nameNode[index],
-                            nextFocus: index != _languageList!.length - 1
-                                ? _nameNode[index + 1]
-                                : _contactNode,
-                            capitalization: TextCapitalization.words,
-                            inputType: TextInputType.name,
-                          ),
-                        );
-                      }),
-
-                  MyTextField(
-                    isBorderenabled: false,
-                    fillColor: Color.fromARGB(255, 240, 245, 250),
-                    hintText: 'contact_number'.tr,
-                    controller: _contactController,
-                    focusNode: _contactNode,
-                    nextFocus: _addressNode[0],
-                    inputType: TextInputType.phone,
-                  ),
-                  const SizedBox(height: Dimensions.paddingSizeLarge),
-
-                  // MyTextField(
-                  //   hintText: 'address'.tr,
-                  //   controller: _addressController,
-                  //   focusNode: _addressNode,
-                  //   nextFocus: _orderAmountNode,
-                  //   inputType: TextInputType.streetAddress,
-                  // ),
-                  // const SizedBox(height: Dimensions.paddingSizeLarge),
-
-                  ListView.builder(
-                      itemCount: _languageList!.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeExtraLarge),
-                          child: Column(
-                            children: [
-                              MyTextField(
-                                isBorderenabled: false,
-                                fillColor: Color.fromARGB(255, 240, 245, 250),
-                                hintText:
-                                    '${'Area/Sector/City'.tr} ', //(${_languageList![index].value!})
-                                controller: _addressController[index],
-                                focusNode: _addressNode[index],
-                                nextFocus: index != _languageList!.length - 1
-                                    ? _addressNode[index + 1]
-                                    : _orderAmountNode,
-                                inputType: TextInputType.streetAddress,
-                              ),
-                              // const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                              // Text(
-                              //   'Max 20 characters',
-                              //   style: TextStyle(color: Colors.red),
-                              // ),
-                            ],
-                          ),
-                        );
-                      }),
-                  MyTextField(
-                    isBorderenabled: false,
-                    fillColor: Color.fromARGB(255, 240, 245, 250),
-                    hintText: '${'Street'.tr} ', //(${_languageList![index].value!})
-                    controller: _streetController,
-                    inputType: TextInputType.streetAddress,
-                  ),
-                  SizedBox(height: Dimensions.paddingSizeLarge),
-                  MyTextField(
-                    isBorderenabled: false,
-                    fillColor: Color.fromARGB(255, 240, 245, 250),
-                    hintText: '${'Floor'.tr} ', //(${_languageList![index].value!})
-                    controller: _streetController,
-                    inputType: TextInputType.streetAddress,
-                  ),
-                  SizedBox(height: Dimensions.paddingSizeLarge),
-
-                  Row(children: [
-                    Expanded(
-                      child: MyTextField(
-                        isBorderenabled: false,
-                        fillColor: Color.fromARGB(255, 240, 245, 250),
-                        hintText: 'minimum_order_amount'.tr,
-                        controller: _orderAmountController,
-                        focusNode: _orderAmountNode,
-                        nextFocus: _restaurant.selfDeliverySystem == 1 ? _perKmChargeNode : null,
-                        inputAction:
-                            _restaurant.selfDeliverySystem == 0 ? null : TextInputAction.done,
-                        inputType: TextInputType.number,
-                        isAmount: true,
-                      ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                        width:
-                            _restaurant.selfDeliverySystem == 1 ? Dimensions.paddingSizeSmall : 0),
-                    _restaurant.selfDeliverySystem == 1
-                        ? Expanded(
+
+                    const SizedBox(height: Dimensions.paddingSizeLarge),
+
+                    ListView.builder(
+                        itemCount: _languageList!.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeLarge),
                             child: MyTextField(
                               isBorderenabled: false,
-                              fillColor: Color.fromARGB(255, 240, 245, 250),
-                              hintText: 'per_km_delivery_charge'.tr,
-                              controller: _perKmChargeController,
-                              focusNode:
-                                  _restaurant.selfDeliverySystem == 1 ? _perKmChargeNode : null,
-                              nextFocus:
-                                  _restaurant.selfDeliverySystem == 1 ? _minimumChargeNode : null,
+                              fillColor: const Color.fromARGB(255, 240, 245, 250),
+
+                              hintText:
+                                  '${'restaurant_name'.tr} ', //(${_languageList![index].value!})
+                              controller: _nameController[index],
+                              focusNode: _nameNode[index],
+                              nextFocus: index != _languageList!.length - 1
+                                  ? _nameNode[index + 1]
+                                  : _contactNode,
+                              capitalization: TextCapitalization.words,
+                              inputType: TextInputType.name,
+                            ),
+                          );
+                        }),
+
+                    MyTextField(
+                      isBorderenabled: false,
+                      fillColor: const Color.fromARGB(255, 240, 245, 250),
+                      hintText: 'Contact Number *',
+                      controller: _contactController,
+                      focusNode: _contactNode,
+                      nextFocus: _addressNode[0],
+                      inputType: TextInputType.phone,
+                    ),
+                    const SizedBox(height: Dimensions.paddingSizeLarge),
+
+                    // MyTextField(
+                    //   hintText: 'address'.tr,
+                    //   controller: _addressController,
+                    //   focusNode: _addressNode,
+                    //   nextFocus: _orderAmountNode,
+                    //   inputType: TextInputType.streetAddress,
+                    // ),
+                    // const SizedBox(height: Dimensions.paddingSizeLarge),
+
+                    ListView.builder(
+                        itemCount: _languageList!.length,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding:
+                                const EdgeInsets.only(bottom: Dimensions.paddingSizeExtraLarge),
+                            child: Column(
+                              children: [
+                                MyTextField(
+                                  isBorderenabled: false,
+                                  fillColor: const Color.fromARGB(255, 240, 245, 250),
+                                  hintText:
+                                      'House/Flat/Block No *', //(${_languageList![index].value!})
+                                  controller: _addressController[index],
+                                  focusNode: _addressNode[index],
+                                  nextFocus: index != _languageList!.length - 1
+                                      ? _addressNode[index + 1]
+                                      : _orderAmountNode,
+                                  inputType: TextInputType.streetAddress,
+                                ),
+                                // const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                                // Text(
+                                //   'Max 20 characters',
+                                //   style: TextStyle(color: Colors.red),
+                                // ),
+                              ],
+                            ),
+                          );
+                        }),
+                    MyTextField(
+                      isBorderenabled: false,
+                      fillColor: const Color.fromARGB(255, 240, 245, 250),
+                      hintText: 'Apartment/Road/Area(Optional)', //(${_languageList![index].value!})
+                      controller: _streetController,
+                      inputType: TextInputType.streetAddress,
+                    ),
+                    const SizedBox(height: Dimensions.paddingSizeLarge),
+                    MyTextField(
+                      isBorderenabled: false,
+                      fillColor: const Color.fromARGB(255, 240, 245, 250),
+                      hintText: 'Landmark(Optional) ', //(${_languageList![index].value!})
+                      controller: _streetController,
+                      inputType: TextInputType.streetAddress,
+                    ),
+                    const SizedBox(height: Dimensions.paddingSizeLarge),
+
+                    Row(children: [
+                      Expanded(
+                        child: MyTextField(
+                          isBorderenabled: false,
+                          fillColor: const Color.fromARGB(255, 240, 245, 250),
+                          titleName: 'minimum_order_amount'.tr,
+                          hintText: 'Rupees',
+                          controller: _orderAmountController,
+                          focusNode: _orderAmountNode,
+                          nextFocus: _restaurant.selfDeliverySystem == 1 ? _perKmChargeNode : null,
+                          inputAction:
+                              _restaurant.selfDeliverySystem == 0 ? null : TextInputAction.done,
+                          inputType: TextInputType.number,
+                          isAmount: true,
+                        ),
+                      ),
+                      SizedBox(
+                          width: _restaurant.selfDeliverySystem == 1
+                              ? Dimensions.paddingSizeSmall
+                              : 0),
+                      _restaurant.selfDeliverySystem == 1
+                          ? Expanded(
+                              child: MyTextField(
+                                isBorderenabled: false,
+                                fillColor: const Color.fromARGB(255, 240, 245, 250),
+                                hintText: 'per_km_delivery_charge'.tr,
+                                controller: _perKmChargeController,
+                                focusNode:
+                                    _restaurant.selfDeliverySystem == 1 ? _perKmChargeNode : null,
+                                nextFocus:
+                                    _restaurant.selfDeliverySystem == 1 ? _minimumChargeNode : null,
+                                inputType: TextInputType.number,
+                                isAmount: true,
+                              ),
+                            )
+                          : const SizedBox(),
+                    ]),
+                    // const SizedBox(height: Dimensions.paddingSizeLarge),
+
+                    _restaurant.selfDeliverySystem == 1
+                        ? Row(children: [
+                            Expanded(
+                                child: MyTextField(
+                              isBorderenabled: false,
+                              fillColor: const Color.fromARGB(255, 240, 245, 250),
+                              hintText: 'minimum_delivery_charge'.tr,
+                              controller: _minimumChargeController,
+                              focusNode: _minimumChargeNode,
+                              nextFocus: _maximumChargeNode,
                               inputType: TextInputType.number,
                               isAmount: true,
-                            ),
-                          )
+                            )),
+                            const SizedBox(width: Dimensions.paddingSizeSmall),
+                            Expanded(
+                                child: MyTextField(
+                              isBorderenabled: false,
+                              fillColor: const Color.fromARGB(255, 240, 245, 250),
+                              hintText: 'maximum_delivery_charge'.tr,
+                              controller: _maximumChargeController,
+                              focusNode: _maximumChargeNode,
+                              inputAction: TextInputAction.done,
+                              inputType: TextInputType.number,
+                              isAmount: true,
+                            )),
+                          ])
                         : const SizedBox(),
-                  ]),
-                  const SizedBox(height: Dimensions.paddingSizeLarge),
+                    SizedBox(
+                        height:
+                            _restaurant.selfDeliverySystem == 1 ? Dimensions.paddingSizeLarge : 0),
+                    // Theme(
+                    //   data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                    //   child: ExpansionTile(
+                    //     backgroundColor: Colors.amber,
+                    //     initiallyExpanded: true,
+                    //     tilePadding: const EdgeInsets.all(8),
+                    //     title: Text('cuisines'.tr),
+                    //     children: [cuisineView()],
+                    //   ),
+                    // ),
+                    const SizedBox(height: Dimensions.paddingSizeLarge),
 
-                  _restaurant.selfDeliverySystem == 1
-                      ? Row(children: [
-                          Expanded(
-                              child: MyTextField(
-                            isBorderenabled: false,
-                            fillColor: Color.fromARGB(255, 240, 245, 250),
-                            hintText: 'minimum_delivery_charge'.tr,
-                            controller: _minimumChargeController,
-                            focusNode: _minimumChargeNode,
-                            nextFocus: _maximumChargeNode,
-                            inputType: TextInputType.number,
-                            isAmount: true,
-                          )),
-                          const SizedBox(width: Dimensions.paddingSizeSmall),
-                          Expanded(
-                              child: MyTextField(
-                            isBorderenabled: false,
-                            fillColor: Color.fromARGB(255, 240, 245, 250),
-                            hintText: 'maximum_delivery_charge'.tr,
-                            controller: _maximumChargeController,
-                            focusNode: _maximumChargeNode,
-                            inputAction: TextInputAction.done,
-                            inputType: TextInputType.number,
-                            isAmount: true,
-                          )),
-                        ])
-                      : const SizedBox(),
-                  SizedBox(
-                      height:
-                          _restaurant.selfDeliverySystem == 1 ? Dimensions.paddingSizeLarge : 0),
-                  Theme(
-                    data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-                    child: ExpansionTile(
-                      tilePadding: const EdgeInsets.all(8),
-                      title: Text('cuisines'.tr),
-                      children: [cuisineView()],
-                    ),
-                  ),
-                  // Column(children: [
-                  //   Align(
-                  //     alignment: Alignment.topLeft,
-                  //     child: Text(
-                  //       'cuisines'.tr,
-                  //       style: robotoRegular.copyWith(
-                  //           fontSize: Dimensions.fontSizeSmall),
-                  //     ),
-                  //   ),
-                  //   const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                  //   Autocomplete<int>(
-                  //     optionsBuilder: (TextEditingValue value) {
-                  //       if (value.text.isEmpty) {
-                  //         return const Iterable<int>.empty();
-                  //       } else {
-                  //         return cuisines0.where((cuisine) => restController
-                  //             .cuisineModel!.cuisines![cuisine].name!
-                  //             .toLowerCase()
-                  //             .contains(value.text.toLowerCase()));
-                  //       }
-                  //     },
-                  //     fieldViewBuilder: (context, controller, node, onComplete) {
-                  //       _c = controller;
-                  //       return Container(
-                  //         height: 50,
-                  //         decoration: BoxDecoration(
-                  //           color: Theme.of(context).cardColor,
-                  //           borderRadius:
-                  //               BorderRadius.circular(Dimensions.radiusSmall),
-                  //           // boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 2, blurRadius: 5, offset: Offset(0, 5))],
-                  //         ),
-                  //         child: TextField(
-                  //           controller: controller,
-                  //           focusNode: node,
-                  //           onEditingComplete: () {
-                  //             onComplete();
-                  //             controller.text = '';
-                  //           },
-                  //           decoration: InputDecoration(
-                  //             hintText: 'cuisines'.tr,
-                  //             border: OutlineInputBorder(
-                  //                 borderRadius:
-                  //                     BorderRadius.circular(Dimensions.radiusSmall),
-                  //                 borderSide: BorderSide.none),
-                  //           ),
-                  //         ),
-                  //       );
-                  //     },
-                  //     displayStringForOption: (value) =>
-                  //         restController.cuisineModel!.cuisines![value].name!,
-                  //     onSelected: (int value) {
-                  //       _c.text = '';
-                  //       restController.setSelectedCuisineIndex(value, true);
-                  //     },
-                  //   ),
-                  //   SizedBox(
-                  //       height: restController.selectedCuisines!.isNotEmpty
-                  //           ? Dimensions.paddingSizeSmall
-                  //           : 0),
-                  //   SizedBox(
-                  //     height: restController.selectedCuisines!.isNotEmpty ? 40 : 0,
-                  //     child: ListView.builder(
-                  //       itemCount: restController.selectedCuisines!.length,
-                  //       scrollDirection: Axis.horizontal,
-                  //       itemBuilder: (context, index) {
-                  //         return Container(
-                  //           padding: const EdgeInsets.only(
-                  //               left: Dimensions.paddingSizeExtraSmall),
-                  //           margin: const EdgeInsets.only(
-                  //               right: Dimensions.paddingSizeSmall),
-                  //           decoration: BoxDecoration(
-                  //             color: Theme.of(context).primaryColor,
-                  //             borderRadius:
-                  //                 BorderRadius.circular(Dimensions.radiusSmall),
-                  //           ),
-                  //           child: Row(children: [
-                  //             Text(
-                  //               restController
-                  //                   .cuisineModel!
-                  //                   .cuisines![
-                  //                       restController.selectedCuisines![index]]
-                  //                   .name!,
-                  //               style: robotoRegular.copyWith(
-                  //                   color: Theme.of(context).cardColor),
-                  //             ),
-                  //             InkWell(
-                  //               onTap: () => restController.removeCuisine(index),
-                  //               child: Padding(
-                  //                 padding: const EdgeInsets.all(
-                  //                     Dimensions.paddingSizeExtraSmall),
-                  //                 child: Icon(Icons.close,
-                  //                     size: 15, color: Theme.of(context).cardColor),
-                  //               ),
-                  //             ),
-                  //           ]),
-                  //         );
-                  //       },
-                  //     ),
-                  //   ),
-                  // ]),
-                  const SizedBox(height: Dimensions.paddingSizeLarge),
-
-                  Get.find<SplashController>().configModel!.toggleVegNonVeg!
-                      ? Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'food_type'.tr,
-                            style: senRegular.copyWith(
-                                fontSize: Dimensions.fontSizeSmall,
-                                color: Theme.of(context).disabledColor),
-                          ))
-                      : const SizedBox(),
-                  Get.find<SplashController>().configModel!.toggleVegNonVeg!
-                      ? Row(children: [
-                          Expanded(
-                              child: InkWell(
-                            onTap: () =>
-                                restController.setRestVeg(!restController.isRestVeg!, true),
-                            child: Row(children: [
-                              Checkbox(
-                                value: restController.isRestVeg,
-                                onChanged: (bool? isActive) =>
-                                    restController.setRestVeg(isActive, true),
-                                activeColor: Theme.of(context).primaryColor,
-                              ),
-                              Text('veg'.tr),
-                            ]),
-                          )),
-                          const SizedBox(width: Dimensions.paddingSizeSmall),
-                          Expanded(
-                              child: InkWell(
-                            onTap: () =>
-                                restController.setRestNonVeg(!restController.isRestNonVeg!, true),
-                            child: Row(children: [
-                              Checkbox(
-                                value: restController.isRestNonVeg,
-                                onChanged: (bool? isActive) =>
-                                    restController.setRestNonVeg(isActive, true),
-                                activeColor: Theme.of(context).primaryColor,
-                              ),
-                              Text('non_veg'.tr),
-                            ]),
-                          )),
-                        ])
-                      : const SizedBox(),
-                  SizedBox(
-                      height: Get.find<SplashController>().configModel!.toggleVegNonVeg!
-                          ? Dimensions.paddingSizeLarge
-                          : 0),
-
-                  Row(children: [
-                    Expanded(
+                    Align(
+                        alignment: Alignment.centerLeft,
                         child: Text(
-                      'gst'.tr,
-                      style: senRegular.copyWith(
-                          fontSize: Dimensions.fontSizeSmall,
-                          color: Theme.of(context).disabledColor),
-                    )),
-                    Switch(
-                      value: restController.isGstEnabled!,
-                      activeColor: Theme.of(context).primaryColor,
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      onChanged: (bool isActive) => restController.toggleGst(),
-                    ),
-                  ]),
-                  MyTextField(
-                    isBorderenabled: false,
-                    fillColor: Color.fromARGB(255, 240, 245, 250),
-                    hintText: 'gst'.tr,
-                    controller: _gstController,
-                    inputAction: TextInputAction.done,
-                    title: false,
-                    isEnabled: restController.isGstEnabled,
-                  ),
-                  const SizedBox(height: Dimensions.paddingSizeLarge),
+                          'cuisines'.tr,
+                          style: senRegular.copyWith(
+                              fontSize: Dimensions.fontSizeSmall,
+                              color: Theme.of(context).dividerColor),
+                        )),
+                    const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                    cuisineView(),
+                    const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'daily_schedule_time'.tr,
+                    // Column(children: [
+                    //   Align(
+                    //     alignment: Alignment.topLeft,
+                    //     child: Text(
+                    //       'cuisines'.tr,
+                    //       style: robotoRegular.copyWith(
+                    //           fontSize: Dimensions.fontSizeSmall),
+                    //     ),
+                    //   ),
+                    //   const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                    //   Autocomplete<int>(
+                    //     optionsBuilder: (TextEditingValue value) {
+                    //       if (value.text.isEmpty) {
+                    //         return const Iterable<int>.empty();
+                    //       } else {
+                    //         return cuisines0.where((cuisine) => restController
+                    //             .cuisineModel!.cuisines![cuisine].name!
+                    //             .toLowerCase()
+                    //             .contains(value.text.toLowerCase()));
+                    //       }
+                    //     },
+                    //     fieldViewBuilder: (context, controller, node, onComplete) {
+                    //       _c = controller;
+                    //       return Container(
+                    //         height: 50,
+                    //         decoration: BoxDecoration(
+                    //           color: Theme.of(context).cardColor,
+                    //           borderRadius:
+                    //               BorderRadius.circular(Dimensions.radiusSmall),
+                    //           // boxShadow: [BoxShadow(color: Colors.grey[Get.isDarkMode ? 800 : 200], spreadRadius: 2, blurRadius: 5, offset: Offset(0, 5))],
+                    //         ),
+                    //         child: TextField(
+                    //           controller: controller,
+                    //           focusNode: node,
+                    //           onEditingComplete: () {
+                    //             onComplete();
+                    //             controller.text = '';
+                    //           },
+                    //           decoration: InputDecoration(
+                    //             hintText: 'cuisines'.tr,
+                    //             border: OutlineInputBorder(
+                    //                 borderRadius:
+                    //                     BorderRadius.circular(Dimensions.radiusSmall),
+                    //                 borderSide: BorderSide.none),
+                    //           ),
+                    //         ),
+                    //       );
+                    //     },
+                    //     displayStringForOption: (value) =>
+                    //         restController.cuisineModel!.cuisines![value].name!,
+                    //     onSelected: (int value) {
+                    //       _c.text = '';
+                    //       restController.setSelectedCuisineIndex(value, true);
+                    //     },
+                    //   ),
+                    //   SizedBox(
+                    //       height: restController.selectedCuisines!.isNotEmpty
+                    //           ? Dimensions.paddingSizeSmall
+                    //           : 0),
+                    //   SizedBox(
+                    //     height: restController.selectedCuisines!.isNotEmpty ? 40 : 0,
+                    //     child: ListView.builder(
+                    //       itemCount: restController.selectedCuisines!.length,
+                    //       scrollDirection: Axis.horizontal,
+                    //       itemBuilder: (context, index) {
+                    //         return Container(
+                    //           padding: const EdgeInsets.only(
+                    //               left: Dimensions.paddingSizeExtraSmall),
+                    //           margin: const EdgeInsets.only(
+                    //               right: Dimensions.paddingSizeSmall),
+                    //           decoration: BoxDecoration(
+                    //             color: Theme.of(context).primaryColor,
+                    //             borderRadius:
+                    //                 BorderRadius.circular(Dimensions.radiusSmall),
+                    //           ),
+                    //           child: Row(children: [
+                    //             Text(
+                    //               restController
+                    //                   .cuisineModel!
+                    //                   .cuisines![
+                    //                       restController.selectedCuisines![index]]
+                    //                   .name!,
+                    //               style: robotoRegular.copyWith(
+                    //                   color: Theme.of(context).cardColor),
+                    //             ),
+                    //             InkWell(
+                    //               onTap: () => restController.removeCuisine(index),
+                    //               child: Padding(
+                    //                 padding: const EdgeInsets.all(
+                    //                     Dimensions.paddingSizeExtraSmall),
+                    //                 child: Icon(Icons.close,
+                    //                     size: 15, color: Theme.of(context).cardColor),
+                    //               ),
+                    //             ),
+                    //           ]),
+                    //         );
+                    //       },
+                    //     ),
+                    //   ),
+                    // ]),
+                    // const SizedBox(height: Dimensions.paddingSizeLarge),
+
+                    Get.find<SplashController>().configModel!.toggleVegNonVeg!
+                        ? Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'food_type'.tr,
+                              style: senRegular.copyWith(
+                                  fontSize: Dimensions.fontSizeSmall,
+                                  color: Theme.of(context).dividerColor),
+                            ))
+                        : const SizedBox(),
+                    Get.find<SplashController>().configModel!.toggleVegNonVeg!
+                        ? Row(children: [
+                            Expanded(
+                                child: InkWell(
+                              onTap: () =>
+                                  restController.setRestVeg(!restController.isRestVeg!, true),
+                              child: Row(children: [
+                                Checkbox(
+                                  value: restController.isRestVeg,
+                                  onChanged: (bool? isActive) =>
+                                      restController.setRestVeg(isActive, true),
+                                  activeColor: Theme.of(context).primaryColor,
+                                ),
+                                Text('veg'.tr),
+                              ]),
+                            )),
+                            const SizedBox(width: Dimensions.paddingSizeSmall),
+                            Expanded(
+                                child: InkWell(
+                              onTap: () =>
+                                  restController.setRestNonVeg(!restController.isRestNonVeg!, true),
+                              child: Row(children: [
+                                Checkbox(
+                                  value: restController.isRestNonVeg,
+                                  onChanged: (bool? isActive) =>
+                                      restController.setRestNonVeg(isActive, true),
+                                  activeColor: Theme.of(context).primaryColor,
+                                ),
+                                Text('non_veg'.tr),
+                              ]),
+                            )),
+                          ])
+                        : const SizedBox(),
+                    SizedBox(
+                        height: Get.find<SplashController>().configModel!.toggleVegNonVeg!
+                            ? Dimensions.paddingSizeLarge
+                            : 0),
+
+                    Row(children: [
+                      Expanded(
+                          child: Text(
+                        'gst'.tr,
                         style: senRegular.copyWith(
                             fontSize: Dimensions.fontSizeSmall,
-                            color: Theme.of(context).disabledColor),
+                            color: Theme.of(context).dividerColor),
                       )),
-                  const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 7,
-                    itemBuilder: (context, index) {
-                      return DailyTimeWidget(weekDay: index);
-                    },
-                  ),
-                  const SizedBox(height: Dimensions.paddingSizeLarge),
+                      Switch(
+                        value: restController.isGstEnabled!,
+                        inactiveTrackColor: Colors.red[100],
+                        activeTrackColor: Colors.green[100],
+                        activeColor: Colors.green,
+                        inactiveThumbColor: Colors.red,
+                        trackOutlineColor: const MaterialStatePropertyAll(
+                          Colors.transparent,
+                        ),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        onChanged: (bool isActive) => restController.toggleGst(),
+                      ),
+                    ]),
+                    const SizedBox(height: Dimensions.paddingSizeSmall),
+                    MyTextField(
+                      isBorderenabled: false,
+                      fillColor: const Color.fromARGB(255, 240, 245, 250),
+                      hintText: 'gst'.tr,
+                      controller: _gstController,
+                      inputAction: TextInputAction.done,
+                      title: false,
+                      isEnabled: restController.isGstEnabled,
+                    ),
+                    const SizedBox(height: Dimensions.paddingSizeLarge),
 
-                  Get.find<SplashController>().configModel!.scheduleOrder!
-                      ? SwitchButton(
-                          icon: Icons.alarm_add,
-                          title: 'schedule_order'.tr,
-                          isButtonActive: widget.restaurant.scheduleOrder,
-                          onTap: () {
-                            _restaurant.scheduleOrder = !_restaurant.scheduleOrder!;
-                          })
-                      : const SizedBox(),
-                  SizedBox(
-                      height: Get.find<SplashController>().configModel!.scheduleOrder!
-                          ? Dimensions.paddingSizeSmall
-                          : 0),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'daily_schedule_time'.tr,
+                          style: senRegular.copyWith(
+                              fontSize: Dimensions.fontSizeSmall,
+                              color: Theme.of(context).disabledColor),
+                        )),
+                    const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: 7,
+                      itemBuilder: (context, index) {
+                        return DailyTimeWidget(weekDay: index);
+                      },
+                    ),
+                    const SizedBox(height: Dimensions.paddingSizeLarge),
 
-                  // SwitchButton(
-                  //     icon: Icons.delivery_dining,
-                  //     title: 'delivery'.tr,
-                  //     isButtonActive: widget.restaurant.delivery,
-                  //     onTap: () {
-                  //       _restaurant.delivery = !_restaurant.delivery!;
-                  //     }),
-                  const SizedBox(height: Dimensions.paddingSizeSmall),
+                    Get.find<SplashController>().configModel!.scheduleOrder!
+                        ? SwitchButton(
+                            icon: Icons.alarm_add,
+                            title: 'schedule_order'.tr,
+                            isButtonActive: widget.restaurant.scheduleOrder,
+                            onTap: () {
+                              _restaurant.scheduleOrder = !_restaurant.scheduleOrder!;
+                            })
+                        : const SizedBox(),
+                    SizedBox(
+                        height: Get.find<SplashController>().configModel!.scheduleOrder!
+                            ? Dimensions.paddingSizeSmall
+                            : 0),
 
-                  SwitchButton(
-                      icon: Icons.flatware,
-                      title: 'cutlery'.tr,
-                      isButtonActive: widget.restaurant.cutlery,
-                      onTap: () {
-                        _restaurant.cutlery = !_restaurant.cutlery!;
-                      }),
-                  const SizedBox(height: Dimensions.paddingSizeSmall),
+                    // SwitchButton(
+                    //     icon: Icons.delivery_dining,
+                    //     title: 'delivery'.tr,
+                    //     isButtonActive: widget.restaurant.delivery,
+                    //     onTap: () {
+                    //       _restaurant.delivery = !_restaurant.delivery!;
+                    //     }),
+                    const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                  Get.find<SplashController>().configModel!.takeAway!
-                      ? SwitchButton(
-                          icon: Icons.house_siding,
-                          title: 'take_away'.tr,
-                          isButtonActive: widget.restaurant.takeAway,
-                          onTap: () {
-                            _restaurant.takeAway = !_restaurant.takeAway!;
-                          })
-                      : const SizedBox(),
-                  SizedBox(
-                      height: Get.find<SplashController>().configModel!.takeAway!
-                          ? Dimensions.paddingSizeSmall
-                          : 0),
+                    SwitchButton(
+                        icon: Icons.flatware,
+                        title: 'cutlery'.tr,
+                        isButtonActive: widget.restaurant.cutlery,
+                        onTap: () {
+                          _restaurant.cutlery = !_restaurant.cutlery!;
+                        }),
+                    const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                  // SwitchButton(icon: Icons.subscriptions_outlined, title: 'subscription_order'.tr, isButtonActive: widget.restaurant.orderSubscriptionActive, onTap: () {
-                  //   _restaurant.orderSubscriptionActive = !_restaurant.orderSubscriptionActive!;
-                  // }),
-                  // const SizedBox(height: Dimensions.paddingSizeLarge),
-                ],
+                    Get.find<SplashController>().configModel!.takeAway!
+                        ? SwitchButton(
+                            icon: Icons.house_siding,
+                            title: 'take_away'.tr,
+                            isButtonActive: widget.restaurant.takeAway,
+                            onTap: () {
+                              _restaurant.takeAway = !_restaurant.takeAway!;
+                            })
+                        : const SizedBox(),
+                    SizedBox(
+                        height: Get.find<SplashController>().configModel!.takeAway!
+                            ? Dimensions.paddingSizeSmall
+                            : 0),
+
+                    // SwitchButton(icon: Icons.subscriptions_outlined, title: 'subscription_order'.tr, isButtonActive: widget.restaurant.orderSubscriptionActive, onTap: () {
+                    //   _restaurant.orderSubscriptionActive = !_restaurant.orderSubscriptionActive!;
+                    // }),
+                    // const SizedBox(height: Dimensions.paddingSizeLarge),
+                  ],
+                ),
               ),
             ),
           ),
@@ -707,7 +734,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                         showCustomSnackBar('enter_restaurant_contact_number'.tr);
                       } else if (defaultAddressNull) {
                         showCustomSnackBar('enter_restaurant_address'.tr);
-                      } else if (minimumOrder.isEmpty) {
+                      } else if (minimumOrder.isEmpty || double.parse(minimumOrder) <= 0) {
                         showCustomSnackBar('enter_minimum_order_amount'.tr);
                       } else if (_restaurant.selfDeliverySystem == 1 &&
                           perKmFee.isNotEmpty &&
