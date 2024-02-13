@@ -68,22 +68,25 @@ class MyTextFieldState extends State<MyTextField> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       widget.title
           ? Row(children: [
-              Text(widget.titleName ?? widget.hintText!,
-                  style: TextStyle(
-                    fontFamily: "Sen",
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                    color: Get.find<ThemeController>().darkTheme
-                        ? Colors.white
-                        : Theme.of(context).dividerColor,
-                  )
-                  // robotoRegular.copyWith(
-                  //   fontSize: Dimensions.fontSizeSmall,
-                  //   color: Get.find<ThemeController>().darkTheme
-                  //       ? Colors.white
-                  //       : Theme.of(context).dividerColor,
-                  // ),
-                  ),
+              Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(widget.titleName ?? widget.hintText!,
+                    style: TextStyle(
+                      fontFamily: "Sen",
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      color: Get.find<ThemeController>().darkTheme
+                          ? Colors.white
+                          : Theme.of(context).dividerColor,
+                    )
+                    // robotoRegular.copyWith(
+                    //   fontSize: Dimensions.fontSizeSmall,
+                    //   color: Get.find<ThemeController>().darkTheme
+                    //       ? Colors.white
+                    //       : Theme.of(context).dividerColor,
+                    // ),
+                    ),
+              ),
               const SizedBox(width: Dimensions.paddingSizeExtraSmall),
               widget.isEnabled!
                   ? const SizedBox()
@@ -93,7 +96,9 @@ class MyTextFieldState extends State<MyTextField> {
                         color: Theme.of(context).colorScheme.error,
                       )),
               widget.isRequired
-                  ? Text('*', style: senBold.copyWith(color: Theme.of(context).primaryColor))
+                  ? Text('*',
+                      style: senBold.copyWith(
+                          color: Theme.of(context).primaryColor))
                   : const SizedBox(),
             ])
           : const SizedBox(),
@@ -120,8 +125,11 @@ class MyTextFieldState extends State<MyTextField> {
           focusNode: widget.focusNode,
           readOnly: widget.readOnly,
           style: senRegular,
-          textInputAction: widget.nextFocus != null ? widget.inputAction : TextInputAction.done,
-          keyboardType: widget.isAmount ? TextInputType.number : widget.inputType,
+          textInputAction: widget.nextFocus != null
+              ? widget.inputAction
+              : TextInputAction.done,
+          keyboardType:
+              widget.isAmount ? TextInputType.number : widget.inputType,
           autofillHints: widget.inputType == TextInputType.name
               ? [AutofillHints.name]
               : widget.inputType == TextInputType.emailAddress
@@ -132,7 +140,8 @@ class MyTextFieldState extends State<MyTextField> {
                           ? [AutofillHints.fullStreetAddress]
                           : widget.inputType == TextInputType.url
                               ? [AutofillHints.url]
-                              : widget.inputType == TextInputType.visiblePassword
+                              : widget.inputType ==
+                                      TextInputType.visiblePassword
                                   ? [AutofillHints.password]
                                   : null,
           cursorColor: Theme.of(context).primaryColor,
@@ -143,7 +152,9 @@ class MyTextFieldState extends State<MyTextField> {
           //onChanged: widget.isSearch ? widget.languageProvider.searchLanguage : null,
           obscureText: widget.isPassword ? _obscureText : false,
           inputFormatters: widget.inputType == TextInputType.phone
-              ? <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp('[0-9+]'))]
+              ? <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp('[0-9+]'))
+                ]
               : widget.isAmount
                   ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))]
                   : null,
@@ -156,10 +167,12 @@ class MyTextFieldState extends State<MyTextField> {
                 borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
                 borderSide: BorderSide.none),
             hintStyle: senRegular.copyWith(
-                color: Theme.of(context).hintColor, fontSize: Dimensions.fontSizeSmall),
+                color: Theme.of(context).hintColor,
+                fontSize: Dimensions.fontSizeSmall),
             suffixIcon: widget.isPassword
                 ? IconButton(
-                    icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility,
+                    icon: Icon(
+                        _obscureText ? Icons.visibility_off : Icons.visibility,
                         color: Theme.of(context).hintColor.withOpacity(0.3)),
                     onPressed: _toggle,
                   )
@@ -168,8 +181,10 @@ class MyTextFieldState extends State<MyTextField> {
                 ? SizedBox(
                     width: 20,
                     child: Center(
-                        child: Text('${Get.find<SplashController>().configModel!.currencySymbol}',
-                            style: const TextStyle(fontSize: 20), textAlign: TextAlign.center)),
+                        child: Text(
+                            '${Get.find<SplashController>().configModel!.currencySymbol}',
+                            style: const TextStyle(fontSize: 20),
+                            textAlign: TextAlign.center)),
                   )
                 : null,
           ),

@@ -12,13 +12,15 @@ import 'package:get/get.dart';
 class CouponCardDialogue extends StatelessWidget {
   final CouponBody couponBody;
   final int index;
-  const CouponCardDialogue({Key? key, required this.couponBody, required this.index})
+  const CouponCardDialogue(
+      {Key? key, required this.couponBody, required this.index})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
       insetPadding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       alignment: Alignment.center,
@@ -30,7 +32,8 @@ class CouponCardDialogue extends StatelessWidget {
           child: Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * 0.55,
-            margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
+            margin: const EdgeInsets.symmetric(
+                horizontal: Dimensions.paddingSizeLarge),
             padding: const EdgeInsets.all(Dimensions.paddingSizeExtraLarge),
             decoration: BoxDecoration(
               color: Get.isDarkMode ? Colors.black87 : Colors.transparent,
@@ -38,7 +41,8 @@ class CouponCardDialogue extends StatelessWidget {
                 image: const AssetImage(Images.couponDetails),
                 fit: BoxFit.fitWidth,
                 colorFilter: Get.isDarkMode
-                    ? ColorFilter.mode(Colors.black.withOpacity(0.2), BlendMode.dstATop)
+                    ? ColorFilter.mode(
+                        Colors.black.withOpacity(0.2), BlendMode.dstATop)
                     : null,
               ),
             ),
@@ -64,7 +68,8 @@ class CouponCardDialogue extends StatelessWidget {
                                         ? ' %'
                                         : ' \$',
                                 style: senBold.copyWith(
-                                    fontSize: 18, color: Theme.of(context).cardColor),
+                                    fontSize: 18,
+                                    color: Theme.of(context).cardColor),
                               ),
                             ),
                           ]),
@@ -77,19 +82,25 @@ class CouponCardDialogue extends StatelessWidget {
                               Text(
                                 '${'${couponBody.couponType == 'free_delivery' ? 'free_delivery'.tr : couponBody.discountType != 'percent' ? PriceConverter.convertPrice(double.parse(couponBody.discount.toString())) : couponBody.discount}'} ${couponBody.couponType == 'free_delivery' ? '' : couponBody.discountType == 'percent' ? ' %' : ''}'
                                 '${couponBody.couponType == 'free_delivery' ? '' : 'off'.tr}',
-                                style: senBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge),
+                                style: senBold.copyWith(
+                                    fontSize: Dimensions.fontSizeExtraLarge),
                                 textDirection: TextDirection.ltr,
                               ),
                               Text('${couponBody.code}', style: senMedium),
                             ]),
                         const Spacer(),
-                        GetBuilder<CouponController>(builder: (couponController) {
+                        GetBuilder<CouponController>(
+                            builder: (couponController) {
                           return Switch(
                             activeColor: Theme.of(context).primaryColor,
-                            value: couponController.coupons![index].status == 1 ? true : false,
+                            value: couponController.coupons![index].status == 1
+                                ? true
+                                : false,
                             onChanged: (bool status) {
                               couponController
-                                  .changeStatus(couponController.coupons![index].id, status)
+                                  .changeStatus(
+                                      couponController.coupons![index].id,
+                                      status)
                                   .then((success) {
                                 if (success) {
                                   couponController.getCouponList();
@@ -102,47 +113,57 @@ class CouponCardDialogue extends StatelessWidget {
                       const SizedBox(height: Dimensions.paddingSizeLarge),
                       Text(
                         '-  ${'start_date'.tr} : ${couponBody.startDate!}',
-                        style: senMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
+                        style: senMedium.copyWith(
+                            fontSize: Dimensions.fontSizeDefault),
                       ),
                       const SizedBox(height: Dimensions.paddingSizeSmall),
                       Text(
                         '- ${'expire_date'.tr} : ${couponBody.expireDate!}',
-                        style: senMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
+                        style: senMedium.copyWith(
+                            fontSize: Dimensions.fontSizeDefault),
                       ),
                       const SizedBox(height: Dimensions.paddingSizeSmall),
                       Text(
                         '-  ${'total_user'.tr} : ${couponBody.totalUses.toString()}',
-                        style: senMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
+                        style: senMedium.copyWith(
+                            fontSize: Dimensions.fontSizeDefault),
                       ),
                       const SizedBox(height: Dimensions.paddingSizeSmall),
                       Text(
                         '- ${'min_purchase'.tr} : ${couponBody.minPurchase.toString()}',
-                        style: senMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
+                        style: senMedium.copyWith(
+                            fontSize: Dimensions.fontSizeDefault),
                       ),
                       const SizedBox(height: Dimensions.paddingSizeSmall),
                       Text(
                         '- ${'limit'.tr} : ${couponBody.limit.toString()}',
-                        style: senMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
+                        style: senMedium.copyWith(
+                            fontSize: Dimensions.fontSizeDefault),
                       ),
                       const SizedBox(height: Dimensions.paddingSizeSmall),
                       Text(
                         '- ${'coupon_type'.tr} : ${couponBody.couponType!.tr}',
-                        style: senMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
+                        style: senMedium.copyWith(
+                            fontSize: Dimensions.fontSizeDefault),
                       ),
                       const SizedBox(height: Dimensions.paddingSizeSmall),
                     ]),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: GetBuilder<CouponController>(builder: (couponController) {
+                  child:
+                      GetBuilder<CouponController>(builder: (couponController) {
                     return Row(mainAxisSize: MainAxisSize.min, children: [
                       OutlinedButton(
                         style: ButtonStyle(
                           side: MaterialStateProperty.all(const BorderSide(
-                              color: Colors.blue, width: 1.0, style: BorderStyle.solid)),
+                              color: Colors.blue,
+                              width: 1.0,
+                              style: BorderStyle.solid)),
                         ),
                         onPressed: () {
                           Get.back();
-                          Get.to(() => AddCouponScreen(coupon: couponController.coupons![index]));
+                          Get.to(() => AddCouponScreen(
+                              coupon: couponController.coupons![index]));
                         },
                         child: const Icon(Icons.edit, color: Colors.blue),
                       ),
@@ -150,7 +171,9 @@ class CouponCardDialogue extends StatelessWidget {
                       OutlinedButton(
                         style: ButtonStyle(
                           side: MaterialStateProperty.all(const BorderSide(
-                              color: Colors.red, width: 1.0, style: BorderStyle.solid)),
+                              color: Colors.red,
+                              width: 1.0,
+                              style: BorderStyle.solid)),
                         ),
                         onPressed: () {
                           Get.back();
@@ -158,14 +181,16 @@ class CouponCardDialogue extends StatelessWidget {
                               ConfirmationDialog(
                                 icon: Images.warning,
                                 title: 'are_you_sure_to_delete'.tr,
-                                description: 'you_want_to_delete_this_coupon'.tr,
+                                description:
+                                    'you_want_to_delete_this_coupon'.tr,
                                 onYesPressed: () {
                                   couponController.deleteCoupon(couponBody.id);
                                 },
                               ),
                               barrierDismissible: false);
                         },
-                        child: const Icon(Icons.delete_outline, color: Colors.red),
+                        child:
+                            const Icon(Icons.delete_outline, color: Colors.red),
                       ),
                     ]);
                   }),
