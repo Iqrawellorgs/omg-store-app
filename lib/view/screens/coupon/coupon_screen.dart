@@ -35,7 +35,8 @@ class _CouponScreenState extends State<CouponScreen> {
       appBar: CustomAppBar(title: 'coupon'.tr),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.to(() => const AddCouponScreen()),
-        child: Icon(Icons.add_circle_outline, size: 30, color: Theme.of(context).cardColor),
+        child: Icon(Icons.add_circle_outline,
+            size: 30, color: Theme.of(context).cardColor),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -52,12 +53,14 @@ class _CouponScreenState extends State<CouponScreen> {
                           onTap: () {
                             Get.dialog(
                                 CouponCardDialogue(
-                                    couponBody: couponController.coupons![index], index: index),
+                                    couponBody:
+                                        couponController.coupons![index],
+                                    index: index),
                                 barrierDismissible: true,
                                 useSafeArea: true);
                           },
                           child: SizedBox(
-                            height: 150,
+                            height: 190,
                             // margin: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
                             // decoration: BoxDecoration(
                             //   image: DecorationImage(image: AssetImage(Images.coupon_bg_dark))
@@ -65,11 +68,15 @@ class _CouponScreenState extends State<CouponScreen> {
                             child: Stack(
                               children: [
                                 Transform.rotate(
-                                  angle: Get.find<LocalizationController>().isLtr ? 0 : pi,
+                                  angle:
+                                      Get.find<LocalizationController>().isLtr
+                                          ? 0
+                                          : pi,
                                   child: SizedBox(
-                                    height: 150,
-                                    // margin: const EdgeInsets.symmetric(horizontal: Dimensions.PADDING_SIZE_SMALL),
-                                    child: Image.asset(Images.couponBgDark, fit: BoxFit.fill),
+                                    height: 190,
+                                    // margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+                                    child: Image.asset(Images.couponBgDark,
+                                        fit: BoxFit.fill),
                                   ),
                                 ),
                                 Row(children: [
@@ -80,23 +87,33 @@ class _CouponScreenState extends State<CouponScreen> {
                                         width: 50,
                                         alignment: Alignment.center,
                                         padding: EdgeInsets.only(
-                                            left:
-                                                Get.find<LocalizationController>().isLtr ? 50.0 : 0,
-                                            bottom:
-                                                Get.find<LocalizationController>().isLtr ? 10 : 0,
+                                            left: Get.find<
+                                                        LocalizationController>()
+                                                    .isLtr
+                                                ? 50.0
+                                                : 0,
+                                            bottom: Get.find<
+                                                        LocalizationController>()
+                                                    .isLtr
+                                                ? 10
+                                                : 0,
                                             right: 0),
                                         child: Stack(
                                           children: [
-                                            Center(child: Image.asset(Images.couponVertical)),
+                                            Center(
+                                                child: Image.asset(
+                                                    Images.couponVertical)),
                                             Center(
                                               child: Text(
-                                                couponController.coupons![index].discountType ==
+                                                couponController.coupons![index]
+                                                            .discountType ==
                                                         'percent'
                                                     ? '%'
                                                     : '\$',
                                                 style: senBold.copyWith(
                                                     fontSize: 18,
-                                                    color: Theme.of(context).cardColor),
+                                                    color: Theme.of(context)
+                                                        .cardColor),
                                               ),
                                             ),
                                           ],
@@ -108,109 +125,146 @@ class _CouponScreenState extends State<CouponScreen> {
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: Dimensions.paddingSizeSmall,
-                                          horizontal: Dimensions.paddingSizeLarge),
+                                          horizontal:
+                                              Dimensions.paddingSizeLarge),
                                       child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             // SizedBox(height: 10),
                                             Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Text(
                                                     '${'${couponController.coupons![index].couponType == 'free_delivery' ? 'free_delivery'.tr : couponController.coupons![index].discountType != 'percent' ? PriceConverter.convertPrice(double.parse(couponController.coupons![index].discount.toString())) : couponController.coupons![index].discount}'} ${couponController.coupons![index].couponType == 'free_delivery' ? '' : couponController.coupons![index].discountType == 'percent' ? ' %' : ''}'
                                                     '${couponController.coupons![index].couponType == 'free_delivery' ? '' : 'off'.tr}',
                                                     style: senBold.copyWith(
-                                                        fontSize: Dimensions.fontSizeExtraLarge),
-                                                    textDirection: TextDirection.ltr,
+                                                        fontSize: Dimensions
+                                                            .fontSizeExtraLarge),
+                                                    textDirection:
+                                                        TextDirection.ltr,
                                                   ),
                                                   Row(
                                                     children: [
                                                       Switch(
-                                                        activeColor: Theme.of(context).primaryColor,
+                                                        activeColor:
+                                                            Theme.of(context)
+                                                                .primaryColor,
                                                         value: couponController
-                                                                    .coupons![index].status ==
+                                                                    .coupons![
+                                                                        index]
+                                                                    .status ==
                                                                 1
                                                             ? true
                                                             : false,
-                                                        onChanged: (bool status) {
+                                                        onChanged:
+                                                            (bool status) {
                                                           couponController
                                                               .changeStatus(
                                                                   couponController
-                                                                      .coupons![index].id,
+                                                                      .coupons![
+                                                                          index]
+                                                                      .id,
                                                                   status)
                                                               .then((success) {
                                                             if (success) {
-                                                              Get.find<CouponController>()
+                                                              Get.find<
+                                                                      CouponController>()
                                                                   .getCouponList();
                                                             }
                                                           });
                                                         },
                                                       ),
                                                       PopupMenuButton(
-                                                          itemBuilder: (context) {
+                                                          itemBuilder:
+                                                              (context) {
                                                             return <PopupMenuEntry>[
                                                               PopupMenuItem(
                                                                 value: 'edit',
-                                                                child: Text('edit'.tr,
+                                                                child: Text(
+                                                                    'edit'.tr,
                                                                     style: senRegular.copyWith(
-                                                                        fontSize: Dimensions
-                                                                            .fontSizeSmall)),
+                                                                        fontSize:
+                                                                            Dimensions.fontSizeSmall)),
                                                               ),
                                                               PopupMenuItem(
                                                                 value: 'delete',
-                                                                child: Text('delete'.tr,
+                                                                child: Text(
+                                                                    'delete'.tr,
                                                                     style: senRegular.copyWith(
-                                                                        fontSize: Dimensions
-                                                                            .fontSizeSmall,
-                                                                        color: Colors.red)),
+                                                                        fontSize:
+                                                                            Dimensions
+                                                                                .fontSizeSmall,
+                                                                        color: Colors
+                                                                            .red)),
                                                               ),
                                                             ];
                                                           },
                                                           shape: RoundedRectangleBorder(
-                                                              borderRadius: BorderRadius.circular(
-                                                                  Dimensions.radiusSmall)),
-                                                          offset: const Offset(-20, 20),
+                                                              borderRadius:
+                                                                  BorderRadius.circular(
+                                                                      Dimensions
+                                                                          .radiusSmall)),
+                                                          offset: const Offset(
+                                                              -20, 20),
                                                           child: const Padding(
-                                                            padding: EdgeInsets.all(
-                                                                Dimensions.paddingSizeExtraSmall),
-                                                            child: Icon(Icons.more_vert, size: 25),
+                                                            padding: EdgeInsets
+                                                                .all(Dimensions
+                                                                    .paddingSizeExtraSmall),
+                                                            child: Icon(
+                                                                Icons.more_vert,
+                                                                size: 25),
                                                           ),
-                                                          onSelected: (dynamic value) {
-                                                            if (value == 'delete') {
+                                                          onSelected:
+                                                              (dynamic value) {
+                                                            if (value ==
+                                                                'delete') {
                                                               Get.dialog(
                                                                   ConfirmationDialog(
-                                                                    icon: Images.warning,
-                                                                    title:
-                                                                        'are_you_sure_to_delete'.tr,
+                                                                    icon: Images
+                                                                        .warning,
+                                                                    // title:
+                                                                    //     'are_you_sure_to_delete'
+                                                                    //         .tr,
                                                                     description:
                                                                         'you_want_to_delete_this_coupon'
                                                                             .tr,
-                                                                    onYesPressed: () {
+                                                                    onYesPressed:
+                                                                        () {
                                                                       couponController
-                                                                          .deleteCoupon(
-                                                                              couponController
-                                                                                  .coupons![index]
-                                                                                  .id)
+                                                                          .deleteCoupon(couponController
+                                                                              .coupons![index]
+                                                                              .id)
                                                                           .then((success) {
                                                                         if (success) {
-                                                                          Get.find<
-                                                                                  CouponController>()
+                                                                          Get.find<CouponController>()
                                                                               .getCouponList();
                                                                         }
                                                                       });
                                                                     },
                                                                   ),
-                                                                  barrierDismissible: false);
+                                                                  barrierDismissible:
+                                                                      false);
                                                             } else {
-                                                              Get.dialog(const CustomLoader());
+                                                              Get.dialog(
+                                                                  const CustomLoader());
                                                               couponController
-                                                                  .getCouponDetails(couponController
-                                                                      .coupons![index].id!)
-                                                                  .then((couponDetails) {
+                                                                  .getCouponDetails(
+                                                                      couponController
+                                                                          .coupons![
+                                                                              index]
+                                                                          .id!)
+                                                                  .then(
+                                                                      (couponDetails) {
                                                                 Get.back();
-                                                                if (couponDetails != null) {
-                                                                  Get.to(() => AddCouponScreen(
-                                                                      coupon: couponDetails));
+                                                                if (couponDetails !=
+                                                                    null) {
+                                                                  Get.to(() =>
+                                                                      AddCouponScreen(
+                                                                          coupon:
+                                                                              couponDetails));
                                                                 }
                                                               });
                                                             }
@@ -227,13 +281,15 @@ class _CouponScreenState extends State<CouponScreen> {
                                             Text(
                                                 '${'total_users'.tr}: ${couponController.coupons![index].totalUses}',
                                                 style: senRegular.copyWith(
-                                                    fontSize: Dimensions.fontSizeExtraSmall)),
+                                                    fontSize: Dimensions
+                                                        .fontSizeExtraSmall)),
                                             const SizedBox(height: 5),
 
                                             Text(
                                               '${'valid_until'.tr} ${couponController.coupons![index].startDate!}  ${'to'.tr} ${couponController.coupons![index].expireDate!}',
                                               style: senRegular.copyWith(
-                                                  fontSize: Dimensions.fontSizeExtraSmall),
+                                                  fontSize: Dimensions
+                                                      .fontSizeExtraSmall),
                                             ),
                                           ]),
                                     ),
