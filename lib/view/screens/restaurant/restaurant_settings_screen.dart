@@ -103,7 +103,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
         return Column(children: [
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+              padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
               physics: const BouncingScrollPhysics(),
               child: Form(
                 child: Column(
@@ -128,13 +128,13 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                                       ? GetPlatform.isWeb
                                           ? Image.network(
                                               restController.pickedLogo!.path,
-                                              width: 100,
+                                              width: context.width / 2.3,
                                               height: 100,
                                               fit: BoxFit.cover,
                                             )
                                           : Image.file(
                                               File(restController.pickedLogo!.path),
-                                              width: 100,
+                                              width: context.width / 2.3,
                                               height: 100,
                                               fit: BoxFit.cover,
                                             )
@@ -143,13 +143,14 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                                           image:
                                               '${Get.find<SplashController>().configModel!.baseUrls!.restaurantImageUrl}/${widget.restaurant.logo}',
                                           height: 100,
-                                          width: 100,
+                                          width: context.width / 2.3,
                                           fit: BoxFit.cover,
-                                          imageErrorBuilder: (c, o, s) => Image.asset(
-                                              Images.placeholder,
-                                              height: 100,
-                                              width: 135,
-                                              fit: BoxFit.cover),
+                                          imageErrorBuilder: (c, o, s) =>
+                                              Image.asset(Images.placeholder,
+                                                  height: 100,
+                                                  // width: 135,
+                                                  width: context.width / 2.3,
+                                                  fit: BoxFit.cover),
                                         ),
                                 ),
                                 Positioned(
@@ -182,7 +183,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                             ),
                           ],
                         ),
-                        const SizedBox(width: Dimensions.paddingSizeLarge),
+                        Spacer(),
                         Column(
                           children: [
                             Text(
@@ -200,13 +201,13 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                                       ? GetPlatform.isWeb
                                           ? Image.network(
                                               restController.pickedCover!.path,
-                                              width: context.width / 2,
+                                              width: context.width / 2.3,
                                               height: 100,
                                               fit: BoxFit.cover,
                                             )
                                           : Image.file(
                                               File(restController.pickedCover!.path),
-                                              width: context.width / 2,
+                                              width: context.width / 2.3,
                                               height: 100,
                                               fit: BoxFit.cover,
                                             )
@@ -215,12 +216,12 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                                           image:
                                               '${Get.find<SplashController>().configModel!.baseUrls!.restaurantCoverPhotoUrl}/${widget.restaurant.coverPhoto}',
                                           height: 100,
-                                          width: context.width / 2,
+                                          width: context.width / 2.3,
                                           fit: BoxFit.cover,
                                           imageErrorBuilder: (c, o, s) => Image.asset(
                                               Images.placeholder,
                                               height: 100,
-                                              width: context.width / 2,
+                                              width: context.width / 2.3,
                                               fit: BoxFit.cover),
                                         ),
                                 ),
@@ -704,7 +705,9 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
           SafeArea(
             child: !restController.isLoading
                 ? CustomButton(
-                    margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: Dimensions.paddingSizeLarge,
+                        vertical: Dimensions.paddingSizeSmall),
                     onPressed: () {
                       bool defaultNameNull = false;
                       bool defaultAddressNull = false;

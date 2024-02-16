@@ -62,10 +62,16 @@ class CategoryScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                               color: Theme.of(context).cardColor,
                               boxShadow: [
+                                // BoxShadow(
+                                //     color: Colors.grey[Get.isDarkMode ? 700 : 300]!,
+                                //     spreadRadius: 1,
+                                //     blurRadius: 5)
                                 BoxShadow(
-                                    color: Colors.grey[Get.isDarkMode ? 700 : 300]!,
-                                    spreadRadius: 1,
-                                    blurRadius: 5)
+                                  color: Colors.grey.shade200.withOpacity(0.5),
+                                  spreadRadius: 5,
+                                  blurRadius: 7,
+                                  offset: const Offset(0, 3),
+                                ),
                               ],
                             ),
                             child: Row(children: [

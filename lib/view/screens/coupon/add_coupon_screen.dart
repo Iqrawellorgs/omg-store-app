@@ -89,7 +89,7 @@ class _AddCouponScreenState extends State<AddCouponScreen> {
       appBar: CustomAppBar(title: widget.coupon != null ? 'update_coupon'.tr : 'add_coupon'.tr),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
-            horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeSmall),
+            horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeSmall),
         child: GetBuilder<CouponController>(builder: (couponController) {
           return Column(children: [
             ListView.builder(

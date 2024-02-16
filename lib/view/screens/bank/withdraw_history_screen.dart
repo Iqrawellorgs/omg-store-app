@@ -12,22 +12,22 @@ class WithdrawHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('withdraw_history'.tr),
+      appBar: CustomAppBar(
+        title: 'withdraw_history'.tr,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          GetBuilder<BankController>(builder: (bankController) {
-            return Wrap(
-              children: List<Widget>.generate(
-                Get.find<BankController>().statusList.length,
-                (index) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: ChoiceChip(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            GetBuilder<BankController>(builder: (bankController) {
+              return Wrap(
+                children: List<Widget>.generate(
+                  Get.find<BankController>().statusList.length,
+                  (index) => ChoiceChip(
                     // padding: const EdgeInsets.symmetric(horizontal: 10),
                     // labelPadding: const EdgeInsets.symmetric(horizontal: 10),
-                    shape: StadiumBorder(side: BorderSide(color: Colors.transparent)),
+                    shape: const StadiumBorder(side: BorderSide(color: Colors.transparent)),
                     showCheckmark: false,
                     label: Text(
                       Get.find<BankController>().statusList[index].toLowerCase().tr,
@@ -46,27 +46,27 @@ class WithdrawHistoryScreen extends StatelessWidget {
                     },
                   ),
                 ),
-              ),
-            );
-          }),
-          Expanded(
-            child: GetBuilder<BankController>(builder: (bankController) {
-              return bankController.withdrawList!.isNotEmpty
-                  ? ListView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: bankController.withdrawList!.length,
-                      padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                      itemBuilder: (context, index) {
-                        return WithdrawWidget(
-                          withdrawModel: bankController.withdrawList![index],
-                          showDivider: index != bankController.withdrawList!.length - 1,
-                        );
-                      },
-                    )
-                  : Center(child: Text('no_withdraw_history_found'.tr));
+              );
             }),
-          ),
-        ],
+            Expanded(
+              child: GetBuilder<BankController>(builder: (bankController) {
+                return bankController.withdrawList!.isNotEmpty
+                    ? ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: bankController.withdrawList!.length,
+                        padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                        itemBuilder: (context, index) {
+                          return WithdrawWidget(
+                            withdrawModel: bankController.withdrawList![index],
+                            showDivider: index != bankController.withdrawList!.length - 1,
+                          );
+                        },
+                      )
+                    : Center(child: Text('no_withdraw_history_found'.tr));
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }

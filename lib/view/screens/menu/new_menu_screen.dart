@@ -91,7 +91,7 @@ class NewMenuScreen extends StatelessWidget {
                           },
                           child: Container(
                             width: 100,
-                            height: 37,
+                            height: MediaQuery.sizeOf(context).height * 0.039,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                               border: Border.all(

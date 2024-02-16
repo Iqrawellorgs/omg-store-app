@@ -156,7 +156,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
+                                // mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
                                     '${"Primary Image"} *',
@@ -173,7 +173,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   ),
                                   Row(
                                     children: [
-                                      SizedBox(height: Dimensions.paddingSizeExtraSmall),
                                       Stack(
                                         children: [
                                           ClipRRect(
@@ -897,7 +896,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   !restController.isLoading
                       ? CustomButton(
                           buttonText: _update ? 'update'.tr : 'submit'.tr,
-                          margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: Dimensions.paddingSizeLarge,
+                              vertical: Dimensions.radiusDefault),
                           height: 50,
                           onPressed: () {
                             //name screen

@@ -33,16 +33,23 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Theme.of(context).cardColor,
-        leading: Padding(
-          padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
-          child: Image.asset(Images.logo, height: 30, width: 30),
-        ),
+        // leading: Padding(
+        //   padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
+        //   child: Image.asset(Images.logo, height: 30, width: 30),
+        // ),
         titleSpacing: 0,
         elevation: 0,
         /*title: Text(AppConstants.APP_NAME, maxLines: 1, overflow: TextOverflow.ellipsis, style: robotoMedium.copyWith(
           color: Theme.of(context).textTheme.bodyLarge.color, fontSize: Dimensions.FONT_SIZE_DEFAULT,
         )),*/
-        title: Image.asset(Images.logoName, width: 120),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(Images.logo, height: 30, width: 30),
+            const SizedBox(width: 10),
+            Image.asset(Images.logoName, width: 120),
+          ],
+        ),
         // actions: [
         //   IconButton(
         //     icon: GetBuilder<NotificationController>(
@@ -95,9 +102,10 @@ class HomeScreen extends StatelessWidget {
                     color: Theme.of(context).cardColor,
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.grey[Get.isDarkMode ? 700 : 200]!,
-                          spreadRadius: 1,
-                          blurRadius: 5)
+                        color: Colors.grey[Get.isDarkMode ? 700 : 200]!,
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                      )
                     ],
                   ),
                   child: Row(children: [

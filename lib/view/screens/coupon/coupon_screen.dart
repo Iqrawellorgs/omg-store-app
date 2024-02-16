@@ -45,6 +45,7 @@ class _CouponScreenState extends State<CouponScreen> {
           return couponController.coupons != null
               ? couponController.coupons!.isNotEmpty
                   ? ListView.builder(
+                      padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
                       shrinkWrap: true,
                       itemCount: couponController.coupons!.length,
                       itemBuilder: (context, index) {
@@ -59,7 +60,7 @@ class _CouponScreenState extends State<CouponScreen> {
                                 useSafeArea: true);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(bottom: 10),
                             child: Container(
                               height: context.height * 0.22,
                               decoration: const BoxDecoration(
@@ -107,8 +108,9 @@ class _CouponScreenState extends State<CouponScreen> {
                                     flex: 8,
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: Dimensions.paddingSizeSmall,
-                                          horizontal: Dimensions.paddingSizeLarge),
+                                        vertical: Dimensions.paddingSizeSmall,
+                                        horizontal: Dimensions.paddingSizeSmall,
+                                      ),
                                       child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           mainAxisSize: MainAxisSize.min,

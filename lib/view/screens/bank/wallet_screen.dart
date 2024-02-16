@@ -4,6 +4,7 @@ import 'package:efood_multivendor_restaurant/helper/price_converter.dart';
 import 'package:efood_multivendor_restaurant/helper/route_helper.dart';
 import 'package:efood_multivendor_restaurant/util/dimensions.dart';
 import 'package:efood_multivendor_restaurant/util/styles.dart';
+import 'package:efood_multivendor_restaurant/view/base/custom_app_bar.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_snackbar.dart';
 import 'package:efood_multivendor_restaurant/view/screens/bank/widget/wallet_widget.dart';
 import 'package:efood_multivendor_restaurant/view/screens/bank/widget/withdraw_request_bottom_sheet.dart';
@@ -41,7 +42,7 @@ class WalletScreen extends StatelessWidget {
                       Container(
                         height: 271,
                         padding: const EdgeInsets.symmetric(
-                          horizontal: Dimensions.paddingSizeLarge,
+                          horizontal: Dimensions.paddingSizeDefault,
                           vertical: Dimensions.paddingSizeExtraLarge,
                         ),
                         decoration: BoxDecoration(
@@ -64,16 +65,23 @@ class WalletScreen extends StatelessWidget {
                                       MaterialPageRoute(
                                           builder: (context) => DashboardScreen(pageIndex: 0))),
                                   child: Container(
-                                    padding: EdgeInsets.all(10),
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
+                                    // margin: const EdgeInsets.only(left: 3),
+                                    padding: const EdgeInsets.only(
+                                      left: 17,
+                                      top: 10,
+                                      bottom: 10,
+                                      right: 10,
                                     ),
-                                    child: Center(
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color.fromARGB(255, 236, 240, 244),
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.center,
                                       child: Icon(
                                         Icons.arrow_back_ios,
-                                        size: 15,
-                                        color: Colors.black,
+                                        size: 20,
+                                        color: Theme.of(context).textTheme.bodyLarge!.color,
                                       ),
                                     ),
                                   ),
@@ -157,25 +165,35 @@ class WalletScreen extends StatelessWidget {
                         ]),
                       ),
                       const SizedBox(height: Dimensions.paddingSizeLarge),
-                      Row(children: [
-                        WalletWidget(
-                            title: 'pending_withdraw'.tr, value: bankController.pendingWithdraw),
-                        const SizedBox(width: Dimensions.paddingSizeSmall),
-                        WalletWidget(title: 'withdrawn'.tr, value: bankController.withdrawn),
-                      ]),
-                      const SizedBox(height: Dimensions.paddingSizeSmall),
-                      Row(children: [
-                        WalletWidget(
-                            title: 'collected_cash_from_customer'.tr,
-                            value: authController.profileModel!.cashInHands),
-                        const SizedBox(width: Dimensions.paddingSizeSmall),
-                        WalletWidget(
-                            title: 'total_earning'.tr,
-                            value: authController.profileModel!.totalEarning),
-                      ]),
+                      Padding(
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
+                        child: Column(
+                          children: [
+                            Row(children: [
+                              WalletWidget(
+                                  title: 'pending_withdraw'.tr,
+                                  value: bankController.pendingWithdraw),
+                              const SizedBox(width: Dimensions.paddingSizeSmall),
+                              WalletWidget(title: 'withdrawn'.tr, value: bankController.withdrawn),
+                            ]),
+                            const SizedBox(height: Dimensions.paddingSizeSmall),
+                            Row(children: [
+                              WalletWidget(
+                                  title: 'collected_cash_from_customer'.tr,
+                                  value: authController.profileModel!.cashInHands),
+                              const SizedBox(width: Dimensions.paddingSizeSmall),
+                              WalletWidget(
+                                  title: 'total_earning'.tr,
+                                  value: authController.profileModel!.totalEarning),
+                            ]),
+                          ],
+                        ),
+                      ),
                       const SizedBox(height: Dimensions.paddingSizeLarge),
                       Padding(
-                        padding: const EdgeInsets.all(5.0),
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
                         child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                           Text('withdraw_history'.tr, style: senMedium),
                           InkWell(

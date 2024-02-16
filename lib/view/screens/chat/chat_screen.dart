@@ -57,12 +57,13 @@ class _ChatScreenState extends State<ChatScreen> {
         baseUrl = Get.find<SplashController>().configModel!.baseUrls!.deliveryManImageUrl;
       }
       return Scaffold(
+        // backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
             chatController.messageModel != null
                 ? '${chatController.messageModel!.conversation!.receiver!.fName}'
                     ' ${chatController.messageModel!.conversation!.receiver!.lName}'
-                : 'receiver_name'.tr,
+                : '',
             style: TextStyle(
               fontFamily: "Sen",
               fontSize: 17,
@@ -127,252 +128,259 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Center(
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    child: Column(children: [
-                      GetBuilder<ChatController>(builder: (chatController) {
-                        return Expanded(
-                            child: chatController.messageModel != null
-                                ? chatController.messageModel!.messages!.isNotEmpty
-                                    ? SingleChildScrollView(
-                                        controller: _scrollController,
-                                        reverse: true,
-                                        child: PaginatedListView(
-                                          scrollController: _scrollController,
-                                          totalSize: chatController.messageModel != null
-                                              ? chatController.messageModel!.totalSize
-                                              : null,
-                                          offset: chatController.messageModel != null
-                                              ? chatController.messageModel!.offset
-                                              : null,
-                                          onPaginate: (int? offset) async =>
-                                              await chatController.getMessages(
-                                            offset!,
-                                            widget.notificationBody!,
-                                            widget.user,
-                                            widget.conversationId,
-                                          ),
-                                          productView: ListView.builder(
-                                            physics: const NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            reverse: true,
-                                            itemCount:
-                                                chatController.messageModel!.messages!.length,
-                                            itemBuilder: (context, index) {
-                                              return MessageBubble(
-                                                message:
-                                                    chatController.messageModel!.messages![index],
-                                                user: chatController
-                                                    .messageModel!.conversation!.receiver,
-                                                sender: chatController
-                                                    .messageModel!.conversation!.sender,
-                                                userType:
-                                                    widget.notificationBody!.customerId != null
-                                                        ? UserType.customer
-                                                        : UserType.delivery_man,
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      )
-                                    : const SizedBox()
-                                : const Center(child: CircularProgressIndicator()));
-                      }),
-                      (chatController.messageModel != null &&
-                              (chatController.messageModel!.status! ||
-                                  chatController.messageModel!.messages!.isNotEmpty))
-                          ? Container(
-                              color: Theme.of(context).cardColor,
-                              child: Column(children: [
-                                GetBuilder<ChatController>(builder: (chatController) {
-                                  return chatController.chatImage!.isNotEmpty
-                                      ? SizedBox(
-                                          height: 100,
-                                          child: ListView.builder(
-                                              scrollDirection: Axis.horizontal,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
+                      child: Column(children: [
+                        GetBuilder<ChatController>(builder: (chatController) {
+                          return Expanded(
+                              child: chatController.messageModel != null
+                                  ? chatController.messageModel!.messages!.isNotEmpty
+                                      ? SingleChildScrollView(
+                                          controller: _scrollController,
+                                          reverse: true,
+                                          child: PaginatedListView(
+                                            scrollController: _scrollController,
+                                            totalSize: chatController.messageModel != null
+                                                ? chatController.messageModel!.totalSize
+                                                : null,
+                                            offset: chatController.messageModel != null
+                                                ? chatController.messageModel!.offset
+                                                : null,
+                                            onPaginate: (int? offset) async =>
+                                                await chatController.getMessages(
+                                              offset!,
+                                              widget.notificationBody!,
+                                              widget.user,
+                                              widget.conversationId,
+                                            ),
+                                            productView: ListView.builder(
+                                              physics: const NeverScrollableScrollPhysics(),
                                               shrinkWrap: true,
-                                              itemCount: chatController.chatImage!.length,
-                                              itemBuilder: (BuildContext context, index) {
-                                                return chatController.chatImage!.isNotEmpty
-                                                    ? Padding(
-                                                        padding: const EdgeInsets.all(8.0),
-                                                        child: Stack(
-                                                          children: [
-                                                            Container(
-                                                              width: 100,
-                                                              height: 100,
-                                                              decoration: const BoxDecoration(
-                                                                  color: Colors.white,
-                                                                  borderRadius: BorderRadius.all(
-                                                                      Radius.circular(20))),
-                                                              child: ClipRRect(
-                                                                borderRadius:
-                                                                    const BorderRadius.all(
-                                                                        Radius.circular(Dimensions
-                                                                            .paddingSizeDefault)),
-                                                                child: ResponsiveHelper.isWeb()
-                                                                    ? Image.network(
-                                                                        chatController
-                                                                            .chatImage![index].path,
-                                                                        width: 100,
-                                                                        height: 100,
-                                                                        fit: BoxFit.cover,
-                                                                      )
-                                                                    : Image.file(
-                                                                        File(chatController
-                                                                            .chatImage![index]
-                                                                            .path),
-                                                                        width: 100,
-                                                                        height: 100,
-                                                                        fit: BoxFit.cover,
-                                                                      ),
-                                                              ),
-                                                            ),
-                                                            Positioned(
-                                                              top: 0,
-                                                              right: 0,
-                                                              child: InkWell(
-                                                                onTap: () => chatController
-                                                                    .removeImage(index),
-                                                                child: Container(
-                                                                  decoration: const BoxDecoration(
-                                                                      color: Colors.white,
-                                                                      borderRadius: BorderRadius.all(
+                                              reverse: true,
+                                              itemCount:
+                                                  chatController.messageModel!.messages!.length,
+                                              itemBuilder: (context, index) {
+                                                return MessageBubble(
+                                                  message:
+                                                      chatController.messageModel!.messages![index],
+                                                  user: chatController
+                                                      .messageModel!.conversation!.receiver,
+                                                  sender: chatController
+                                                      .messageModel!.conversation!.sender,
+                                                  userType:
+                                                      widget.notificationBody!.customerId != null
+                                                          ? UserType.customer
+                                                          : UserType.delivery_man,
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        )
+                                      : const SizedBox()
+                                  : const Center(child: CircularProgressIndicator()));
+                        }),
+                        (chatController.messageModel != null &&
+                                (chatController.messageModel!.status! ||
+                                    chatController.messageModel!.messages!.isNotEmpty))
+                            ? Container(
+                                color: Theme.of(context).cardColor,
+                                child: Column(children: [
+                                  GetBuilder<ChatController>(builder: (chatController) {
+                                    return chatController.chatImage!.isNotEmpty
+                                        ? SizedBox(
+                                            height: 100,
+                                            child: ListView.builder(
+                                                scrollDirection: Axis.horizontal,
+                                                shrinkWrap: true,
+                                                itemCount: chatController.chatImage!.length,
+                                                itemBuilder: (BuildContext context, index) {
+                                                  return chatController.chatImage!.isNotEmpty
+                                                      ? Padding(
+                                                          padding: const EdgeInsets.all(8.0),
+                                                          child: Stack(
+                                                            children: [
+                                                              Container(
+                                                                width: 100,
+                                                                height: 100,
+                                                                decoration: const BoxDecoration(
+                                                                    color: Colors.white,
+                                                                    borderRadius: BorderRadius.all(
+                                                                        Radius.circular(20))),
+                                                                child: ClipRRect(
+                                                                  borderRadius:
+                                                                      const BorderRadius.all(
                                                                           Radius.circular(Dimensions
-                                                                              .paddingSizeDefault))),
-                                                                  child: const Padding(
-                                                                    padding: EdgeInsets.all(4.0),
-                                                                    child: Icon(Icons.clear,
-                                                                        color: Colors.red,
-                                                                        size: 15),
-                                                                  ),
+                                                                              .paddingSizeDefault)),
+                                                                  child: ResponsiveHelper.isWeb()
+                                                                      ? Image.network(
+                                                                          chatController
+                                                                              .chatImage![index]
+                                                                              .path,
+                                                                          width: 100,
+                                                                          height: 100,
+                                                                          fit: BoxFit.cover,
+                                                                        )
+                                                                      : Image.file(
+                                                                          File(chatController
+                                                                              .chatImage![index]
+                                                                              .path),
+                                                                          width: 100,
+                                                                          height: 100,
+                                                                          fit: BoxFit.cover,
+                                                                        ),
                                                                 ),
                                                               ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      )
-                                                    : const SizedBox();
-                                              }),
-                                        )
-                                      : const SizedBox();
-                                }),
-                                Row(children: [
-                                  InkWell(
-                                    onTap: () async {
-                                      Get.find<ChatController>().pickImage(false);
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: Dimensions.paddingSizeDefault),
-                                      child: Image.asset(Images.image,
-                                          width: 25,
-                                          height: 25,
-                                          color: Theme.of(context).hintColor),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 25,
-                                    child: VerticalDivider(
-                                        width: 0, thickness: 1, color: Theme.of(context).hintColor),
-                                  ),
-                                  const SizedBox(width: Dimensions.paddingSizeDefault),
-                                  Expanded(
-                                    child: TextField(
-                                      inputFormatters: [
-                                        LengthLimitingTextInputFormatter(
-                                            Dimensions.messageInputLength)
-                                      ],
-                                      controller: _inputMessageController,
-                                      textCapitalization: TextCapitalization.sentences,
-                                      style: senRegular,
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: null,
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        hintText: 'type_here'.tr,
-                                        hintStyle: senRegular.copyWith(
-                                            color: Theme.of(context).hintColor,
-                                            fontSize: Dimensions.fontSizeLarge),
-                                      ),
-                                      onSubmitted: (String newText) {
-                                        if (newText.trim().isNotEmpty &&
-                                            !Get.find<ChatController>().isSendButtonActive &&
-                                            Validators.validatePhoneNumber(newText) == true) {
-                                          Get.find<ChatController>().toggleSendButtonActivity();
-                                        } else if (newText.isEmpty &&
-                                            Get.find<ChatController>().isSendButtonActive) {
-                                          Get.find<ChatController>().toggleSendButtonActivity();
-                                        }
-                                      },
-                                      onChanged: (String newText) {
-                                        if (newText.trim().isNotEmpty &&
-                                            !Get.find<ChatController>().isSendButtonActive &&
-                                            Validators.validatePhoneNumber(newText) == true) {
-                                          Get.find<ChatController>().toggleSendButtonActivity();
-                                        } else if (newText.isEmpty &&
-                                            Get.find<ChatController>().isSendButtonActive) {
-                                          Get.find<ChatController>().toggleSendButtonActivity();
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                  GetBuilder<ChatController>(builder: (chatController) {
-                                    return InkWell(
-                                      onTap: () async {
-                                        if (chatController.isSendButtonActive &&
-                                            Validators.validatePhoneNumber(
-                                                    _inputMessageController.text) ==
-                                                true) {
-                                          await chatController
-                                              .sendMessage(
-                                            message: _inputMessageController.text,
-                                            notificationBody: widget.notificationBody,
-                                            conversationId: widget.conversationId,
+                                                              Positioned(
+                                                                top: 0,
+                                                                right: 0,
+                                                                child: InkWell(
+                                                                  onTap: () => chatController
+                                                                      .removeImage(index),
+                                                                  child: Container(
+                                                                    decoration: const BoxDecoration(
+                                                                        color: Colors.white,
+                                                                        borderRadius: BorderRadius
+                                                                            .all(Radius.circular(
+                                                                                Dimensions
+                                                                                    .paddingSizeDefault))),
+                                                                    child: const Padding(
+                                                                      padding: EdgeInsets.all(4.0),
+                                                                      child: Icon(Icons.clear,
+                                                                          color: Colors.red,
+                                                                          size: 15),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        )
+                                                      : const SizedBox();
+                                                }),
                                           )
-                                              .then((value) {
-                                            if (value!.statusCode == 200) {
-                                              Future.delayed(const Duration(seconds: 2), () {
-                                                chatController.getMessages(
-                                                    1,
-                                                    widget.notificationBody!,
-                                                    widget.user,
-                                                    widget.conversationId);
-                                              });
-                                            }
-                                          });
-                                          _inputMessageController.clear();
-                                        } else if (Validators.validatePhoneNumber(
-                                                _inputMessageController.text) ==
-                                            false) {
-                                          showCustomSnackBar('Mobile numbers are not allowed');
-                                        } else {
-                                          showCustomSnackBar('write_somethings'.tr);
-                                        }
+                                        : const SizedBox();
+                                  }),
+                                  Row(children: [
+                                    InkWell(
+                                      onTap: () async {
+                                        Get.find<ChatController>().pickImage(false);
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: Dimensions.paddingSizeDefault),
-                                        child: chatController.isLoading
-                                            ? const SizedBox(
-                                                width: 25,
-                                                height: 25,
-                                                child: CircularProgressIndicator(),
-                                              )
-                                            : Image.asset(
-                                                Images.send,
-                                                width: 25,
-                                                height: 25,
-                                                color: chatController.isSendButtonActive
-                                                    ? Theme.of(context).primaryColor
-                                                    : Theme.of(context).hintColor,
-                                              ),
+                                        child: Image.asset(Images.image,
+                                            width: 25,
+                                            height: 25,
+                                            color: Theme.of(context).hintColor),
                                       ),
-                                    );
-                                  }),
+                                    ),
+                                    SizedBox(
+                                      height: 25,
+                                      child: VerticalDivider(
+                                          width: 0,
+                                          thickness: 1,
+                                          color: Theme.of(context).hintColor),
+                                    ),
+                                    const SizedBox(width: Dimensions.paddingSizeDefault),
+                                    Expanded(
+                                      child: TextField(
+                                        inputFormatters: [
+                                          LengthLimitingTextInputFormatter(
+                                              Dimensions.messageInputLength)
+                                        ],
+                                        controller: _inputMessageController,
+                                        textCapitalization: TextCapitalization.sentences,
+                                        style: senRegular,
+                                        keyboardType: TextInputType.multiline,
+                                        maxLines: null,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'type_here'.tr,
+                                          hintStyle: senRegular.copyWith(
+                                              color: Theme.of(context).hintColor,
+                                              fontSize: Dimensions.fontSizeLarge),
+                                        ),
+                                        onSubmitted: (String newText) {
+                                          if (newText.trim().isNotEmpty &&
+                                              !Get.find<ChatController>().isSendButtonActive &&
+                                              Validators.validatePhoneNumber(newText) == true) {
+                                            Get.find<ChatController>().toggleSendButtonActivity();
+                                          } else if (newText.isEmpty &&
+                                              Get.find<ChatController>().isSendButtonActive) {
+                                            Get.find<ChatController>().toggleSendButtonActivity();
+                                          }
+                                        },
+                                        onChanged: (String newText) {
+                                          if (newText.trim().isNotEmpty &&
+                                              !Get.find<ChatController>().isSendButtonActive &&
+                                              Validators.validatePhoneNumber(newText) == true) {
+                                            Get.find<ChatController>().toggleSendButtonActivity();
+                                          } else if (newText.isEmpty &&
+                                              Get.find<ChatController>().isSendButtonActive) {
+                                            Get.find<ChatController>().toggleSendButtonActivity();
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                    GetBuilder<ChatController>(builder: (chatController) {
+                                      return InkWell(
+                                        onTap: () async {
+                                          if (chatController.isSendButtonActive &&
+                                              Validators.validatePhoneNumber(
+                                                      _inputMessageController.text) ==
+                                                  true) {
+                                            await chatController
+                                                .sendMessage(
+                                              message: _inputMessageController.text,
+                                              notificationBody: widget.notificationBody,
+                                              conversationId: widget.conversationId,
+                                            )
+                                                .then((value) {
+                                              if (value!.statusCode == 200) {
+                                                Future.delayed(const Duration(seconds: 2), () {
+                                                  chatController.getMessages(
+                                                      1,
+                                                      widget.notificationBody!,
+                                                      widget.user,
+                                                      widget.conversationId);
+                                                });
+                                              }
+                                            });
+                                            _inputMessageController.clear();
+                                          } else if (Validators.validatePhoneNumber(
+                                                  _inputMessageController.text) ==
+                                              false) {
+                                            showCustomSnackBar('Mobile numbers are not allowed');
+                                          } else {
+                                            showCustomSnackBar('write_somethings'.tr);
+                                          }
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: Dimensions.paddingSizeDefault),
+                                          child: chatController.isLoading
+                                              ? const SizedBox(
+                                                  width: 25,
+                                                  height: 25,
+                                                  child: CircularProgressIndicator(),
+                                                )
+                                              : Image.asset(
+                                                  Images.send,
+                                                  width: 25,
+                                                  height: 25,
+                                                  color: chatController.isSendButtonActive
+                                                      ? Theme.of(context).primaryColor
+                                                      : Theme.of(context).hintColor,
+                                                ),
+                                        ),
+                                      );
+                                    }),
+                                  ]),
                                 ]),
-                              ]),
-                            )
-                          : const SizedBox(),
-                    ]),
+                              )
+                            : const SizedBox(),
+                      ]),
+                    ),
                   ),
                 ),
               )

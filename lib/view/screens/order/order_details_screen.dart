@@ -415,8 +415,12 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> with WidgetsBin
                       itemCount: orderController.orderDetailsModel!.length,
                       // itemExtent: 180,
                       itemBuilder: (context, index) {
-                        return OrderProductWidget(
-                            order: order, orderDetails: orderController.orderDetailsModel![index]);
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
+                          child: OrderProductWidget(
+                              order: order,
+                              orderDetails: orderController.orderDetailsModel![index]),
+                        );
                       },
                     ),
 
