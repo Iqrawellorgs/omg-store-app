@@ -108,6 +108,7 @@ class DashboardScreenState extends State<DashboardScreen> {
         floatingActionButton: !GetPlatform.isMobile
             ? null
             : FloatingActionButton(
+                shape: const CircleBorder(),
                 elevation: 5,
                 backgroundColor:
                     _pageIndex == 2 ? Theme.of(context).primaryColor : Theme.of(context).cardColor,
@@ -133,6 +134,7 @@ class DashboardScreenState extends State<DashboardScreen> {
                 surfaceTintColor: Colors.white,
                 elevation: 5,
                 notchMargin: 5,
+                clipBehavior: Clip.antiAlias,
                 shape: const CircularNotchedRectangle(),
                 child: Padding(
                   padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),

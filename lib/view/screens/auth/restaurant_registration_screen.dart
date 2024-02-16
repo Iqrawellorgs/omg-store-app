@@ -221,7 +221,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                     child: Column(children: [
                                       Row(children: [
                                         Expanded(
-                                          flex: 4,
+                                          flex: 5,
                                           child: Align(
                                               alignment: Alignment.center,
                                               child: Stack(children: [
@@ -234,19 +234,19 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                                         ? GetPlatform.isWeb
                                                             ? Image.network(
                                                                 authController.pickedLogo!.path,
-                                                                width: 150,
+                                                                width: 180,
                                                                 height: 120,
                                                                 fit: BoxFit.cover,
                                                               )
                                                             : Image.file(
                                                                 File(authController
                                                                     .pickedLogo!.path),
-                                                                width: 150,
+                                                                width: 180,
                                                                 height: 120,
                                                                 fit: BoxFit.cover,
                                                               )
                                                         : SizedBox(
-                                                            width: 150,
+                                                            width: 180,
                                                             height: 120,
                                                             child: Column(
                                                                 mainAxisAlignment:
@@ -307,7 +307,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                         ),
                                         const SizedBox(width: Dimensions.paddingSizeSmall),
                                         Expanded(
-                                          flex: 6,
+                                          flex: 5,
                                           child: Stack(children: [
                                             Padding(
                                               padding: const EdgeInsets.all(5.0),
@@ -896,9 +896,10 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                     !authController.isLoading
                         ? CustomButton(
                             margin: EdgeInsets.all(
-                                (ResponsiveHelper.isDesktop(context) || ResponsiveHelper.isWeb())
-                                    ? 0
-                                    : Dimensions.paddingSizeSmall),
+                              (ResponsiveHelper.isDesktop(context) || ResponsiveHelper.isWeb())
+                                  ? 0
+                                  : Dimensions.paddingSizeLarge,
+                            ),
                             buttonText: authController.storeStatus == 0.4 &&
                                     !ResponsiveHelper.isDesktop(context)
                                 ? 'next'.tr
@@ -1021,8 +1022,10 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                       lat: authController.restaurantLocation!.latitude.toString(),
                                       email: email,
                                       lng: authController.restaurantLocation!.longitude.toString(),
-                                      fName: fName,
-                                      lName: lName,
+                                      fName:
+                                          fName.substring(0, 1).toUpperCase() + fName.substring(1),
+                                      lName:
+                                          lName.substring(0, 1).toUpperCase() + lName.substring(1),
                                       phone: phone,
                                       password: password,
                                       zoneId: authController

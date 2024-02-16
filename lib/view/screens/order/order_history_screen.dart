@@ -44,12 +44,12 @@ class OrderHistoryScreen extends StatelessWidget {
                   : const SizedBox();
             }),
             const SizedBox(height: Dimensions.paddingSizeLarge),
-            Container(
+            SizedBox(
               height: 40,
-              decoration: BoxDecoration(
-                border: Border.all(color: Theme.of(context).disabledColor, width: 1),
-                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-              ),
+              // decoration: BoxDecoration(
+              //   border: Border.all(color: Theme.of(context).disabledColor, width: 1),
+              //   borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+              // ),
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: orderController.statusList.length,

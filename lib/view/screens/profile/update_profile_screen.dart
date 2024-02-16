@@ -149,7 +149,7 @@ class UpdateProfileScreen extends StatelessWidget {
                     child: Scrollbar(
                       child: SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
-                        padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                        padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
                         child: Center(
                           child: SizedBox(
                             width: 1170,
@@ -158,7 +158,7 @@ class UpdateProfileScreen extends StatelessWidget {
                               children: [
                                 MyTextField(
                                   isBorderenabled: false,
-                                  fillColor: Color.fromARGB(255, 240, 245, 250),
+                                  fillColor: const Color.fromARGB(255, 240, 245, 250),
                                   hintText: 'first_name'.tr,
                                   controller: _firstNameController,
                                   focusNode: _firstNameFocus,
@@ -253,8 +253,11 @@ class UpdateProfileScreen extends StatelessWidget {
     } else if (phoneNumber.length < 6) {
       showCustomSnackBar('enter_a_valid_phone_number'.tr);
     } else {
-      ProfileModel updatedUser =
-          ProfileModel(fName: firstName, lName: lastName, email: email, phone: phoneNumber);
+      ProfileModel updatedUser = ProfileModel(
+          fName: firstName.substring(0, 1).toUpperCase() + firstName.substring(1),
+          lName: lastName.substring(0, 1).toUpperCase() + lastName.substring(1),
+          email: email,
+          phone: phoneNumber);
       bool isSuccess = await authController.updateUserInfo(
           updatedUser, Get.find<AuthController>().getUserToken());
       if (isSuccess) {

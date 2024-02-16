@@ -148,7 +148,7 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                                           imageErrorBuilder: (c, o, s) => Image.asset(
                                               Images.placeholder,
                                               height: 100,
-                                              width: 100,
+                                              width: 135,
                                               fit: BoxFit.cover),
                                         ),
                                 ),

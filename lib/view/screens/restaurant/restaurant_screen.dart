@@ -122,7 +122,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> with TickerProvider
                           fit: BoxFit.cover,
                           placeholder: Images.restaurantCover,
                           image:
-                              '${Get.find<SplashController>().configModel!.baseUrls!.restaurantCoverPhotoUrl}/${restaurant.coverPhoto}',
+                              '${restaurant.coverPhoto}', //${Get.find<SplashController>().configModel!.baseUrls!.restaurantCoverPhotoUrl}/
                         ),
                       ),
                     ),
@@ -130,7 +130,9 @@ class _RestaurantScreenState extends State<RestaurantScreen> with TickerProvider
                         child: Center(
                             child: Container(
                       width: 1170,
-                      padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Dimensions.paddingSizeDefault,
+                          vertical: Dimensions.paddingSizeSmall),
                       color: Theme.of(context).cardColor,
                       child: Column(
                         children: [
@@ -140,11 +142,10 @@ class _RestaurantScreenState extends State<RestaurantScreen> with TickerProvider
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                 child: CustomImage(
-                                  image:
-                                      '${Get.find<SplashController>().configModel!.baseUrls!.restaurantImageUrl}/${restaurant.logo}',
+                                  image: '${restaurant.logo}',
                                   height: 100,
                                   width: 100,
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.fill,
                                 ),
                               ),
                               const SizedBox(width: Dimensions.paddingSizeSmall),

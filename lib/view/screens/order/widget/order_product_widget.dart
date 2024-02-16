@@ -17,8 +17,7 @@ import '../../../../controller/theme_controller.dart';
 class OrderProductWidget extends StatefulWidget {
   final OrderModel? order;
   final OrderDetailsModel orderDetails;
-  const OrderProductWidget(
-      {Key? key, required this.order, required this.orderDetails})
+  const OrderProductWidget({Key? key, required this.order, required this.orderDetails})
       : super(key: key);
 
   @override
@@ -42,8 +41,7 @@ class _OrderProductWidgetState extends State<OrderProductWidget> {
   Widget build(BuildContext context) {
     String addOnText = '';
     for (var addOn in widget.orderDetails.addOns!) {
-      addOnText =
-          '$addOnText${(addOnText.isEmpty) ? '' : ', '} ${addOn.name}(${addOn.quantity})';
+      addOnText = '$addOnText${(addOnText.isEmpty) ? '' : ', '} ${addOn.name}(${addOn.quantity})';
     }
 
     String variationText = '';
@@ -69,6 +67,7 @@ class _OrderProductWidgetState extends State<OrderProductWidget> {
     }
 
     return Card(
+      margin: EdgeInsets.zero,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(
@@ -110,91 +109,69 @@ class _OrderProductWidgetState extends State<OrderProductWidget> {
                       sliderImages(),
                       const SizedBox(width: Dimensions.paddingSizeSmall),
                       Expanded(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.orderDetails.foodDetails!.name!,
-                                style: senBold.copyWith(
-                                    fontSize: Dimensions.fontSizeLarge),
-                                // maxLines: 2,
-                                overflow: TextOverflow.clip,
-                              ),
-                              Row(children: [
-                                Text('${'quantity'.tr}:',
-                                    style: senRegular.copyWith(
-                                        fontSize: Dimensions.fontSizeSmall)),
-                                Text(
-                                  widget.orderDetails.quantity.toString(),
-                                  style: senMedium.copyWith(
-                                      color: Theme.of(context).primaryColor,
-                                      fontSize: Dimensions.fontSizeSmall),
-                                ),
-                              ]),
-                              const SizedBox(
-                                  height: Dimensions.paddingSizeExtraSmall),
-                              Row(children: [
-                                FittedBox(
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          Text(
+                            widget.orderDetails.foodDetails!.name!,
+                            style: senBold.copyWith(fontSize: Dimensions.fontSizeLarge),
+                            // maxLines: 2,
+                            overflow: TextOverflow.clip,
+                          ),
+                          Row(children: [
+                            Text('${'quantity'.tr}:',
+                                style: senRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                            Text(
+                              widget.orderDetails.quantity.toString(),
+                              style: senMedium.copyWith(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: Dimensions.fontSizeSmall),
+                            ),
+                          ]),
+                          const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                          Row(children: [
+                            FittedBox(
+                                child: Text(
+                              PriceConverter.convertPrice(widget.orderDetails.price),
+                              style: senMedium,
+                              textDirection: TextDirection.ltr,
+                            )),
+                            Get.find<SplashController>().configModel!.toggleVegNonVeg!
+                                ? Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: Dimensions.paddingSizeExtraSmall,
+                                        horizontal: Dimensions.paddingSizeSmall),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                    ),
                                     child: Text(
-                                  PriceConverter.convertPrice(
-                                      widget.orderDetails.price),
-                                  style: senMedium,
-                                  textDirection: TextDirection.ltr,
-                                )),
-                                Get.find<SplashController>()
-                                        .configModel!
-                                        .toggleVegNonVeg!
-                                    ? Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: Dimensions
-                                                .paddingSizeExtraSmall,
-                                            horizontal:
-                                                Dimensions.paddingSizeSmall),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                              Dimensions.radiusSmall),
-                                          color: Theme.of(context)
-                                              .primaryColor
-                                              .withOpacity(0.1),
-                                        ),
-                                        child: Text(
-                                          widget.orderDetails.foodDetails!
-                                                      .veg ==
-                                                  0
-                                              ? 'non_veg'.tr
-                                              : 'veg'.tr,
-                                          style: senRegular.copyWith(
-                                              fontSize:
-                                                  Dimensions.fontSizeExtraSmall,
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                        ),
-                                      )
-                                    : const SizedBox(),
-                              ]),
-                              (widget.orderDetails.foodDetails?.variations !=
-                                              null &&
-                                          widget.orderDetails.foodDetails!
-                                              .variations!.isNotEmpty ||
-                                      addOnText.isNotEmpty)
-                                  ? Padding(
-                                      padding: const EdgeInsets.only(
-                                          top:
-                                              Dimensions.paddingSizeExtraSmall),
-                                      child: Text(
-                                          "$variationText${(variationText != '' && addOnText != '') ? ', ' : ''}$addOnText",
-                                          style: senRegular.copyWith(
-                                            fontSize:
-                                                Dimensions.fontSizeDefault,
-                                            overflow: TextOverflow.clip,
-                                            color: Get.find<ThemeController>()
-                                                    .darkTheme
-                                                ? Colors.white
-                                                : Colors.black,
-                                          )),
-                                    )
-                                  : const SizedBox(),
-                            ]),
+                                      widget.orderDetails.foodDetails!.veg == 0
+                                          ? 'non_veg'.tr
+                                          : 'veg'.tr,
+                                      style: senRegular.copyWith(
+                                          fontSize: Dimensions.fontSizeExtraSmall,
+                                          color: Theme.of(context).primaryColor),
+                                    ),
+                                  )
+                                : const SizedBox(),
+                          ]),
+                          (widget.orderDetails.foodDetails?.variations != null &&
+                                      widget.orderDetails.foodDetails!.variations!.isNotEmpty ||
+                                  addOnText.isNotEmpty)
+                              ? Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: Dimensions.paddingSizeExtraSmall),
+                                  child: Text(
+                                      "$variationText${(variationText != '' && addOnText != '') ? ', ' : ''}$addOnText",
+                                      style: senRegular.copyWith(
+                                        fontSize: Dimensions.fontSizeDefault,
+                                        overflow: TextOverflow.clip,
+                                        color: Get.find<ThemeController>().darkTheme
+                                            ? Colors.white
+                                            : Colors.black,
+                                      )),
+                                )
+                              : const SizedBox(),
+                        ]),
                       ),
                     ]),
                 if (widget.orderDetails.specialNote != null &&

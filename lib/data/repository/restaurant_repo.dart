@@ -12,8 +12,8 @@ class RestaurantRepo {
   RestaurantRepo({required this.apiClient});
 
   Future<Response> getProductList(String offset, String type) async {
-    return await apiClient.getData(
-        '${AppConstants.productListUri}?offset=$offset&limit=10&type=$type');
+    return await apiClient
+        .getData('${AppConstants.productListUri}?offset=$offset&limit=10&type=$type');
   }
 
   Future<Response> getAttributeList() async {
@@ -28,13 +28,8 @@ class RestaurantRepo {
     return await apiClient.getData('${AppConstants.subCategoryUri}$parentID');
   }
 
-  Future<Response> updateRestaurant(
-      Restaurant restaurant,
-      List<String> cuisines,
-      XFile? logo,
-      XFile? cover,
-      String token,
-      List<Translation> translation) async {
+  Future<Response> updateRestaurant(Restaurant restaurant, List<String> cuisines, XFile? logo,
+      XFile? cover, String token, List<Translation> translation) async {
     Map<String, String> fields = {};
     fields.addAll(<String, String>{
       '_method': 'put',
@@ -44,14 +39,13 @@ class RestaurantRepo {
       'address': restaurant.address!,
       'minimum_order': restaurant.minimumOrder.toString(),
       'delivery': restaurant.delivery! ? '1' : '0',
-      'take_away': restaurant.takeAway! ? '1' : '0',
+      'take_away': '0', //restaurant.takeAway! ? '1' :
       'gst_status': restaurant.gstStatus! ? '1' : '0',
       'gst': restaurant.gstCode!,
       'veg': restaurant.veg.toString(),
       'non_veg': restaurant.nonVeg.toString(),
       'cuisine_ids': jsonEncode(cuisines),
-      'order_subscription_active':
-          restaurant.orderSubscriptionActive! ? '1' : '0',
+      'order_subscription_active': restaurant.orderSubscriptionActive! ? '1' : '0',
       'translations': jsonEncode(translation),
       'cutlery': restaurant.cutlery! ? '1' : '0',
     });
@@ -88,13 +82,11 @@ class RestaurantRepo {
     });
     String addon = '';
     for (int index = 0; index < product.addOns!.length; index++) {
-      addon =
-          '$addon${index == 0 ? product.addOns![index].id : ',${product.addOns![index].id}'}';
+      addon = '$addon${index == 0 ? product.addOns![index].id : ',${product.addOns![index].id}'}';
     }
     fields.addAll(<String, String>{'addon_ids': addon});
     if (product.categoryIds!.length > 1) {
-      fields.addAll(
-          <String, String>{'sub_category_id': product.categoryIds![1].id!});
+      fields.addAll(<String, String>{'sub_category_id': product.categoryIds![1].id!});
     }
     if (!isAdd) {
       fields.addAll(<String, String>{
@@ -116,39 +108,34 @@ class RestaurantRepo {
   }
 
   Future<Response> deleteProduct(int? productID) async {
-    return await apiClient
-        .deleteData('${AppConstants.deleteProductUri}?id=$productID');
+    return await apiClient.deleteData('${AppConstants.deleteProductUri}?id=$productID');
   }
 
   Future<Response> getRestaurantReviewList(int? restaurantID) async {
-    return await apiClient.getData(
-        '${AppConstants.restaurantReviewUri}?restaurant_id=$restaurantID');
+    return await apiClient
+        .getData('${AppConstants.restaurantReviewUri}?restaurant_id=$restaurantID');
   }
 
   Future<Response> getProductReviewList(int? productID) async {
-    return await apiClient
-        .getData('${AppConstants.productReviewUri}/$productID');
+    return await apiClient.getData('${AppConstants.productReviewUri}/$productID');
   }
 
   Future<Response> updateProductStatus(int? productID, int status) async {
-    return await apiClient.getData(
-        '${AppConstants.updateProductStatusUri}?id=$productID&status=$status');
+    return await apiClient
+        .getData('${AppConstants.updateProductStatusUri}?id=$productID&status=$status');
   }
 
-  Future<Response> updateRecommendedProductStatus(
-      int? productID, int status) async {
-    return await apiClient.getData(
-        '${AppConstants.updateProductRecommendedUri}?id=$productID&status=$status');
+  Future<Response> updateRecommendedProductStatus(int? productID, int status) async {
+    return await apiClient
+        .getData('${AppConstants.updateProductRecommendedUri}?id=$productID&status=$status');
   }
 
   Future<Response> addSchedule(Schedules schedule) async {
-    return await apiClient.postData(
-        AppConstants.addSchedule, schedule.toJson());
+    return await apiClient.postData(AppConstants.addSchedule, schedule.toJson());
   }
 
   Future<Response> deleteSchedule(int? scheduleID) async {
-    return await apiClient
-        .deleteData('${AppConstants.deleteSchedule}$scheduleID');
+    return await apiClient.deleteData('${AppConstants.deleteSchedule}$scheduleID');
   }
 
   Future<Response> getCuisineList() async {
@@ -156,7 +143,6 @@ class RestaurantRepo {
   }
 
   Future<Response> getProductDetails(int productId) async {
-    return await apiClient
-        .getData('${AppConstants.productDetailsUri}/$productId');
+    return await apiClient.getData('${AppConstants.productDetailsUri}/$productId');
   }
 }

@@ -37,7 +37,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: senRegular.copyWith(
-            fontSize: Dimensions.fontSizeDefault,
+            fontSize: Dimensions.fontSizeSmall,
             color: Get.find<ThemeController>().darkTheme
                 ? Colors.white
                 : Theme.of(context).dividerColor),

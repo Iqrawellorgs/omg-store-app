@@ -32,8 +32,7 @@ class ApiClient extends GetxService {
   void updateHeader(String? token, String? languageCode) {
     _mainHeaders = {
       'Content-Type': 'application/json; charset=UTF-8',
-      AppConstants.localizationKey:
-          languageCode ?? AppConstants.languages[0].languageCode!,
+      AppConstants.localizationKey: languageCode ?? AppConstants.languages[0].languageCode!,
       'Authorization': 'Bearer $token'
     };
   }
@@ -54,8 +53,7 @@ class ApiClient extends GetxService {
     }
   }
 
-  Future<Response> postData(String uri, dynamic body,
-      {Map<String, String>? headers}) async {
+  Future<Response> postData(String uri, dynamic body, {Map<String, String>? headers}) async {
     try {
       debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
       debugPrint('====> API Body: $body');
@@ -78,8 +76,7 @@ class ApiClient extends GetxService {
     try {
       debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
       debugPrint('====> API Body: $body');
-      http.MultipartRequest request =
-          http.MultipartRequest('POST', Uri.parse(appBaseUrl + uri));
+      http.MultipartRequest request = http.MultipartRequest('POST', Uri.parse(appBaseUrl + uri));
       request.headers.addAll(headers ?? _mainHeaders);
       for (MultipartBody multipart in multipartBody) {
         if (multipart.file != null) {
@@ -105,16 +102,14 @@ class ApiClient extends GetxService {
         }
       }
       request.fields.addAll(body);
-      http.Response response =
-          await http.Response.fromStream(await request.send());
+      http.Response response = await http.Response.fromStream(await request.send());
       return handleResponse(response, uri);
     } catch (e) {
       return const Response(statusCode: 1, statusText: noInternetMessage);
     }
   }
 
-  Future<Response> putData(String uri, dynamic body,
-      {Map<String, String>? headers}) async {
+  Future<Response> putData(String uri, dynamic body, {Map<String, String>? headers}) async {
     try {
       debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
       debugPrint('====> API Body: $body');
@@ -131,8 +126,7 @@ class ApiClient extends GetxService {
     }
   }
 
-  Future<Response> deleteData(String uri,
-      {Map<String, String>? headers}) async {
+  Future<Response> deleteData(String uri, {Map<String, String>? headers}) async {
     try {
       debugPrint('====> API Call: $uri\nHeader: $_mainHeaders');
       http.Response response = await http
@@ -159,9 +153,7 @@ class ApiClient extends GetxService {
       statusCode: response.statusCode,
       statusText: response.reasonPhrase,
     );
-    if (response0.statusCode != 200 &&
-        response0.body != null &&
-        response0.body is! String) {
+    if (response0.statusCode != 200 && response0.body != null && response0.body is! String) {
       if (response0.body.toString().startsWith('{errors: [{code:')) {
         ErrorResponse errorResponse = ErrorResponse.fromJson(response0.body);
         response0 = Response(
@@ -182,8 +174,7 @@ class ApiClient extends GetxService {
     } else if (response0.statusCode != 200 && response0.body == null) {
       response0 = const Response(statusCode: 0, statusText: noInternetMessage);
     }
-    debugPrint(
-        '====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
+    debugPrint('====> API Response: [${response0.statusCode}] $uri\n${response0.body}');
     return response0;
   }
 }

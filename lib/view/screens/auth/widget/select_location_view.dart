@@ -72,7 +72,7 @@ class _SelectLocationViewState extends State<SelectLocationView> {
 
       return SizedBox(
           child: Padding(
-        padding: EdgeInsets.all(widget.fromView ? 0 : Dimensions.paddingSizeSmall),
+        padding: EdgeInsets.all(widget.fromView ? 0 : Dimensions.paddingSizeLarge),
         child: SingleChildScrollView(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const SizedBox(height: Dimensions.paddingSizeExtraSmall),
@@ -84,7 +84,7 @@ class _SelectLocationViewState extends State<SelectLocationView> {
             ]),
             const SizedBox(height: Dimensions.paddingSizeDefault),
             mapView(authController),
-            SizedBox(height: !widget.fromView ? Dimensions.paddingSizeSmall : 0),
+            SizedBox(height: !widget.fromView ? Dimensions.paddingSizeLarge : 0),
             !widget.fromView
                 ? CustomButton(
                     buttonText: 'set_location'.tr,

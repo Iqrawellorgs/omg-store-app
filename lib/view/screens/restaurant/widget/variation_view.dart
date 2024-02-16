@@ -2,6 +2,7 @@ import 'package:efood_multivendor_restaurant/controller/restaurant_controller.da
 import 'package:efood_multivendor_restaurant/data/model/response/product_model.dart';
 import 'package:efood_multivendor_restaurant/util/dimensions.dart';
 import 'package:efood_multivendor_restaurant/util/styles.dart';
+import 'package:efood_multivendor_restaurant/view/base/custom_snackbar.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -136,11 +137,11 @@ class _VariationViewState extends State<VariationView> {
                         ),
                         const SizedBox(height: Dimensions.paddingSizeSmall),
                         Container(
-                          padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Theme.of(context).primaryColor, width: 0.5),
-                            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                          ),
+                          // padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                          // decoration: BoxDecoration(
+                          //   border: Border.all(color: Theme.of(context).primaryColor, width: 0.5),
+                          //   borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                          // ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -182,7 +183,7 @@ class _VariationViewState extends State<VariationView> {
                                                         .length >
                                                     1
                                                 ? IconButton(
-                                                    icon: const Icon(Icons.clear),
+                                                    icon: const Icon(Icons.delete),
                                                     onPressed: () => widget.restController
                                                         .removeOptionVariation(index, i),
                                                   )
@@ -195,7 +196,25 @@ class _VariationViewState extends State<VariationView> {
                               const SizedBox(height: Dimensions.paddingSizeSmall),
                               InkWell(
                                 onTap: () {
-                                  widget.restController.addOptionVariation(index);
+                                  bool allFieldsFilled = true;
+                                  var variation = widget.restController.variationList![index];
+                                  if (variation.options != null) {
+                                    for (var option in variation.options!) {
+                                      if (option.optionNameController!.text.isEmpty ||
+                                          option.optionPriceController!.text.isEmpty) {
+                                        allFieldsFilled = false;
+                                        break;
+                                      }
+                                    }
+                                  }
+                                  if (allFieldsFilled) {
+                                    // All fields are filled, proceed with adding a new option for the variation
+                                    widget.restController.addOptionVariation(index);
+                                  } else {
+                                    // Show an alert because some fields are not filled
+                                    showCustomSnackBar(
+                                        'Please fill all the fields before adding a new option.');
+                                  }
                                 },
                                 child: Container(
                                   width: context.width,
@@ -226,7 +245,7 @@ class _VariationViewState extends State<VariationView> {
                   Align(
                     alignment: Alignment.topRight,
                     child: IconButton(
-                      icon: const Icon(Icons.clear),
+                      icon: const Icon(Icons.delete),
                       onPressed: () => widget.restController.removeVariation(index),
                     ),
                   ),
@@ -236,7 +255,31 @@ class _VariationViewState extends State<VariationView> {
       const SizedBox(height: Dimensions.paddingSizeDefault),
       InkWell(
         onTap: () {
-          widget.restController.addVariation();
+          bool allFieldsFilled = true;
+          // Check if all fields are filled for the current variations
+          for (var variation in widget.restController.variationList ?? []) {
+            if (variation.nameController.text.isEmpty || variation.options == null) {
+              allFieldsFilled = false;
+              break;
+            }
+            for (var option in variation.options ?? []) {
+              if (option.optionNameController.text.isEmpty ||
+                  option.optionPriceController.text.isEmpty) {
+                allFieldsFilled = false;
+                break;
+              }
+            }
+            if (!allFieldsFilled) {
+              break;
+            }
+          }
+          if (allFieldsFilled) {
+            // All fields are filled, proceed with adding a new variation
+            widget.restController.addVariation();
+          } else {
+            // Show an alert because some fields are not filled
+            showCustomSnackBar('Please fill all the fields before adding a new variation.');
+          }
         },
         child: Container(
           padding: const EdgeInsets.symmetric(

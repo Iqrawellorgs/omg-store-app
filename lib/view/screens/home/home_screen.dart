@@ -31,9 +31,10 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Theme.of(context).cardColor,
         leading: Padding(
-          padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+          padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
           child: Image.asset(Images.logo, height: 30, width: 30),
         ),
         titleSpacing: 0,
@@ -82,7 +83,7 @@ class HomeScreen extends StatelessWidget {
           await _loadData();
         },
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+          padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
           physics: const AlwaysScrollableScrollPhysics(),
           child: Column(children: [
             GetBuilder<AuthController>(builder: (authController) {
@@ -109,7 +110,7 @@ class HomeScreen extends StatelessWidget {
                     )),
                     authController.profileModel != null
                         ? Switch(
-                            value: !authController.profileModel!.restaurants![0].active!,
+                            value: authController.profileModel!.restaurants![0].active!,
                             activeColor: Colors.green,
                             inactiveThumbColor: Colors.red,
                             inactiveTrackColor: Colors.red[100],
@@ -121,8 +122,8 @@ class HomeScreen extends StatelessWidget {
                               Get.dialog(ConfirmationDialog(
                                 icon: Images.warning,
                                 description: isActive
-                                    ? 'are_you_sure_to_close_restaurant'.tr
-                                    : 'are_you_sure_to_open_restaurant'.tr,
+                                    ? 'are_you_sure_to_open_restaurant'.tr
+                                    : 'are_you_sure_to_close_restaurant'.tr,
                                 onYesPressed: () {
                                   Get.back();
                                   authController.toggleRestaurantClosedStatus();
@@ -150,8 +151,9 @@ class HomeScreen extends StatelessWidget {
                                 offset: const Offset(0, 3)),
                           ]),
                       height: context.height * 0.15,
-                      width: context.width * 0.45,
+                      width: context.width * 0.43,
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -194,8 +196,9 @@ class HomeScreen extends StatelessWidget {
                                 offset: const Offset(0, 3)),
                           ]),
                       height: context.height * 0.15,
-                      width: context.width * 0.45,
+                      width: context.width * 0.43,
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -278,10 +281,12 @@ class HomeScreen extends StatelessWidget {
                 const SizedBox(
                   height: Dimensions.paddingSizeDefault,
                 ),
+
                 Image.asset(
                   'assets/image/produce_monthly.png',
                   // height: 100,
                   width: context.width,
+                  height: context.height * 0.25,
                 )
                 // Container(
                 //   padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
@@ -380,7 +385,7 @@ class HomeScreen extends StatelessWidget {
                 // ),
               ]);
             }),
-            const SizedBox(height: Dimensions.paddingSizeLarge),
+            const SizedBox(height: Dimensions.paddingSizeDefault),
             GetBuilder<OrderController>(builder: (orderController) {
               List<OrderModel> orderList = [];
               if (orderController.runningOrders != null) {
@@ -459,14 +464,16 @@ class HomeScreen extends StatelessWidget {
                   orderController.runningOrders != null
                       ? orderList.isNotEmpty
                           ? ListView.builder(
+                              padding: const EdgeInsets.only(bottom: 10),
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: orderList.length,
                               itemBuilder: (context, index) {
                                 return OrderWidget(
-                                    orderModel: orderList[index],
-                                    hasDivider: index != orderList.length - 1,
-                                    isRunning: true);
+                                  orderModel: orderList[index],
+                                  hasDivider: index != orderList.length - 1,
+                                  isRunning: true,
+                                );
                               },
                             )
                           : Padding(

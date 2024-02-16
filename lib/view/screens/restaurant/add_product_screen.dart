@@ -124,7 +124,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               ? Column(children: [
                   Expanded(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
+                      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
                       physics: const BouncingScrollPhysics(),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,7 +139,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   // Text(_languageList![index].value!, style: robotoBold),
                                   const SizedBox(height: Dimensions.paddingSizeSmall),
                                   MyTextField(
-                                    hintText: 'food_name'.tr.toUpperCase() + ' *',
+                                    hintText: '${'food_name'.tr} *',
                                     controller: _nameControllerList[index],
                                     capitalization: TextCapitalization.words,
                                     focusNode: _nameFocusList[index],
@@ -151,220 +151,259 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             },
                           ),
 
-                          Text(
-                            '${'thumbnail_image'.tr} *',
-                            style: senRegular.copyWith(
-                                fontSize: Dimensions.fontSizeSmall,
-                                color: Theme.of(context).disabledColor),
-                          ),
-                          SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                          Text(
-                            '(${'max_size_2_mb'.tr})',
-                            style: senRegular.copyWith(
-                                fontSize: Dimensions.fontSizeExtraSmall,
-                                color: Theme.of(context).colorScheme.error),
-                          ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Stack(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                      child: restController.pickedLogo != null
-                                          ? GetPlatform.isWeb
-                                              ? Image.network(
-                                                  restController.pickedLogo!.path,
-                                                  width: 150,
-                                                  height: 120,
-                                                  fit: BoxFit.cover,
-                                                )
-                                              : Image.file(
-                                                  File(restController.pickedLogo!.path),
-                                                  width: 120,
-                                                  height: 120,
-                                                  fit: BoxFit.cover,
-                                                )
-                                          : FadeInImage.assetNetwork(
-                                              placeholder: Images.placeholder,
-                                              image:
-                                                  '${Get.find<SplashController>().configModel!.baseUrls!.productImageUrl}/${_product!.image ?? ''}',
-                                              // '${Get.find<SplashController>().configModel.baseUrls.itemImageUrl}/${_item.image != null ? _item.image : ''}',
-                                              height: 120,
-                                              width: 150,
-                                              fit: BoxFit.cover,
-                                              imageErrorBuilder: (c, o, s) => Image.asset(
-                                                  Images.placeholder,
-                                                  height: 120,
-                                                  width: 150,
-                                                  fit: BoxFit.cover),
-                                            ),
-                                    ),
-                                    Positioned(
-                                      bottom: 0,
-                                      right: 0,
-                                      top: 0,
-                                      left: 0,
-                                      child: InkWell(
-                                        onTap: () => restController.pickImage(true, false),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.black.withOpacity(0.3),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    '${"Primary Image"} *',
+                                    style: senRegular.copyWith(
+                                        fontSize: Dimensions.fontSizeSmall,
+                                        color: Theme.of(context).disabledColor),
+                                  ),
+                                  SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                                  Text(
+                                    '(${'max_size_2_mb'.tr})',
+                                    style: senRegular.copyWith(
+                                        fontSize: Dimensions.fontSizeExtraSmall,
+                                        color: Theme.of(context).colorScheme.error),
+                                  ),
+                                  Row(
+                                    children: [
+                                      SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                                      Stack(
+                                        children: [
+                                          ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(Dimensions.radiusSmall),
-                                            border: Border.all(
-                                                width: 1, color: Theme.of(context).primaryColor),
+                                            child: restController.pickedLogo != null
+                                                ? GetPlatform.isWeb
+                                                    ? Image.network(
+                                                        restController.pickedLogo!.path,
+                                                        width: 150,
+                                                        height: 120,
+                                                        fit: BoxFit.cover,
+                                                      )
+                                                    : Image.file(
+                                                        File(restController.pickedLogo!.path),
+                                                        width: 150,
+                                                        height: 120,
+                                                        fit: BoxFit.cover,
+                                                      )
+                                                : FadeInImage.assetNetwork(
+                                                    placeholder: Images.placeholder,
+                                                    image:
+                                                        '${Get.find<SplashController>().configModel!.baseUrls!.productImageUrl}/${_product!.image ?? ''}',
+                                                    // '${Get.find<SplashController>().configModel.baseUrls.itemImageUrl}/${_item.image != null ? _item.image : ''}',
+                                                    height: 120,
+                                                    width: 150,
+                                                    fit: BoxFit.cover,
+                                                    imageErrorBuilder: (c, o, s) => Container(
+                                                      width: 150,
+                                                      height: 122,
+                                                      alignment: Alignment.center,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(
+                                                            Dimensions.paddingSizeSmall),
+                                                        border: Border.all(
+                                                          color: Theme.of(context).primaryColor,
+                                                          width: 2,
+                                                        ),
+                                                      ),
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(
+                                                            Dimensions.paddingSizeDefault),
+                                                        decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              width: 2,
+                                                              color:
+                                                                  Theme.of(context).primaryColor),
+                                                          shape: BoxShape.circle,
+                                                        ),
+                                                        child: Icon(Icons.camera_alt,
+                                                            color: Theme.of(context).primaryColor),
+                                                      ),
+                                                    ),
+                                                  ),
                                           ),
-                                          child: Container(
-                                            margin: EdgeInsets.all(25),
-                                            decoration: BoxDecoration(
-                                              border: Border.all(width: 2, color: Colors.white),
-                                              shape: BoxShape.circle,
+                                          Positioned(
+                                            bottom: 0,
+                                            right: 0,
+                                            top: 0,
+                                            left: 0,
+                                            child: InkWell(
+                                              onTap: () => restController.pickImage(true, false),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  // color: Colors.black.withOpacity(0.3),
+                                                  borderRadius: BorderRadius.circular(
+                                                      Dimensions.paddingSizeSmall),
+                                                  border: Border.all(
+                                                      width: 2,
+                                                      color: Theme.of(context).primaryColor),
+                                                ),
+                                                // child: Container(
+                                                //   margin: EdgeInsets.all(25),
+                                                //   decoration: BoxDecoration(
+                                                //     border:
+                                                //         Border.all(width: 2, color: Colors.white),
+                                                //     shape: BoxShape.circle,
+                                                //   ),
+                                                //   child:
+                                                //       Icon(Icons.camera_alt, color: Colors.white),
+                                                // ),
+                                              ),
                                             ),
-                                            child: Icon(Icons.camera_alt, color: Colors.white),
                                           ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Secondary Image *'.tr,
+                                    style: senRegular.copyWith(
+                                        fontSize: Dimensions.fontSizeSmall,
+                                        color: Theme.of(context).disabledColor),
+                                  ),
+                                  SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                                  Text(
+                                    '(${'max_size_2_mb'.tr})',
+                                    style: senRegular.copyWith(
+                                        fontSize: Dimensions.fontSizeExtraSmall,
+                                        color: Theme.of(context).errorColor),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      if ((restController.savedImages.length +
+                                              restController.rawImages.length) <
+                                          6) {
+                                        restController.pickImages();
+                                      } else {
+                                        showCustomSnackBar('maximum_image_limit_is_6'.tr);
+                                      }
+                                    },
+                                    child: Container(
+                                      width: 155,
+                                      height: 122,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(Dimensions.paddingSizeSmall),
+                                        border: Border.all(
+                                            color: Theme.of(context).primaryColor, width: 2),
+                                      ),
+                                      child: Container(
+                                        padding: EdgeInsets.all(Dimensions.paddingSizeDefault),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              width: 2, color: Theme.of(context).primaryColor),
+                                          shape: BoxShape.circle,
                                         ),
+                                        child: Icon(Icons.camera_alt,
+                                            color: Theme.of(context).primaryColor),
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  )
+                                ],
                               ),
                             ],
                           ),
 
-                          SizedBox(height: Dimensions.paddingSizeSmall),
-
-                          Row(children: [
-                            Text(
-                              'item_images'.tr,
-                              style: senRegular.copyWith(
-                                  fontSize: Dimensions.fontSizeSmall,
-                                  color: Theme.of(context).disabledColor),
-                            ),
-                            SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                            Text(
-                              '(${'max_size_2_mb'.tr})',
-                              style: senRegular.copyWith(
-                                  fontSize: Dimensions.fontSizeExtraSmall,
-                                  color: Theme.of(context).errorColor),
-                            ),
-                          ]),
                           SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                          GridView.builder(
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              childAspectRatio: (1 / 1),
-                              mainAxisSpacing: Dimensions.paddingSizeSmall,
-                              crossAxisSpacing: Dimensions.paddingSizeSmall,
-                            ),
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: restController.savedImages.length +
-                                restController.rawImages.length +
-                                1,
-                            itemBuilder: (context, index) {
-                              bool _savedImage = index < restController.savedImages.length;
-                              XFile? _file = (_savedImage ||
-                                      index ==
-                                          (restController.rawImages.length +
-                                              restController.savedImages.length))
-                                  ? null
-                                  : restController
-                                      .rawImages[index - restController.savedImages.length];
-                              if (index ==
-                                  (restController.rawImages.length +
-                                      restController.savedImages.length)) {
-                                return InkWell(
-                                  onTap: () {
-                                    if ((restController.savedImages.length +
-                                            restController.rawImages.length) <
-                                        6) {
-                                      restController.pickImages();
-                                    } else {
-                                      showCustomSnackBar('maximum_image_limit_is_6'.tr);
-                                    }
-                                  },
-                                  child: Container(
-                                    height: context.width,
-                                    width: context.width,
-                                    alignment: Alignment.center,
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(Dimensions.paddingSizeSmall),
-                                      border: Border.all(
-                                          color: Theme.of(context).primaryColor, width: 2),
+                          restController.savedImages.length + restController.rawImages.length > 0
+                              ? SizedBox(
+                                  height: 100,
+                                  child: GridView.builder(
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 1,
+                                      childAspectRatio: 1 / 1,
+                                      mainAxisSpacing: Dimensions.paddingSizeSmall,
+                                      crossAxisSpacing: Dimensions.paddingSizeSmall,
                                     ),
-                                    child: Container(
-                                      padding: EdgeInsets.all(Dimensions.paddingSizeDefault),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            width: 2, color: Theme.of(context).primaryColor),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Icon(Icons.camera_alt,
-                                          color: Theme.of(context).primaryColor),
-                                    ),
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: restController.savedImages.length +
+                                        restController.rawImages.length,
+                                    itemBuilder: (context, index) {
+                                      bool savedImage = index < restController.savedImages.length;
+                                      XFile? file = (savedImage ||
+                                              index == restController.savedImages.length)
+                                          ? null
+                                          : restController
+                                              .rawImages[index]; // Modify index calculation here
+
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                              color: Theme.of(context).primaryColor, width: 2),
+                                          borderRadius:
+                                              BorderRadius.circular(Dimensions.radiusSmall),
+                                        ),
+                                        child: Stack(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(Dimensions.radiusSmall),
+                                              child: savedImage
+                                                  ? CustomImage(
+                                                      image:
+                                                          '${Get.find<SplashController>().configModel!.baseUrls!.productImageUrl}/${restController.savedImages[index]}',
+                                                      width: context.width,
+                                                      height: context.width,
+                                                      fit: BoxFit.cover,
+                                                    )
+                                                  : file != null
+                                                      ? GetPlatform.isWeb
+                                                          ? Image.network(
+                                                              file.path,
+                                                              width: context.width,
+                                                              height: context.width,
+                                                              fit: BoxFit.cover,
+                                                            )
+                                                          : Image.file(
+                                                              File(file.path),
+                                                              width: context.width,
+                                                              height: context.width,
+                                                              fit: BoxFit.cover,
+                                                            )
+                                                      : SizedBox(),
+                                            ),
+                                            Positioned(
+                                              right: 0,
+                                              top: 0,
+                                              child: InkWell(
+                                                onTap: () {
+                                                  if (savedImage) {
+                                                    restController.removeSavedImage(index);
+                                                  } else {
+                                                    restController.removeImage(
+                                                        index - restController.savedImages.length);
+                                                  }
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                      EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                                  child:
+                                                      Icon(Icons.delete_forever, color: Colors.red),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
                                   ),
-                                );
-                              }
-                              return Container(
-                                decoration: BoxDecoration(
-                                  border:
-                                      Border.all(color: Theme.of(context).primaryColor, width: 2),
-                                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                ),
-                                child: Stack(children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                    child: _savedImage
-                                        ? CustomImage(
-                                            image:
-                                                // ${Get.find<SplashController>().configModel!.baseUrls!.productImageUrl}/${_product!.image ?? ''}
-                                                '${Get.find<SplashController>().configModel!.baseUrls!.productImageUrl}/${restController.savedImages[index]}',
-                                            width: context.width,
-                                            height: context.width,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : _file != null
-                                            ? GetPlatform.isWeb
-                                                ? Image.network(
-                                                    _file.path,
-                                                    width: context.width,
-                                                    height: context.width,
-                                                    fit: BoxFit.cover,
-                                                  )
-                                                : Image.file(
-                                                    File(_file.path),
-                                                    width: context.width,
-                                                    height: context.width,
-                                                    fit: BoxFit.cover,
-                                                  )
-                                            : SizedBox(),
-                                  ),
-                                  Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: InkWell(
-                                      onTap: () {
-                                        if (_savedImage) {
-                                          restController.removeSavedImage(index);
-                                        } else {
-                                          restController.removeImage(
-                                              index - restController.savedImages.length);
-                                        }
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                        child: Icon(Icons.delete_forever, color: Colors.red),
-                                      ),
-                                    ),
-                                  ),
-                                ]),
-                              );
-                            },
-                          ),
+                                )
+                              : SizedBox.shrink(),
+
                           const SizedBox(height: Dimensions.paddingSizeLarge),
 
                           MyTextField(
@@ -378,12 +417,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           const SizedBox(height: Dimensions.paddingSizeLarge),
                           Row(children: [
                             Expanded(
-                                child: MyTextField(
-                              hintText: 'discount'.tr,
-                              controller: _discountController,
-                              focusNode: _discountNode,
-                              isAmount: true,
-                            )),
+                              child: MyTextField(
+                                hintText: 'discount'.tr,
+                                controller: _discountController,
+                                focusNode: _discountNode,
+                                isAmount: true,
+                              ),
+                            ),
                             const SizedBox(width: Dimensions.paddingSizeSmall),
                             Expanded(
                                 child:
@@ -394,7 +434,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                     fontSize: Dimensions.fontSizeSmall,
                                     color: themeController.darkTheme
                                         ? Colors.white
-                                        : Theme.of(context).disabledColor),
+                                        : Theme.of(context).dividerColor),
                               ),
                               const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                               Container(
@@ -489,12 +529,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 child:
                                     Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                               Text(
-                                'category'.tr + ' *',
+                                '${'category'.tr} *',
                                 style: senRegular.copyWith(
                                     fontSize: Dimensions.fontSizeSmall,
                                     color: themeController.darkTheme
                                         ? Colors.white
-                                        : Theme.of(context).disabledColor),
+                                        : Theme.of(context).dividerColor),
                               ),
                               const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                               Container(
@@ -544,12 +584,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 child:
                                     Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                               Text(
-                                'sub_category'.tr + ' *',
+                                '${'sub_category'.tr} *',
                                 style: senRegular.copyWith(
-                                    fontSize: Dimensions.fontSizeSmall,
-                                    color: themeController.darkTheme
-                                        ? Colors.white
-                                        : Theme.of(context).disabledColor),
+                                  fontSize: Dimensions.fontSizeSmall,
+                                  color: themeController.darkTheme
+                                      ? Colors.white
+                                      : Theme.of(context).dividerColor,
+                                ),
                               ),
                               const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                               Container(
@@ -670,7 +711,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 fontSize: Dimensions.fontSizeSmall,
                                 color: themeController.darkTheme
                                     ? Colors.white
-                                    : Theme.of(context).disabledColor),
+                                    : Theme.of(context).dividerColor),
                           ),
                           const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                           GetBuilder<AddonController>(builder: (addonController) {
@@ -849,83 +890,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               );
                             },
                           ),
-                          // Text(
-                          //   'food_image'.tr + ' *',
-                          //   style: robotoRegular.copyWith(
-                          //       fontSize: Dimensions.fontSizeSmall,
-                          //       color: Get.find<ThemeController>().darkTheme
-                          //           ? Colors.white
-                          //           : Theme.of(context).disabledColor),
-                          // ),
-                          // const SizedBox(
-                          //     height: Dimensions.paddingSizeExtraSmall),
-                          // Align(
-                          //     alignment: Alignment.center,
-                          //     child: Stack(children: [
-                          //       ClipRRect(
-                          //         borderRadius: BorderRadius.circular(
-                          //             Dimensions.radiusSmall),
-                          //         child: restController.pickedLogo != null
-                          //             ? GetPlatform.isWeb
-                          //                 ? Image.network(
-                          //                     restController.pickedLogo!.path,
-                          //                     width: 150,
-                          //                     height: 120,
-                          //                     fit: BoxFit.cover,
-                          //                   )
-                          //                 : Image.file(
-                          //                     File(restController
-                          //                         .pickedLogo!.path),
-                          //                     width: 150,
-                          //                     height: 120,
-                          //                     fit: BoxFit.cover,
-                          //                   )
-                          //             : FadeInImage.assetNetwork(
-                          //                 placeholder: Images.placeholder,
-                          //                 image:
-                          //                     '${Get.find<SplashController>().configModel!.baseUrls!.productImageUrl}/${_product!.image ?? ''}',
-                          //                 height: 120,
-                          //                 width: 150,
-                          //                 fit: BoxFit.cover,
-                          //                 imageErrorBuilder: (c, o, s) =>
-                          //                     Image.asset(Images.placeholder,
-                          //                         height: 120,
-                          //                         width: 150,
-                          //                         fit: BoxFit.cover),
-                          //               ),
-                          //       ),
-                          //       Positioned(
-                          //         bottom: 0,
-                          //         right: 0,
-                          //         top: 0,
-                          //         left: 0,
-                          //         child: InkWell(
-                          //           onTap: () =>
-                          //               restController.pickImage(true, false),
-                          //           child: Container(
-                          //             decoration: BoxDecoration(
-                          //               color: Colors.black.withOpacity(0.3),
-                          //               borderRadius: BorderRadius.circular(
-                          //                   Dimensions.radiusSmall),
-                          //               border: Border.all(
-                          //                   width: 1,
-                          //                   color:
-                          //                       Theme.of(context).primaryColor),
-                          //             ),
-                          //             child: Container(
-                          //               margin: const EdgeInsets.all(25),
-                          //               decoration: BoxDecoration(
-                          //                 border: Border.all(
-                          //                     width: 2, color: Colors.white),
-                          //                 shape: BoxShape.circle,
-                          //               ),
-                          //               child: const Icon(Icons.camera_alt,
-                          //                   color: Colors.white),
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ])),
                         ],
                       ),
                     ),
@@ -986,7 +950,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 }
                               }
                             }
-//nameed screen
+                            //nameed screen
                             if (defaultDataNull) {
                               showCustomSnackBar('enter_data_for_english'.tr);
                             } else if (price.isEmpty) {

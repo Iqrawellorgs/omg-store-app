@@ -159,9 +159,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   FlutterSwitch(
                       width: 60,
                       height: 30,
+                      activeColor: Colors.green,
+                      inactiveColor: Colors.red,
+                      inactiveToggleColor: Colors.red[100],
+                      activeToggleColor: Colors.green[100],
                       valueFontSize: Dimensions.fontSizeExtraSmall,
                       showOnOff: true,
-                      activeColor: Theme.of(context).primaryColor,
                       value: restController.isAvailable,
                       onToggle: (bool isActive) {
                         restController.toggleAvailable(widget.product.id);
@@ -180,7 +183,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     height: 30,
                     valueFontSize: Dimensions.fontSizeExtraSmall,
                     showOnOff: true,
-                    activeColor: Theme.of(context).primaryColor,
+                    activeColor: Colors.green,
+                    inactiveColor: Colors.red,
+                    inactiveToggleColor: Colors.red[100],
+                    activeToggleColor: Colors.green[100],
                     value: restController.isRecommended,
                     onToggle: (bool isActive) {
                       restController.toggleRecommendedProduct(widget.product.id);
