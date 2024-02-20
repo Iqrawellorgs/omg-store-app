@@ -20,18 +20,14 @@ class AddonScreen extends StatelessWidget {
       appBar: CustomAppBar(title: 'addons'.tr),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (Get.find<AuthController>()
-              .profileModel!
-              .restaurants![0]
-              .foodSection!) {
+          if (Get.find<AuthController>().profileModel!.restaurants![0].foodSection!) {
             Get.bottomSheet(const AddAddonBottomSheet(addon: null),
                 isScrollControlled: true, backgroundColor: Colors.transparent);
           } else {
             showCustomSnackBar('this_feature_is_blocked_by_admin'.tr);
           }
         },
-        child: Icon(Icons.add_circle_outline,
-            size: 30, color: Theme.of(context).cardColor),
+        child: Icon(Icons.add_circle_outline, size: 30, color: Theme.of(context).cardColor),
       ),
       body: GetBuilder<AddonController>(builder: (addonController) {
         return addonController.addonList != null
@@ -42,23 +38,24 @@ class AddonScreen extends StatelessWidget {
                     },
                     child: ListView.builder(
                       physics: const AlwaysScrollableScrollPhysics(),
-                      padding:
-                          const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                      padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
                       itemCount: addonController.addonList!.length,
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
                             Container(
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: Dimensions.paddingSizeExtraSmall),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
                                   color: const Color(0xffFFFFFF),
                                   boxShadow: [
                                     BoxShadow(
-                                        color: Colors.grey.shade200
-                                            .withOpacity(0.5),
-                                        spreadRadius: 5,
-                                        blurRadius: 7,
-                                        offset: const Offset(0, 3)),
+                                      color: Colors.grey[Get.isDarkMode ? 700 : 200]!,
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      // offset: const Offset(0, 3),
+                                    ),
                                   ]),
                               padding: const EdgeInsets.symmetric(
                                 horizontal: Dimensions.paddingSizeSmall,
@@ -79,21 +76,18 @@ class AddonScreen extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   style: senRegular,
                                 )),
-                                const SizedBox(
-                                    width: Dimensions.paddingSizeSmall),
+                                const SizedBox(width: Dimensions.paddingSizeSmall),
                                 Text(
                                   addonController.addonList![index].price! > 0
                                       ? PriceConverter.convertPrice(
-                                          addonController
-                                              .addonList![index].price)
+                                          addonController.addonList![index].price)
                                       : 'free'.tr,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: senRegular,
                                   textDirection: TextDirection.ltr,
                                 ),
-                                const SizedBox(
-                                    width: Dimensions.paddingSizeSmall),
+                                const SizedBox(width: Dimensions.paddingSizeSmall),
                                 PopupMenuButton(
                                   itemBuilder: (context) {
                                     return <PopupMenuEntry>[
@@ -101,26 +95,22 @@ class AddonScreen extends StatelessWidget {
                                         value: 'edit',
                                         child: Text('edit'.tr,
                                             style: senRegular.copyWith(
-                                                fontSize:
-                                                    Dimensions.fontSizeSmall)),
+                                                fontSize: Dimensions.fontSizeSmall)),
                                       ),
                                       PopupMenuItem(
                                         value: 'delete',
                                         child: Text('delete'.tr,
                                             style: senRegular.copyWith(
-                                                fontSize:
-                                                    Dimensions.fontSizeSmall,
+                                                fontSize: Dimensions.fontSizeSmall,
                                                 color: Colors.red)),
                                       ),
                                     ];
                                   },
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          Dimensions.radiusSmall)),
+                                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
                                   offset: const Offset(-20, 20),
                                   child: const Padding(
-                                    padding: EdgeInsets.all(
-                                        Dimensions.paddingSizeExtraSmall),
+                                    padding: EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                                     child: Icon(Icons.more_vert, size: 25),
                                   ),
                                   onSelected: (dynamic value) {
@@ -131,8 +121,7 @@ class AddonScreen extends StatelessWidget {
                                       if (value == 'edit') {
                                         Get.bottomSheet(
                                           AddAddonBottomSheet(
-                                              addon: addonController
-                                                  .addonList![index]),
+                                              addon: addonController.addonList![index]),
                                           isScrollControlled: true,
                                           backgroundColor: Colors.transparent,
                                         );
@@ -144,24 +133,18 @@ class AddonScreen extends StatelessWidget {
                                               width: 100,
                                               alignment: Alignment.center,
                                               decoration: BoxDecoration(
-                                                color:
-                                                    Theme.of(context).cardColor,
+                                                color: Theme.of(context).cardColor,
                                                 borderRadius:
-                                                    BorderRadius.circular(
-                                                        Dimensions.radiusSmall),
+                                                    BorderRadius.circular(Dimensions.radiusSmall),
                                               ),
-                                              child:
-                                                  const CircularProgressIndicator(),
+                                              child: const CircularProgressIndicator(),
                                             )),
                                             barrierDismissible: false);
-                                        addonController.deleteAddon(
-                                            addonController
-                                                .addonList![index].id);
+                                        addonController
+                                            .deleteAddon(addonController.addonList![index].id);
                                       }
                                     } else {
-                                      showCustomSnackBar(
-                                          'this_feature_is_blocked_by_admin'
-                                              .tr);
+                                      showCustomSnackBar('this_feature_is_blocked_by_admin'.tr);
                                     }
                                   },
                                 ),

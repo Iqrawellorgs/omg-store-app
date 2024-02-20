@@ -74,7 +74,12 @@ class CouponCardDialogue extends StatelessWidget {
                     const Spacer(),
                     GetBuilder<CouponController>(builder: (couponController) {
                       return Switch(
-                        activeColor: Theme.of(context).primaryColor,
+                        activeColor: Colors.green,
+                        inactiveThumbColor: Colors.red,
+                        inactiveTrackColor: Colors.red[100],
+                        trackOutlineColor: const MaterialStatePropertyAll(
+                          Colors.transparent,
+                        ),
                         value: couponController.coupons![index].status == 1 ? true : false,
                         onChanged: (bool status) {
                           couponController
@@ -115,10 +120,10 @@ class CouponCardDialogue extends StatelessWidget {
                   style: senMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
                 ),
                 const SizedBox(height: Dimensions.paddingSizeSmall),
-                Text(
-                  '- ${'coupon_type'.tr} : ${couponBody.couponType!.tr}',
-                  style: senMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
-                ),
+                // Text(
+                //   '- ${'coupon_type'.tr} : ${couponBody.couponType!.tr}',
+                //   style: senMedium.copyWith(fontSize: Dimensions.fontSizeDefault),
+                // ),
                 const SizedBox(height: Dimensions.paddingSizeLarge),
                 Align(
                   alignment: Alignment.center,

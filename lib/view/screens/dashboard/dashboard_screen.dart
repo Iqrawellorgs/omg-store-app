@@ -132,9 +132,11 @@ class DashboardScreenState extends State<DashboardScreen> {
             ? const SizedBox()
             : BottomAppBar(
                 surfaceTintColor: Colors.white,
-                elevation: 5,
-                notchMargin: 5,
-                clipBehavior: Clip.antiAlias,
+                // color: Colors.pr,
+                elevation: 20,
+                shadowColor: Colors.black,
+                // notchMargin: 5,
+                // clipBehavior: Clip.antiAlias,
                 shape: const CircularNotchedRectangle(),
                 child: Padding(
                   padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),

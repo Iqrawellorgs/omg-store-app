@@ -62,7 +62,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           return Column(children: [
             Expanded(
                 child: SingleChildScrollView(
-              padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.radiusDefault),
               physics: const BouncingScrollPhysics(),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -372,7 +373,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       }
                     },
                     buttonText: 'update_food'.tr,
-                    margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                    margin: const EdgeInsets.all(Dimensions.paddingSizeLarge),
                   )
                 : const Center(child: CircularProgressIndicator()),
           ]);

@@ -48,8 +48,9 @@ class DailyTimeWidget extends StatelessWidget {
             flex: 8,
             child: SizedBox(
                 height: 50,
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width / 4,
                 child: ListView.builder(
+                  shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemCount: scheduleList.length + 1,
                   itemBuilder: (context, index) {
@@ -196,7 +197,7 @@ class DailyTimeWidget extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.only(right: Dimensions.paddingSizeExtraSmall),
                       child: Container(
-                        width: MediaQuery.sizeOf(context).width * 0.72,
+                        width: MediaQuery.sizeOf(context).width * 0.67,
                         decoration: BoxDecoration(
                           border: Border.all(
                               color: Theme.of(context).textTheme.bodyLarge!.color!, width: 1),

@@ -23,8 +23,7 @@ class _AddAddonBottomSheetState extends State<AddAddonBottomSheet> {
   final TextEditingController _priceController = TextEditingController();
   final List<FocusNode> _nameNodes = [];
   final FocusNode _priceNode = FocusNode();
-  final List<Language>? _languageList =
-      Get.find<SplashController>().configModel!.language;
+  final List<Language>? _languageList = Get.find<SplashController>().configModel!.language;
 
   @override
   void initState() {
@@ -33,14 +32,11 @@ class _AddAddonBottomSheetState extends State<AddAddonBottomSheet> {
     if (widget.addon != null) {
       for (int index = 0; index < _languageList!.length; index++) {
         _nameControllers.add(TextEditingController(
-            text: widget.addon!
-                .translations![widget.addon!.translations!.length - 1].value));
+            text: widget.addon!.translations![widget.addon!.translations!.length - 1].value));
         _nameNodes.add(FocusNode());
         for (Translation translation in widget.addon!.translations!) {
-          if (_languageList![index].key == translation.locale &&
-              translation.key == 'name') {
-            _nameControllers[index] =
-                TextEditingController(text: translation.value);
+          if (_languageList![index].key == translation.locale && translation.key == 'name') {
+            _nameControllers[index] = TextEditingController(text: translation.value);
             break;
           }
         }
@@ -58,11 +54,10 @@ class _AddAddonBottomSheetState extends State<AddAddonBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+      padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(Dimensions.radiusLarge)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusLarge)),
       ),
       child: SingleChildScrollView(
           child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -73,17 +68,14 @@ class _AddAddonBottomSheetState extends State<AddAddonBottomSheet> {
           padding: EdgeInsets.zero,
           itemBuilder: (context, index) {
             return Padding(
-              padding:
-                  const EdgeInsets.only(bottom: Dimensions.paddingSizeLarge),
+              padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeLarge),
               child: MyTextField(
                 titleName: 'Addon name',
                 hintText: '${'addon_name'.tr}',
                 // hintText: '${'addon_name'.tr} (${_languageList![index].value})',
                 controller: _nameControllers[index],
                 focusNode: _nameNodes[index],
-                nextFocus: index != _languageList!.length - 1
-                    ? _nameNodes[index + 1]
-                    : _priceNode,
+                nextFocus: index != _languageList!.length - 1 ? _nameNodes[index + 1] : _priceNode,
                 inputType: TextInputType.name,
                 capitalization: TextCapitalization.words,
               ),
@@ -113,9 +105,7 @@ class _AddAddonBottomSheetState extends State<AddAddonBottomSheet> {
                       showCustomSnackBar('enter_addon_price'.tr);
                     } else {
                       List<Translation> nameList = [];
-                      for (int index = 0;
-                          index < _languageList!.length;
-                          index++) {
+                      for (int index = 0; index < _languageList!.length; index++) {
                         nameList.add(Translation(
                           locale: _languageList![index].key,
                           key: 'name',
@@ -124,10 +114,8 @@ class _AddAddonBottomSheetState extends State<AddAddonBottomSheet> {
                               : _nameControllers[0].text.trim(),
                         ));
                       }
-                      AddOns addon = AddOns(
-                          name: name,
-                          price: double.parse(price),
-                          translations: nameList);
+                      AddOns addon =
+                          AddOns(name: name, price: double.parse(price), translations: nameList);
                       if (widget.addon != null) {
                         addon.id = widget.addon!.id;
                         addonController.updateAddon(addon);

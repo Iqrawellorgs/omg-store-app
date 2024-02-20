@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+
 class CustomInkWell extends StatelessWidget {
   final double? radius;
   final Widget child;
   final VoidCallback onTap;
   final Color? highlightColor;
-  const CustomInkWell({Key? key, this.radius,required this.child,required this.onTap, this.highlightColor}) : super(key: key);
+  const CustomInkWell(
+      {Key? key, this.radius, required this.child, required this.onTap, this.highlightColor})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,4 +23,3 @@ class CustomInkWell extends StatelessWidget {
     );
   }
 }
-

@@ -37,7 +37,7 @@ class _NotificationChatTabState extends State<NotificationChatTab>
           backgroundColor: Theme.of(context).cardColor,
           title: Text(
             appBarTitle,
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: "Sen",
               fontSize: 17,
               fontWeight: FontWeight.w400,
@@ -50,21 +50,26 @@ class _NotificationChatTabState extends State<NotificationChatTab>
               Align(
                 alignment: Alignment.topLeft,
                 child: GestureDetector(
-                  onTap: () => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DashboardScreen(pageIndex: 0))),
+                  onTap: () => Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => DashboardScreen(pageIndex: 0))),
                   child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                      color: Color(0xffECF0F4),
-                      shape: BoxShape.circle,
+                    margin: const EdgeInsets.only(left: 20, top: 4),
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      top: 10,
+                      bottom: 10,
+                      right: 5,
                     ),
-                    child: Center(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color.fromARGB(255, 236, 240, 244),
+                    ),
+                    child: Align(
+                      alignment: Alignment.center,
                       child: Icon(
                         Icons.arrow_back_ios,
-                        size: 15,
-                        color: Colors.black,
+                        size: 20,
+                        color: Theme.of(context).textTheme.bodyLarge!.color,
                       ),
                     ),
                   ),
@@ -95,9 +100,7 @@ class _NotificationChatTabState extends State<NotificationChatTab>
         body: TabBarView(
           controller: _tabController,
           children: [
-            NotificationScreen(
-                fromNotification:
-                    Get.parameters['from_notification'] == 'true'),
+            NotificationScreen(fromNotification: Get.parameters['from_notification'] == 'true'),
             ConversationScreen(),
           ],
         ),

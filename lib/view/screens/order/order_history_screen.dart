@@ -20,7 +20,7 @@ class OrderHistoryScreen extends StatelessWidget {
       appBar: CustomAppBar(title: 'order_history'.tr, isBackButtonExist: false),
       body: GetBuilder<OrderController>(builder: (orderController) {
         return Padding(
-          padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
           child: Column(children: [
             GetBuilder<AuthController>(builder: (authController) {
               return authController.profileModel != null

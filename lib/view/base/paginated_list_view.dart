@@ -81,7 +81,7 @@ class _PaginatedListViewState extends State<PaginatedListView> {
       }
     }
 
-    return Column(children: [
+    return Column(mainAxisSize: MainAxisSize.min, children: [
       widget.productView,
       (ResponsiveHelper.isDesktop(context) &&
               (widget.totalSize == null ||

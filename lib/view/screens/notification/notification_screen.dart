@@ -11,8 +11,7 @@ import '../../base/custom_image.dart';
 
 class NotificationScreen extends StatelessWidget {
   final bool fromNotification;
-  const NotificationScreen({Key? key, this.fromNotification = false})
-      : super(key: key);
+  const NotificationScreen({Key? key, this.fromNotification = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -123,11 +122,10 @@ class NotificationScreen extends StatelessWidget {
             //                   },
             //                 ))))),
 
-            GetBuilder<NotificationController>(
-                builder: (notificationController) {
+            GetBuilder<NotificationController>(builder: (notificationController) {
           if (notificationController.notificationList != null) {
-            notificationController.saveSeenNotificationCount(
-                notificationController.notificationList!.length);
+            notificationController
+                .saveSeenNotificationCount(notificationController.notificationList!.length);
           }
           List<DateTime> dateTimeList = [];
           return notificationController.notificationList != null
@@ -142,37 +140,27 @@ class NotificationScreen extends StatelessWidget {
                                   child: SizedBox(
                                       width: 1170,
                                       child: ListView.builder(
-                                        itemCount: notificationController
-                                            .notificationList!.length,
+                                        itemCount: notificationController.notificationList!.length,
                                         padding: EdgeInsets.zero,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
+                                        physics: const NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         itemBuilder: (context, index) {
                                           DateTime originalDateTime =
-                                              DateConverter
-                                                  .dateTimeStringToDate(
-                                                      notificationController
-                                                          .notificationList![
-                                                              index]
-                                                          .createdAt!);
-                                          DateTime convertedDate = DateTime(
-                                              originalDateTime.year,
-                                              originalDateTime.month,
-                                              originalDateTime.day);
+                                              DateConverter.dateTimeStringToDate(
+                                                  notificationController
+                                                      .notificationList![index].createdAt!);
+                                          DateTime convertedDate = DateTime(originalDateTime.year,
+                                              originalDateTime.month, originalDateTime.day);
                                           bool addTitle = false;
-                                          if (!dateTimeList
-                                              .contains(convertedDate)) {
+                                          if (!dateTimeList.contains(convertedDate)) {
                                             addTitle = true;
                                             dateTimeList.add(convertedDate);
                                           }
                                           return Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 const SizedBox(
-                                                    height: Dimensions
-                                                        .paddingSizeDefault),
+                                                    height: Dimensions.paddingSizeDefault),
                                                 // addTitle
                                                 //     ? Padding(
                                                 //         padding:
@@ -191,13 +179,11 @@ class NotificationScreen extends StatelessWidget {
                                                   onTap: () {
                                                     showDialog(
                                                         context: context,
-                                                        builder: (BuildContext
-                                                            context) {
+                                                        builder: (BuildContext context) {
                                                           return NotificationDialog(
                                                               notificationModel:
                                                                   notificationController
-                                                                          .notificationList![
-                                                                      index]);
+                                                                      .notificationList![index]);
                                                         });
                                                   },
                                                   leading:
@@ -219,59 +205,45 @@ class NotificationScreen extends StatelessWidget {
                                                   ),
                                                   title: Text(
                                                     notificationController
-                                                            .notificationList![
-                                                                index]
-                                                            .title ??
+                                                            .notificationList![index].title ??
                                                         '',
                                                     style: TextStyle(
                                                       fontFamily: "Sen",
                                                       fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w400,
+                                                      fontWeight: FontWeight.w400,
                                                       color: Color(0xff32343E),
                                                     ),
                                                   ),
                                                   subtitle: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
                                                       Text(
                                                         notificationController
-                                                                .notificationList![
-                                                                    index]
+                                                                .notificationList![index]
                                                                 .description ??
                                                             '',
                                                         style: TextStyle(
                                                           fontFamily: "Sen",
                                                           fontSize: 10,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color:
-                                                              Color(0xff9C9BA6),
+                                                          fontWeight: FontWeight.w400,
+                                                          color: Color(0xff9C9BA6),
                                                         ),
                                                       ),
                                                       const SizedBox(
-                                                          height: Dimensions
-                                                              .paddingSizeSmall),
+                                                          height: Dimensions.paddingSizeSmall),
                                                       addTitle
                                                           ? Text(
-                                                              DateConverter.dateTimeStringToDateOnly(
-                                                                  notificationController
-                                                                      .notificationList![
-                                                                          index]
-                                                                      .createdAt!),
+                                                              DateConverter
+                                                                  .dateTimeStringToDateOnly(
+                                                                      notificationController
+                                                                          .notificationList![index]
+                                                                          .createdAt!),
                                                               style: TextStyle(
-                                                                fontFamily:
-                                                                    "Sen",
+                                                                fontFamily: "Sen",
                                                                 fontSize: 10,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400,
-                                                                color: Color(
-                                                                    0xff9C9BA6),
+                                                                fontWeight: FontWeight.w400,
+                                                                color: Color(0xff9C9BA6),
                                                               ),
                                                             )
                                                           : const SizedBox(),
@@ -279,13 +251,10 @@ class NotificationScreen extends StatelessWidget {
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      horizontal: Dimensions
-                                                          .paddingSizeSmall),
+                                                  padding: const EdgeInsets.symmetric(
+                                                      horizontal: Dimensions.paddingSizeSmall),
                                                   child: Divider(
-                                                      color: Theme.of(context)
-                                                          .disabledColor),
+                                                      color: Theme.of(context).disabledColor),
                                                 ),
                                               ]);
                                         },
