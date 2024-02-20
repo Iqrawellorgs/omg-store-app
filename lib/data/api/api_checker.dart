@@ -5,11 +5,15 @@ import 'package:get/get.dart';
 
 class ApiChecker {
   static void checkApi(Response response) {
-    if(response.statusCode == 401) {
+    if (response.statusCode == 401) {
       Get.find<AuthController>().clearSharedData();
       Get.offAllNamed(RouteHelper.getSignInRoute());
-    }else {
-      showCustomSnackBar(response.statusText);
+    } else {
+      if (response.statusText == 'validation.password.numbers') {
+        showCustomSnackBar("Password must contain a number,special character and a letter".tr);
+      } else {
+        showCustomSnackBar(response.statusText);
+      }
     }
   }
 }

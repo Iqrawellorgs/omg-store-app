@@ -194,8 +194,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                                       )
                                                 : FadeInImage.assetNetwork(
                                                     placeholder: Images.placeholder,
-                                                    image:
-                                                        '${Get.find<SplashController>().configModel!.baseUrls!.productImageUrl}/${_product!.image ?? ''}',
+                                                    image: _product!.image ?? '',
                                                     // '${Get.find<SplashController>().configModel.baseUrls.itemImageUrl}/${_item.image != null ? _item.image : ''}',
                                                     height: 120,
                                                     width: 150,
@@ -207,23 +206,26 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                                       decoration: BoxDecoration(
                                                         borderRadius: BorderRadius.circular(
                                                             Dimensions.paddingSizeSmall),
-                                                        border: Border.all(
-                                                          color: Theme.of(context).primaryColor,
-                                                          width: 2,
-                                                        ),
+                                                        // border: Border.all(
+                                                        //   color: Theme.of(context).primaryColor,
+                                                        //   width: 2,
+                                                        // ),
                                                       ),
                                                       child: Container(
                                                         padding: EdgeInsets.all(
                                                             Dimensions.paddingSizeDefault),
                                                         decoration: BoxDecoration(
-                                                          border: Border.all(
-                                                              width: 2,
-                                                              color:
-                                                                  Theme.of(context).primaryColor),
+                                                          // border: Border.all(
+                                                          //     width: 2,
+                                                          //     color:
+                                                          //         Theme.of(context).primaryColor),
                                                           shape: BoxShape.circle,
                                                         ),
-                                                        child: Icon(Icons.camera_alt,
-                                                            color: Theme.of(context).primaryColor),
+                                                        child: Icon(
+                                                          Icons.add_a_photo,
+                                                          size: 35,
+                                                          color: Theme.of(context).disabledColor,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -266,18 +268,41 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    'Secondary Image *'.tr,
-                                    style: senRegular.copyWith(
-                                        fontSize: Dimensions.fontSizeSmall,
-                                        color: Theme.of(context).disabledColor),
-                                  ),
-                                  SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                                  Text(
-                                    '(${'max_size_2_mb'.tr})',
-                                    style: senRegular.copyWith(
-                                        fontSize: Dimensions.fontSizeExtraSmall,
-                                        color: Theme.of(context).errorColor),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        children: [
+                                          Text(
+                                            'Secondary Image *'.tr,
+                                            style: senRegular.copyWith(
+                                                fontSize: Dimensions.fontSizeSmall,
+                                                color: Theme.of(context).disabledColor),
+                                          ),
+                                          SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                                          Text(
+                                            '(${'max_size_2_mb'.tr})',
+                                            style: senRegular.copyWith(
+                                                fontSize: Dimensions.fontSizeExtraSmall,
+                                                color: Theme.of(context).errorColor),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(width: Dimensions.paddingSizeDefault),
+                                      InkWell(
+                                        onTap: () {
+                                          if ((restController.savedImages.length +
+                                                  restController.rawImages.length) <
+                                              6) {
+                                            restController.pickImages();
+                                          } else {
+                                            showCustomSnackBar('maximum_image_limit_is_6'.tr);
+                                          }
+                                        },
+                                        child: Icon(Icons.add_circle_outline,
+                                            color: Theme.of(context).primaryColor),
+                                      ),
+                                    ],
                                   ),
                                   InkWell(
                                     onTap: () {
@@ -289,26 +314,107 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                         showCustomSnackBar('maximum_image_limit_is_6'.tr);
                                       }
                                     },
-                                    child: Container(
-                                      width: 155,
-                                      height: 122,
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(Dimensions.paddingSizeSmall),
-                                        border: Border.all(
-                                            color: Theme.of(context).primaryColor, width: 2),
-                                      ),
-                                      child: Container(
-                                        padding: EdgeInsets.all(Dimensions.paddingSizeDefault),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                              width: 2, color: Theme.of(context).primaryColor),
-                                          shape: BoxShape.circle,
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(Dimensions.radiusSmall),
+                                          child: restController.savedImages.isNotEmpty
+                                              ? CustomImage(
+                                                  image:
+                                                      '${Get.find<SplashController>().configModel!.baseUrls!.productImageUrl}/${restController.savedImages[0]}',
+                                                  height: 120,
+                                                  width: 150,
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : restController.rawImages.isNotEmpty
+                                                  ? GetPlatform.isWeb
+                                                      ? Image.network(
+                                                          restController.rawImages[0].path,
+                                                          height: 120,
+                                                          width: 150,
+                                                          fit: BoxFit.cover,
+                                                        )
+                                                      : Container(
+                                                          decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                                color:
+                                                                    Theme.of(context).primaryColor,
+                                                                width: 2),
+                                                            borderRadius: BorderRadius.circular(
+                                                                Dimensions.radiusSmall),
+                                                          ),
+                                                          child: ClipRRect(
+                                                            borderRadius: BorderRadius.circular(
+                                                                Dimensions.radiusSmall),
+                                                            child: Image.file(
+                                                              File(
+                                                                  restController.rawImages[0].path),
+                                                              height: 120,
+                                                              width: 150,
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          ),
+                                                        )
+                                                  : FadeInImage.assetNetwork(
+                                                      placeholder: Images.placeholder,
+                                                      image: _product!.image ?? '',
+                                                      // '${Get.find<SplashController>().configModel.baseUrls.itemImageUrl}/${_item.image != null ? _item.image : ''}',
+                                                      height: 120,
+                                                      width: 150,
+                                                      fit: BoxFit.cover,
+                                                      imageErrorBuilder: (c, o, s) => Container(
+                                                        width: 150,
+                                                        height: 122,
+                                                        alignment: Alignment.center,
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(
+                                                              Dimensions.paddingSizeSmall),
+                                                          border: Border.all(
+                                                            color: Theme.of(context).primaryColor,
+                                                            width: 2,
+                                                          ),
+                                                        ),
+                                                        child: Container(
+                                                          padding: EdgeInsets.all(
+                                                              Dimensions.paddingSizeDefault),
+                                                          // decoration: BoxDecoration(
+                                                          //     // border: Border.all(
+                                                          //     //     width: 2,
+                                                          //     //     color:
+                                                          //     //         Theme.of(context).primaryColor),
+                                                          //     // shape: BoxShape.circle,
+                                                          //     ),
+                                                          child: Icon(
+                                                            Icons.add_a_photo,
+                                                            size: 35,
+                                                            color: Theme.of(context).disabledColor,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
                                         ),
-                                        child: Icon(Icons.camera_alt,
-                                            color: Theme.of(context).primaryColor),
-                                      ),
+                                        Positioned(
+                                          right: 0,
+                                          top: 0,
+                                          child: InkWell(
+                                            onTap: () {
+                                              if (restController.savedImages.isNotEmpty) {
+                                                restController.removeSavedImage(0);
+                                              } else {
+                                                restController.removeImage(
+                                                    0 - restController.savedImages.length);
+                                              }
+                                            },
+                                            child: Padding(
+                                              padding: EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                              child: restController.rawImages.isNotEmpty
+                                                  ? Icon(Icons.delete_forever, color: Colors.red)
+                                                  : null,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   )
                                 ],
@@ -317,7 +423,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           ),
 
                           SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                          restController.savedImages.length + restController.rawImages.length > 0
+                          restController.savedImages.length + restController.rawImages.length > 1
                               ? SizedBox(
                                   height: 100,
                                   child: GridView.builder(
@@ -330,8 +436,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
                                     itemCount: restController.savedImages.length +
-                                        restController.rawImages.length,
+                                        restController.rawImages.length -
+                                        1,
                                     itemBuilder: (context, index) {
+                                      index++;
                                       bool savedImage = index < restController.savedImages.length;
                                       XFile? file = (savedImage ||
                                               index == restController.savedImages.length)
@@ -631,77 +739,88 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             ])),
                           ]),
                           const SizedBox(height: Dimensions.paddingSizeLarge),
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(children: [
-                                  Expanded(
-                                    flex: 8,
-                                    child: MyTextField(
-                                      hintText: 'tag'.tr,
-                                      controller: _tagController,
-                                      inputAction: TextInputAction.done,
-                                      onSubmit: (name) {
-                                        if (name.isNotEmpty) {
-                                          restController.setTag(name);
-                                          _tagController.text = '';
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                  const SizedBox(width: Dimensions.paddingSizeSmall),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(top: 20),
-                                      child: CustomButton(
-                                          buttonText: 'add'.tr,
-                                          onPressed: () {
-                                            if (_tagController.text.isNotEmpty) {
-                                              restController.setTag(_tagController.text.trim());
-                                              _tagController.text = '';
-                                            }
-                                          }),
-                                    ),
-                                  )
-                                ]),
-                                const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                                restController.tagList.isNotEmpty
-                                    ? SizedBox(
-                                        height: 40,
-                                        child: ListView.builder(
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: restController.tagList.length,
-                                            itemBuilder: (context, index) {
-                                              return Container(
-                                                margin: const EdgeInsets.symmetric(
-                                                    horizontal: Dimensions.paddingSizeExtraSmall),
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: Dimensions.paddingSizeSmall),
-                                                decoration: BoxDecoration(
-                                                    color: Theme.of(context).primaryColor,
-                                                    borderRadius: BorderRadius.circular(
-                                                        Dimensions.radiusSmall)),
-                                                child: Center(
-                                                    child: Row(children: [
-                                                  Text(restController.tagList[index]!,
-                                                      style: senMedium.copyWith(
-                                                          color: Theme.of(context).cardColor)),
-                                                  const SizedBox(
-                                                      width: Dimensions.paddingSizeExtraSmall),
-                                                  InkWell(
-                                                      onTap: () => restController.removeTag(index),
-                                                      child: Icon(Icons.clear,
-                                                          size: 18,
-                                                          color: Theme.of(context).cardColor)),
-                                                ])),
-                                              );
-                                            }),
-                                      )
-                                    : const SizedBox(),
-                              ]),
+                          Text(
+                            'cuisines'.tr,
+                            style: senRegular.copyWith(
+                                fontSize: Dimensions.fontSizeSmall,
+                                color: Theme.of(context).dividerColor),
+                          ),
+                          const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                          Align(
+                            alignment: Alignment.center,
+                            child: cuisineView(),
+                          ),
+                          // Column(
+                          //     crossAxisAlignment: CrossAxisAlignment.start,
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     children: [
+                          //       Row(children: [
+                          //         Expanded(
+                          //           flex: 8,
+                          //           child: MyTextField(
+                          //             hintText: 'tag'.tr,
+                          //             controller: _tagController,
+                          //             inputAction: TextInputAction.done,
+                          //             onSubmit: (name) {
+                          //               if (name.isNotEmpty) {
+                          //                 restController.setTag(name);
+                          //                 _tagController.text = '';
+                          //               }
+                          //             },
+                          //           ),
+                          //         ),
+                          //         const SizedBox(width: Dimensions.paddingSizeSmall),
+                          //         Expanded(
+                          //           flex: 2,
+                          //           child: Padding(
+                          //             padding: const EdgeInsets.only(top: 20),
+                          //             child: CustomButton(
+                          //                 buttonText: 'add'.tr,
+                          //                 onPressed: () {
+                          //                   if (_tagController.text.isNotEmpty) {
+                          //                     restController.setTag(_tagController.text.trim());
+                          //                     _tagController.text = '';
+                          //                   }
+                          //                 }),
+                          //           ),
+                          //         )
+                          //       ]),
+                          //       const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                          //       restController.tagList.isNotEmpty
+                          //           ? SizedBox(
+                          //               height: 40,
+                          //               child: ListView.builder(
+                          //                   shrinkWrap: true,
+                          //                   scrollDirection: Axis.horizontal,
+                          //                   itemCount: restController.tagList.length,
+                          //                   itemBuilder: (context, index) {
+                          //                     return Container(
+                          //                       margin: const EdgeInsets.symmetric(
+                          //                           horizontal: Dimensions.paddingSizeExtraSmall),
+                          //                       padding: const EdgeInsets.symmetric(
+                          //                           horizontal: Dimensions.paddingSizeSmall),
+                          //                       decoration: BoxDecoration(
+                          //                           color: Theme.of(context).primaryColor,
+                          //                           borderRadius: BorderRadius.circular(
+                          //                               Dimensions.radiusSmall)),
+                          //                       child: Center(
+                          //                           child: Row(children: [
+                          //                         Text(restController.tagList[index]!,
+                          //                             style: senMedium.copyWith(
+                          //                                 color: Theme.of(context).cardColor)),
+                          //                         const SizedBox(
+                          //                             width: Dimensions.paddingSizeExtraSmall),
+                          //                         InkWell(
+                          //                             onTap: () => restController.removeTag(index),
+                          //                             child: Icon(Icons.clear,
+                          //                                 size: 18,
+                          //                                 color: Theme.of(context).cardColor)),
+                          //                       ])),
+                          //                     );
+                          //                   }),
+                          //             )
+                          //           : const SizedBox(),
+                          //     ]),
                           const SizedBox(height: Dimensions.paddingSizeLarge),
                           VariationView(restController: restController, product: _product),
                           Text(
@@ -902,16 +1021,16 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           height: 50,
                           onPressed: () {
                             //name screen
-                            bool defaultDataNull = false;
-                            for (int index = 0; index < _languageList!.length; index++) {
-                              if (_languageList![index].key == 'en') {
-                                if (_nameControllerList[index].text.trim().isEmpty ||
-                                    _descriptionControllerList[index].text.trim().isEmpty) {
-                                  defaultDataNull = true;
-                                }
-                                break;
-                              }
-                            }
+                            // bool defaultDataNull = false;
+                            // for (int index = 0; index < _languageList!.length; index++) {
+                            //   if (_languageList![index].key == 'en') {
+                            //     if (_nameControllerList[index].text.trim().isEmpty ||
+                            //         _descriptionControllerList[index].text.trim().isEmpty) {
+                            //       defaultDataNull = true;
+                            //     }
+                            //     break;
+                            //   }
+                            // }
 
                             //
                             String price = _priceController.text.trim();
@@ -952,7 +1071,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               }
                             }
                             //nameed screen
-                            if (defaultDataNull) {
+                            if (_nameControllerList[0].text.trim().isEmpty) {
                               showCustomSnackBar('enter_data_for_english'.tr);
                             } else if (price.isEmpty) {
                               showCustomSnackBar('enter_food_price'.tr);
@@ -979,6 +1098,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               showCustomSnackBar('pick_start_time'.tr);
                             } else if (_product!.availableTimeEnds == null) {
                               showCustomSnackBar('pick_end_time'.tr);
+                            } else if (_descriptionControllerList[0].text.trim().isEmpty) {
+                              showCustomSnackBar('Enter a description');
                             } else {
                               //
                               translations = [];
@@ -1055,5 +1176,58 @@ class _AddProductScreenState extends State<AddProductScreen> {
         }),
       ),
     );
+  }
+
+  Widget cuisineView() {
+    return GetBuilder<RestaurantController>(builder: (cuisineController) {
+      List<int> cuisines = [];
+      if (cuisineController.cuisineModel != null) {
+        for (int index = 0; index < cuisineController.cuisineModel!.cuisines!.length; index++) {
+          if (cuisineController.cuisineModel!.cuisines![index].status == 1 &&
+              !cuisineController.selectedCuisines!.contains(index)) {
+            cuisines.add(index);
+          }
+        }
+      }
+      return Column(children: [
+        Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          children: [
+            if (cuisineController.cuisineModel?.cuisines != null) ...[
+              for (int i = 0; i < cuisineController.cuisineModel!.cuisines!.length; i++)
+                InkWell(
+                  onTap: () {
+                    if (cuisineController.cuisineModel!.cuisines![i].status == 1 &&
+                        !cuisineController.selectedCuisines!.contains(i)) {
+                      cuisineController.selectedCuisines?.add(i);
+                      cuisineController.update();
+                    } else {
+                      cuisineController.selectedCuisines?.remove(i);
+                      cuisineController.update();
+                    }
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: cuisineController.selectedCuisines!.contains(i)
+                            ? Theme.of(context).primaryColor
+                            : Theme.of(context).cardColor,
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: Dimensions.paddingSizeExtraSmall,
+                        horizontal: Dimensions.paddingSizeExtraSmall),
+                    child: Text(cuisineController.cuisineModel!.cuisines![i].name ?? "",
+                        style: senMedium.copyWith(
+                            color: cuisineController.selectedCuisines!.contains(i)
+                                ? Colors.white
+                                : Theme.of(context).textTheme.bodyText1!.color)),
+                  ),
+                )
+            ],
+          ],
+        ),
+      ]);
+    });
   }
 }

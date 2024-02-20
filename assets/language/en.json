@@ -449,7 +449,7 @@
   "max_type_cant_be_less_then_minimum_type": "Max type can't be less then Minimum type",
   "max_type_length_should_not_be_more_then_options_length": "Max type length should not be more then options length",
   "your_business_plan_not_setup_yet": "Your Business Plan Not Setup Yet",
-  "your_registration_not_setup_yet": "Your Registration Not Setup Yet",
+  "your_registration_not_setup_yet": "Your store is not setup yet",
   "are_you_sure_to_go_back": "Are you sure to go back?",
   "multiple_select": "Multiple Select",
   "single_select": "Single Select",

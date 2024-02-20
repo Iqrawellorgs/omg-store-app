@@ -45,9 +45,9 @@ class HomeScreen extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(Images.logo, height: 30, width: 30),
+            Image.asset(Images.logo, height: 23),
             const SizedBox(width: 10),
-            Image.asset(Images.logoName, width: 120),
+            Image.asset(Images.logoName, height: 23),
           ],
         ),
         // actions: [
@@ -410,6 +410,7 @@ class HomeScreen extends StatelessWidget {
                           //   borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                           // ),
                           child: ListView.builder(
+                            clipBehavior: Clip.none,
                             scrollDirection: Axis.horizontal,
                             itemCount: orderController.runningOrders!.length,
                             itemBuilder: (context, index) {

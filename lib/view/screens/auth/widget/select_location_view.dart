@@ -75,7 +75,7 @@ class _SelectLocationViewState extends State<SelectLocationView> {
         padding: EdgeInsets.all(widget.fromView ? 0 : Dimensions.paddingSizeLarge),
         child: SingleChildScrollView(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+            // const SizedBox(height: Dimensions.paddingSizeExtraSmall),
             Row(children: [
               // Expanded(child: authController.moduleList != null ? const ModuleViewWidget() : const SizedBox()),
               // SizedBox(width: authController.moduleList != null ? Dimensions.paddingSizeSmall : 0),
@@ -136,9 +136,10 @@ class _SelectLocationViewState extends State<SelectLocationView> {
               ),
             ),
           )
-        : Center(
-            child: Text('service_not_available_in_this_area'.tr, style: senRegular),
-          );
+        : const SizedBox.shrink();
+    // Center(
+    //     child: Text('service_not_available_in_this_area'.tr, style: senRegular),
+    //   );
   }
 
   Widget mapView(AuthController authController) {

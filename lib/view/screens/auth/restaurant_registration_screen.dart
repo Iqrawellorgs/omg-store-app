@@ -43,8 +43,8 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
-  // final TextEditingController _streetController = TextEditingController();
-  final TextEditingController _floorNoController = TextEditingController();
+  final TextEditingController _streetController = TextEditingController();
+  final TextEditingController _landmarkController = TextEditingController();
 
   TextEditingController _c = TextEditingController();
   TextEditingController _pinCodeController = TextEditingController();
@@ -87,6 +87,9 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AuthController>(builder: (authController) {
+      if (authController.placeDetails?.result != null) {
+        _streetController.text = authController.placeDetails!.result!.formattedAddress!;
+      }
       // if(authController.storeAddress != null && _languageList!.isNotEmpty){
       //   _addressController[0].text = authController.storeAddress.toString();
       // }
@@ -469,8 +472,8 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                                     showBorder: false,
                                                     hintText:
                                                         '${'Apartment/Road/Area'.tr} (optional)', //(${_languageList![index].value!})
-                                                    controller: _floorNoController,
-                                                    inputType: TextInputType.number,
+                                                    controller: _streetController,
+                                                    // inputType: TextInputType.number,
                                                     capitalization: TextCapitalization.sentences,
                                                     isAddress: true,
                                                   ),
@@ -481,8 +484,8 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                                     showBorder: false,
                                                     hintText:
                                                         '${'Landmark'.tr} (optional)', //(${_languageList![index].value!})
-                                                    controller: _floorNoController,
-                                                    inputType: TextInputType.number,
+                                                    controller: _landmarkController,
+                                                    // inputType: TextInputType.number,
                                                     capitalization: TextCapitalization.sentences,
                                                     isAddress: true,
                                                   ),
@@ -814,6 +817,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                             controller: _phoneController,
                                             focusNode: _phoneFocus,
                                             nextFocus: _emailFocus,
+                                            maxlength: 10,
                                             inputType: TextInputType.phone,
                                             isPhone: true,
                                             showTitle: ResponsiveHelper.isDesktop(context),
@@ -914,7 +918,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                   }
                                   if (_addressController[index].text.trim().isEmpty &&
                                       // _streetController.text.trim().isEmpty &&
-                                      _floorNoController.text.trim().isEmpty) {
+                                      _landmarkController.text.trim().isEmpty) {
                                     defaultAddressNull = true;
                                   }
                                   break;
@@ -932,6 +936,8 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                               String password = _passwordController.text.trim();
                               String confirmPassword = _confirmPasswordController.text.trim();
                               bool valid = false;
+                              String pattern = r'^\+?0?[1-9]\d{9,14}$';
+                              RegExp regExp = RegExp(pattern);
                               try {
                                 double.parse(maxTime);
                                 double.parse(minTime);
@@ -946,13 +952,13 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                   showCustomSnackBar('select_restaurant_cover_photo'.tr);
                                 } else if (defaultNameNull) {
                                   showCustomSnackBar('enter_restaurant_name'.tr);
+                                } else if (authController.restaurantLocation == null) {
+                                  showCustomSnackBar('set_restaurant_location'.tr);
                                 } else if (defaultAddressNull) {
                                   showCustomSnackBar('enter_restaurant_address'.tr);
-                                }
-                                //  else if (vat.isEmpty) {
-                                //   showCustomSnackBar('enter_vat_amount'.tr);
-                                // }
-                                else if (minTime.isEmpty) {
+                                } else if (pinCode.isEmpty) {
+                                  showCustomSnackBar('Enter store pincode'.tr);
+                                } else if (minTime.isEmpty) {
                                   showCustomSnackBar('enter_minimum_delivery_time'.tr);
                                 } else if (maxTime.isEmpty) {
                                   showCustomSnackBar('enter_maximum_delivery_time'.tr);
@@ -962,8 +968,6 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                   showCustomSnackBar(
                                       'maximum_delivery_time_can_not_be_smaller_then_minimum_delivery_time'
                                           .tr);
-                                } else if (authController.restaurantLocation == null) {
-                                  showCustomSnackBar('set_restaurant_location'.tr);
                                 } else {
                                   authController.storeStatusChange(0.8);
                                   firstTime = true;
@@ -975,6 +979,10 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                   showCustomSnackBar('enter_your_last_name'.tr);
                                 } else if (phone.isEmpty) {
                                   showCustomSnackBar('enter_your_phone_number'.tr);
+                                } else if (phone.length < 10) {
+                                  showCustomSnackBar("Please enter a valid number");
+                                } else if (!regExp.hasMatch(phone)) {
+                                  showCustomSnackBar("Please enter a valid number");
                                 } else if (email.isEmpty) {
                                   showCustomSnackBar('enter_your_email_address'.tr);
                                 } else if (!GetUtils.isEmail(email)) {
@@ -999,7 +1007,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                       locale: _languageList![index].key,
                                       key: 'address',
                                       value: _addressController[index].text.trim().isNotEmpty
-                                          ? ("${_addressController[index].text.trim()},Floor ${_floorNoController.text.trim()}")
+                                          ? ("${_addressController[index].text.trim()},Floor ${_landmarkController.text.trim()}")
                                               .trim()
                                           : _addressController[0].text.trim(),
                                     ));

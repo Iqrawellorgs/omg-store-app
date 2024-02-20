@@ -131,8 +131,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> with TickerProvider
                             child: Container(
                       width: 1170,
                       padding: const EdgeInsets.symmetric(
-                          horizontal: Dimensions.paddingSizeDefault,
-                          vertical: Dimensions.paddingSizeSmall),
+                          horizontal: 25, vertical: Dimensions.paddingSizeSmall),
                       color: Theme.of(context).cardColor,
                       child: Column(
                         children: [

@@ -19,10 +19,10 @@ class SplashController extends GetxController implements GetxService {
   Future<bool> getConfigData() async {
     Response response = await splashRepo.getConfigData();
     bool isSuccess = false;
-    if(response.statusCode == 200) {
+    if (response.statusCode == 200) {
       _configModel = ConfigModel.fromJson(response.body);
       isSuccess = true;
-    }else {
+    } else {
       ApiChecker.checkApi(response);
       isSuccess = false;
     }
@@ -49,18 +49,19 @@ class SplashController extends GetxController implements GetxService {
   bool isRestaurantClosed() {
     DateTime open = DateFormat('hh:mm').parse('');
     DateTime close = DateFormat('hh:mm').parse('');
-    DateTime openTime = DateTime(_currentTime.year, _currentTime.month, _currentTime.day, open.hour, open.minute);
-    DateTime closeTime = DateTime(_currentTime.year, _currentTime.month, _currentTime.day, close.hour, close.minute);
-    if(closeTime.isBefore(openTime)) {
+    DateTime openTime =
+        DateTime(_currentTime.year, _currentTime.month, _currentTime.day, open.hour, open.minute);
+    DateTime closeTime =
+        DateTime(_currentTime.year, _currentTime.month, _currentTime.day, close.hour, close.minute);
+    if (closeTime.isBefore(openTime)) {
       closeTime = closeTime.add(const Duration(days: 1));
     }
-    if(_currentTime.isAfter(openTime) && _currentTime.isBefore(closeTime)) {
+    if (_currentTime.isAfter(openTime) && _currentTime.isBefore(closeTime)) {
       return false;
-    }else {
+    } else {
       return true;
     }
   }
-
 
   void setFirstTimeConnectionCheck(bool isChecked) {
     _firstTimeConnectionCheck = isChecked;

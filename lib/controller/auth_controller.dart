@@ -33,7 +33,7 @@ class AuthController extends GetxController implements GetxService {
   AuthController({required this.authRepo}) {
     _notification = authRepo.isNotificationActive();
   }
-
+  PlaceDetailsModel? placeDetails;
   bool _isLoading = false;
   bool _notification = true;
   ProfileModel? _profileModel;
@@ -752,11 +752,12 @@ class AuthController extends GetxController implements GetxService {
     LatLng latLng = const LatLng(0, 0);
     Response response = await authRepo.getPlaceDetails(placeID);
     if (response.statusCode == 200) {
-      PlaceDetailsModel placeDetails = PlaceDetailsModel.fromJson(response.body);
-      if (placeDetails.status == 'OK') {
-        latLng = LatLng(placeDetails.result!.geometry!.location!.lat!,
-            placeDetails.result!.geometry!.location!.lng!);
+      placeDetails = PlaceDetailsModel.fromJson(response.body);
+      if (placeDetails!.status == 'OK') {
+        latLng = LatLng(placeDetails!.result!.geometry!.location!.lat!,
+            placeDetails!.result!.geometry!.location!.lng!);
       }
+      update();
     }
 
     _pickPosition = Position(

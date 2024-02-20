@@ -94,7 +94,9 @@ class _ProductWidgetState extends State<ProductWidget> {
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
           Expanded(
               child: Padding(
-            padding: EdgeInsets.symmetric(vertical: desktop ? 0 : Dimensions.paddingSizeExtraSmall),
+            padding: EdgeInsets.symmetric(
+                vertical: desktop ? 0 : Dimensions.paddingSizeDefault,
+                horizontal: Dimensions.paddingSizeSmall),
             child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
               // (widget.product.image != null && widget.product.image!.isNotEmpty)
               //     ? Stack(children: [
@@ -119,7 +121,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                 desktop,
                 isAvailable,
               ),
-              const SizedBox(width: Dimensions.paddingSizeSmall),
+              // const SizedBox(width: Dimensions.paddingSizeSmall),
               Expanded(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,6 +206,7 @@ class _ProductWidgetState extends State<ProductWidget> {
               Column(
                 children: [
                   IconButton(
+                    padding: EdgeInsets.zero,
                     onPressed: () {
                       if (Get.find<AuthController>().profileModel!.restaurants![0].foodSection!) {
                         Get.dialog(ConfirmationDialog(
@@ -219,6 +222,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                     icon: const Icon(Icons.delete_forever, color: Colors.red),
                   ),
                   IconButton(
+                    padding: EdgeInsets.zero,
                     onPressed: () {
                       if (Get.find<AuthController>().profileModel!.restaurants![0].foodSection!) {
                         Get.find<RestaurantController>()

@@ -73,9 +73,11 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
     // _addressController.text = widget.restaurant.address!;
     _contactController.text = widget.restaurant.phone!;
     _orderAmountController.text = widget.restaurant.minimumOrder.toString();
-    _minimumChargeController.text = widget.restaurant.minimumShippingCharge != null
-        ? widget.restaurant.minimumShippingCharge.toString()
-        : '';
+    _orderAmountController.text == '0.0'
+        ? _orderAmountController.text = '0'
+        : _minimumChargeController.text = widget.restaurant.minimumShippingCharge != null
+            ? widget.restaurant.minimumShippingCharge.toString()
+            : '';
     _maximumChargeController.text = widget.restaurant.maximumShippingCharge != null
         ? widget.restaurant.maximumShippingCharge.toString()
         : '';
@@ -169,12 +171,15 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                                       ),
                                       child: Container(
                                         margin: const EdgeInsets.all(25),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(width: 2, color: Colors.white),
-                                          shape: BoxShape.circle,
+                                        // decoration: BoxDecoration(
+                                        //   border: Border.all(width: 2, color: Colors.white),
+                                        //   shape: BoxShape.circle,
+                                        // ),
+                                        child: const Icon(
+                                          Icons.add_a_photo,
+                                          color: Colors.white,
+                                          size: 40,
                                         ),
-                                        child: const Icon(Icons.add_a_photo_outlined,
-                                            color: Colors.white),
                                       ),
                                     ),
                                   ),
@@ -241,12 +246,15 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                                       ),
                                       child: Container(
                                         margin: const EdgeInsets.all(25),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(width: 3, color: Colors.white),
-                                          shape: BoxShape.circle,
+                                        // decoration: BoxDecoration(
+                                        //   border: Border.all(width: 3, color: Colors.white),
+                                        //   shape: BoxShape.circle,
+                                        // ),
+                                        child: const Icon(
+                                          Icons.add_a_photo,
+                                          color: Colors.white,
+                                          size: 40,
                                         ),
-                                        child: const Icon(Icons.add_a_photo_outlined,
-                                            color: Colors.white, size: 25),
                                       ),
                                     ),
                                   ),
