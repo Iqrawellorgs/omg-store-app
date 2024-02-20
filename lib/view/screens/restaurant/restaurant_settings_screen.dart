@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
+
 import 'package:efood_multivendor_restaurant/controller/auth_controller.dart';
 import 'package:efood_multivendor_restaurant/controller/restaurant_controller.dart';
 import 'package:efood_multivendor_restaurant/controller/splash_controller.dart';
@@ -20,10 +20,12 @@ import 'package:get/get.dart';
 
 class RestaurantSettingsScreen extends StatefulWidget {
   final Restaurant restaurant;
-  const RestaurantSettingsScreen({Key? key, required this.restaurant}) : super(key: key);
+  const RestaurantSettingsScreen({Key? key, required this.restaurant})
+      : super(key: key);
 
   @override
-  State<RestaurantSettingsScreen> createState() => _RestaurantSettingsScreenState();
+  State<RestaurantSettingsScreen> createState() =>
+      _RestaurantSettingsScreenState();
 }
 
 class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
@@ -31,8 +33,10 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
   final TextEditingController _contactController = TextEditingController();
   final List<TextEditingController> _addressController = [];
   final TextEditingController _orderAmountController = TextEditingController();
-  final TextEditingController _minimumChargeController = TextEditingController();
-  final TextEditingController _maximumChargeController = TextEditingController();
+  final TextEditingController _minimumChargeController =
+      TextEditingController();
+  final TextEditingController _maximumChargeController =
+      TextEditingController();
   final TextEditingController _perKmChargeController = TextEditingController();
   final TextEditingController _gstController = TextEditingController();
   final TextEditingController _streetController = TextEditingController();
@@ -45,8 +49,10 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
   final FocusNode _maximumChargeNode = FocusNode();
   final FocusNode _perKmChargeNode = FocusNode();
   late Restaurant _restaurant;
-  final List<Language>? _languageList = Get.find<SplashController>().configModel!.language;
-  final List<Translation>? translation = Get.find<AuthController>().profileModel!.translations!;
+  final List<Language>? _languageList =
+      Get.find<SplashController>().configModel!.language;
+  final List<Translation>? translation =
+      Get.find<AuthController>().profileModel!.translations!;
 
   @override
   void initState() {
@@ -63,7 +69,8 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
       for (var trans in translation!) {
         if (_languageList![index].key == trans.locale && trans.key == 'name') {
           _nameController[index] = TextEditingController(text: trans.value);
-        } else if (_languageList![index].key == trans.locale && trans.key == 'address') {
+        } else if (_languageList![index].key == trans.locale &&
+            trans.key == 'address') {
           _addressController[index] = TextEditingController(text: trans.value);
         }
       }
@@ -95,7 +102,9 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
       body: GetBuilder<RestaurantController>(builder: (restController) {
         List<int> cuisines0 = [];
         if (restController.cuisineModel != null) {
-          for (int index = 0; index < restController.cuisineModel!.cuisines!.length; index++) {
+          for (int index = 0;
+              index < restController.cuisineModel!.cuisines!.length;
+              index++) {
             if (restController.cuisineModel!.cuisines![index].status == 1 &&
                 !restController.selectedCuisines!.contains(index)) {
               cuisines0.add(index);
@@ -121,11 +130,13 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                                   fontSize: Dimensions.fontSizeSmall,
                                   color: Theme.of(context).disabledColor),
                             ),
-                            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                            const SizedBox(
+                                height: Dimensions.paddingSizeExtraSmall),
                             Stack(
                               children: [
                                 ClipRRect(
-                                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.radiusSmall),
                                   child: restController.pickedLogo != null
                                       ? GetPlatform.isWeb
                                           ? Image.network(
@@ -135,7 +146,8 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                                               fit: BoxFit.cover,
                                             )
                                           : Image.file(
-                                              File(restController.pickedLogo!.path),
+                                              File(restController
+                                                  .pickedLogo!.path),
                                               width: context.width / 2.3,
                                               height: 100,
                                               fit: BoxFit.cover,
@@ -150,6 +162,9 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                                           imageErrorBuilder: (c, o, s) =>
                                               Image.asset(Images.placeholder,
                                                   height: 100,
+
+                                                  // width: 135,
+
                                                   // width: 135,
                                                   width: context.width / 2.3,
                                                   fit: BoxFit.cover),
@@ -161,13 +176,17 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                                   top: 0,
                                   left: 0,
                                   child: InkWell(
-                                    onTap: () => restController.pickImage(true, false),
+                                    onTap: () =>
+                                        restController.pickImage(true, false),
                                     child: Container(
                                       decoration: BoxDecoration(
                                         color: Colors.black.withOpacity(0.3),
-                                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                        borderRadius: BorderRadius.circular(
+                                            Dimensions.radiusSmall),
                                         border: Border.all(
-                                            width: 1, color: Theme.of(context).primaryColor),
+                                            width: 1,
+                                            color:
+                                                Theme.of(context).primaryColor),
                                       ),
                                       child: Container(
                                         margin: const EdgeInsets.all(25),
@@ -197,11 +216,13 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                                   fontSize: Dimensions.fontSizeSmall,
                                   color: Theme.of(context).disabledColor),
                             ),
-                            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                            const SizedBox(
+                                height: Dimensions.paddingSizeExtraSmall),
                             Stack(
                               children: [
                                 ClipRRect(
-                                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.radiusSmall),
                                   child: restController.pickedCover != null
                                       ? GetPlatform.isWeb
                                           ? Image.network(
@@ -211,7 +232,8 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                                               fit: BoxFit.cover,
                                             )
                                           : Image.file(
-                                              File(restController.pickedCover!.path),
+                                              File(restController
+                                                  .pickedCover!.path),
                                               width: context.width / 2.3,
                                               height: 100,
                                               fit: BoxFit.cover,
@@ -223,11 +245,11 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                                           height: 100,
                                           width: context.width / 2.3,
                                           fit: BoxFit.cover,
-                                          imageErrorBuilder: (c, o, s) => Image.asset(
-                                              Images.placeholder,
-                                              height: 100,
-                                              width: context.width / 2.3,
-                                              fit: BoxFit.cover),
+                                          imageErrorBuilder: (c, o, s) =>
+                                              Image.asset(Images.placeholder,
+                                                  height: 100,
+                                                  width: context.width / 2.3,
+                                                  fit: BoxFit.cover),
                                         ),
                                 ),
                                 Positioned(
@@ -236,13 +258,17 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                                   top: 0,
                                   left: 0,
                                   child: InkWell(
-                                    onTap: () => restController.pickImage(false, false),
+                                    onTap: () =>
+                                        restController.pickImage(false, false),
                                     child: Container(
                                       decoration: BoxDecoration(
                                         color: Colors.black.withOpacity(0.3),
-                                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                        borderRadius: BorderRadius.circular(
+                                            Dimensions.radiusSmall),
                                         border: Border.all(
-                                            width: 1, color: Theme.of(context).primaryColor),
+                                            width: 1,
+                                            color:
+                                                Theme.of(context).primaryColor),
                                       ),
                                       child: Container(
                                         margin: const EdgeInsets.all(25),
@@ -274,10 +300,12 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeLarge),
+                            padding: const EdgeInsets.only(
+                                bottom: Dimensions.paddingSizeLarge),
                             child: MyTextField(
                               isBorderenabled: false,
-                              fillColor: const Color.fromARGB(255, 240, 245, 250),
+                              fillColor:
+                                  const Color.fromARGB(255, 240, 245, 250),
 
                               hintText:
                                   '${'restaurant_name'.tr} ', //(${_languageList![index].value!})
@@ -318,13 +346,14 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding:
-                                const EdgeInsets.only(bottom: Dimensions.paddingSizeExtraLarge),
+                            padding: const EdgeInsets.only(
+                                bottom: Dimensions.paddingSizeExtraLarge),
                             child: Column(
                               children: [
                                 MyTextField(
                                   isBorderenabled: false,
-                                  fillColor: const Color.fromARGB(255, 240, 245, 250),
+                                  fillColor:
+                                      const Color.fromARGB(255, 240, 245, 250),
                                   hintText:
                                       'House/Flat/Block No *', //(${_languageList![index].value!})
                                   controller: _addressController[index],
@@ -346,7 +375,8 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                     MyTextField(
                       isBorderenabled: false,
                       fillColor: const Color.fromARGB(255, 240, 245, 250),
-                      hintText: 'Apartment/Road/Area(Optional)', //(${_languageList![index].value!})
+                      hintText:
+                          'Apartment/Road/Area(Optional)', //(${_languageList![index].value!})
                       controller: _streetController,
                       inputType: TextInputType.streetAddress,
                     ),
@@ -354,7 +384,8 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                     MyTextField(
                       isBorderenabled: false,
                       fillColor: const Color.fromARGB(255, 240, 245, 250),
-                      hintText: 'Landmark(Optional) ', //(${_languageList![index].value!})
+                      hintText:
+                          'Landmark(Optional) ', //(${_languageList![index].value!})
                       controller: _streetController,
                       inputType: TextInputType.streetAddress,
                     ),
@@ -369,9 +400,12 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                           hintText: 'Rupees',
                           controller: _orderAmountController,
                           focusNode: _orderAmountNode,
-                          nextFocus: _restaurant.selfDeliverySystem == 1 ? _perKmChargeNode : null,
-                          inputAction:
-                              _restaurant.selfDeliverySystem == 0 ? null : TextInputAction.done,
+                          nextFocus: _restaurant.selfDeliverySystem == 1
+                              ? _perKmChargeNode
+                              : null,
+                          inputAction: _restaurant.selfDeliverySystem == 0
+                              ? null
+                              : TextInputAction.done,
                           inputType: TextInputType.number,
                           isAmount: true,
                         ),
@@ -384,13 +418,16 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                           ? Expanded(
                               child: MyTextField(
                                 isBorderenabled: false,
-                                fillColor: const Color.fromARGB(255, 240, 245, 250),
+                                fillColor:
+                                    const Color.fromARGB(255, 240, 245, 250),
                                 hintText: 'per_km_delivery_charge'.tr,
                                 controller: _perKmChargeController,
-                                focusNode:
-                                    _restaurant.selfDeliverySystem == 1 ? _perKmChargeNode : null,
-                                nextFocus:
-                                    _restaurant.selfDeliverySystem == 1 ? _minimumChargeNode : null,
+                                focusNode: _restaurant.selfDeliverySystem == 1
+                                    ? _perKmChargeNode
+                                    : null,
+                                nextFocus: _restaurant.selfDeliverySystem == 1
+                                    ? _minimumChargeNode
+                                    : null,
                                 inputType: TextInputType.number,
                                 isAmount: true,
                               ),
@@ -404,7 +441,8 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                             Expanded(
                                 child: MyTextField(
                               isBorderenabled: false,
-                              fillColor: const Color.fromARGB(255, 240, 245, 250),
+                              fillColor:
+                                  const Color.fromARGB(255, 240, 245, 250),
                               hintText: 'minimum_delivery_charge'.tr,
                               controller: _minimumChargeController,
                               focusNode: _minimumChargeNode,
@@ -416,7 +454,8 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                             Expanded(
                                 child: MyTextField(
                               isBorderenabled: false,
-                              fillColor: const Color.fromARGB(255, 240, 245, 250),
+                              fillColor:
+                                  const Color.fromARGB(255, 240, 245, 250),
                               hintText: 'maximum_delivery_charge'.tr,
                               controller: _maximumChargeController,
                               focusNode: _maximumChargeNode,
@@ -427,8 +466,9 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                           ])
                         : const SizedBox(),
                     SizedBox(
-                        height:
-                            _restaurant.selfDeliverySystem == 1 ? Dimensions.paddingSizeLarge : 0),
+                        height: _restaurant.selfDeliverySystem == 1
+                            ? Dimensions.paddingSizeLarge
+                            : 0),
                     // Theme(
                     //   data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                     //   child: ExpansionTile(
@@ -569,8 +609,8 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                         ? Row(children: [
                             Expanded(
                                 child: InkWell(
-                              onTap: () =>
-                                  restController.setRestVeg(!restController.isRestVeg!, true),
+                              onTap: () => restController.setRestVeg(
+                                  !restController.isRestVeg!, true),
                               child: Row(children: [
                                 Checkbox(
                                   value: restController.isRestVeg,
@@ -584,13 +624,13 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                             const SizedBox(width: Dimensions.paddingSizeSmall),
                             Expanded(
                                 child: InkWell(
-                              onTap: () =>
-                                  restController.setRestNonVeg(!restController.isRestNonVeg!, true),
+                              onTap: () => restController.setRestNonVeg(
+                                  !restController.isRestNonVeg!, true),
                               child: Row(children: [
                                 Checkbox(
                                   value: restController.isRestNonVeg,
-                                  onChanged: (bool? isActive) =>
-                                      restController.setRestNonVeg(isActive, true),
+                                  onChanged: (bool? isActive) => restController
+                                      .setRestNonVeg(isActive, true),
                                   activeColor: Theme.of(context).primaryColor,
                                 ),
                                 Text('non_veg'.tr),
@@ -599,7 +639,9 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                           ])
                         : const SizedBox(),
                     SizedBox(
-                        height: Get.find<SplashController>().configModel!.toggleVegNonVeg!
+                        height: Get.find<SplashController>()
+                                .configModel!
+                                .toggleVegNonVeg!
                             ? Dimensions.paddingSizeLarge
                             : 0),
 
@@ -621,7 +663,8 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                           Colors.transparent,
                         ),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onChanged: (bool isActive) => restController.toggleGst(),
+                        onChanged: (bool isActive) =>
+                            restController.toggleGst(),
                       ),
                     ]),
                     const SizedBox(height: Dimensions.paddingSizeSmall),
@@ -661,11 +704,14 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                             title: 'schedule_order'.tr,
                             isButtonActive: widget.restaurant.scheduleOrder,
                             onTap: () {
-                              _restaurant.scheduleOrder = !_restaurant.scheduleOrder!;
+                              _restaurant.scheduleOrder =
+                                  !_restaurant.scheduleOrder!;
                             })
                         : const SizedBox(),
                     SizedBox(
-                        height: Get.find<SplashController>().configModel!.scheduleOrder!
+                        height: Get.find<SplashController>()
+                                .configModel!
+                                .scheduleOrder!
                             ? Dimensions.paddingSizeSmall
                             : 0),
 
@@ -697,9 +743,10 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                             })
                         : const SizedBox(),
                     SizedBox(
-                        height: Get.find<SplashController>().configModel!.takeAway!
-                            ? Dimensions.paddingSizeSmall
-                            : 0),
+                        height:
+                            Get.find<SplashController>().configModel!.takeAway!
+                                ? Dimensions.paddingSizeSmall
+                                : 0),
 
                     // SwitchButton(icon: Icons.subscriptions_outlined, title: 'subscription_order'.tr, isButtonActive: widget.restaurant.orderSubscriptionActive, onTap: () {
                     //   _restaurant.orderSubscriptionActive = !_restaurant.orderSubscriptionActive!;
@@ -719,7 +766,9 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                     onPressed: () {
                       bool defaultNameNull = false;
                       bool defaultAddressNull = false;
-                      for (int index = 0; index < _languageList!.length; index++) {
+                      for (int index = 0;
+                          index < _languageList!.length;
+                          index++) {
                         if (_languageList![index].key == 'en') {
                           if (_nameController[index].text.trim().isEmpty) {
                             defaultNameNull = true;
@@ -742,10 +791,12 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                       if (defaultNameNull) {
                         showCustomSnackBar('enter_your_restaurant_name'.tr);
                       } else if (contact.isEmpty) {
-                        showCustomSnackBar('enter_restaurant_contact_number'.tr);
+                        showCustomSnackBar(
+                            'enter_restaurant_contact_number'.tr);
                       } else if (defaultAddressNull) {
                         showCustomSnackBar('enter_restaurant_address'.tr);
-                      } else if (minimumOrder.isEmpty || double.parse(minimumOrder) <= 0) {
+                      } else if (minimumOrder.isEmpty ||
+                          double.parse(minimumOrder) <= 0) {
                         showCustomSnackBar('enter_minimum_order_amount'.tr);
                       } else if (_restaurant.selfDeliverySystem == 1 &&
                           perKmFee.isNotEmpty &&
@@ -758,13 +809,18 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                       } else if (_restaurant.selfDeliverySystem == 1 &&
                           minimumFee.isNotEmpty &&
                           (maximumFee.isNotEmpty
-                              ? (double.parse(perKmFee) > double.parse(maximumFee))
+                              ? (double.parse(perKmFee) >
+                                  double.parse(maximumFee))
                               : false) &&
                           double.parse(maximumFee) != 0) {
-                        showCustomSnackBar('minimum_charge_can_not_be_more_then_maximum_charge'.tr);
-                      } else if (!restController.isRestVeg! && !restController.isRestNonVeg!) {
+                        showCustomSnackBar(
+                            'minimum_charge_can_not_be_more_then_maximum_charge'
+                                .tr);
+                      } else if (!restController.isRestVeg! &&
+                          !restController.isRestNonVeg!) {
                         showCustomSnackBar('select_at_least_one_food_type'.tr);
-                      } else if (restController.isGstEnabled! && gstCode.isEmpty) {
+                      } else if (restController.isGstEnabled! &&
+                          gstCode.isEmpty) {
                         showCustomSnackBar('enter_gst_code'.tr);
                       } else if (_restaurant.selfDeliverySystem == 1 &&
                           minimumFee.isNotEmpty &&
@@ -776,10 +832,14 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                         List<Translation> translation = [];
 
                         for (var index in restController.selectedCuisines!) {
-                          cuisines.add(restController.cuisineModel!.cuisines![index].id.toString());
+                          cuisines.add(restController
+                              .cuisineModel!.cuisines![index].id
+                              .toString());
                         }
 
-                        for (int index = 0; index < _languageList!.length; index++) {
+                        for (int index = 0;
+                            index < _languageList!.length;
+                            index++) {
                           translation.add(Translation(
                             locale: _languageList![index].key,
                             key: 'name',
@@ -790,7 +850,10 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                           translation.add(Translation(
                             locale: _languageList![index].key,
                             key: 'address',
-                            value: _addressController[index].text.trim().isNotEmpty
+                            value: _addressController[index]
+                                    .text
+                                    .trim()
+                                    .isNotEmpty
                                 ? ("${_addressController[index].text.trim()},Street ${_streetController.text.trim()},Floor ${_floorNoController.text.trim()}")
                                 : _addressController[0].text.trim(),
                           ));
@@ -801,15 +864,23 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                         _restaurant.gstStatus = restController.isGstEnabled;
                         _restaurant.gstCode = gstCode;
                         _restaurant.minimumShippingCharge =
-                            minimumFee.isNotEmpty ? double.parse(minimumFee) : null;
+                            minimumFee.isNotEmpty
+                                ? double.parse(minimumFee)
+                                : null;
                         _restaurant.maximumShippingCharge =
-                            maximumFee.isNotEmpty ? double.parse(maximumFee) : null;
+                            maximumFee.isNotEmpty
+                                ? double.parse(maximumFee)
+                                : null;
                         _restaurant.perKmShippingCharge =
                             perKmFee.isNotEmpty ? double.parse(perKmFee) : null;
                         _restaurant.veg = restController.isRestVeg! ? 1 : 0;
-                        _restaurant.nonVeg = restController.isRestNonVeg! ? 1 : 0;
-                        restController.updateRestaurant(_restaurant, cuisines,
-                            Get.find<AuthController>().getUserToken(), translation);
+                        _restaurant.nonVeg =
+                            restController.isRestNonVeg! ? 1 : 0;
+                        restController.updateRestaurant(
+                            _restaurant,
+                            cuisines,
+                            Get.find<AuthController>().getUserToken(),
+                            translation);
                       }
                     },
                     buttonText: 'update'.tr,
@@ -825,7 +896,9 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
     return GetBuilder<RestaurantController>(builder: (cuisineController) {
       List<int> cuisines = [];
       if (cuisineController.cuisineModel != null) {
-        for (int index = 0; index < cuisineController.cuisineModel!.cuisines!.length; index++) {
+        for (int index = 0;
+            index < cuisineController.cuisineModel!.cuisines!.length;
+            index++) {
           if (cuisineController.cuisineModel!.cuisines![index].status == 1 &&
               !cuisineController.selectedCuisines!.contains(index)) {
             cuisines.add(index);
@@ -838,10 +911,13 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
           runSpacing: 10,
           children: [
             if (cuisineController.cuisineModel?.cuisines != null) ...[
-              for (int i = 0; i < cuisineController.cuisineModel!.cuisines!.length; i++)
+              for (int i = 0;
+                  i < cuisineController.cuisineModel!.cuisines!.length;
+                  i++)
                 InkWell(
                   onTap: () {
-                    if (cuisineController.cuisineModel!.cuisines![i].status == 1 &&
+                    if (cuisineController.cuisineModel!.cuisines![i].status ==
+                            1 &&
                         !cuisineController.selectedCuisines!.contains(i)) {
                       cuisineController.selectedCuisines?.add(i);
                       cuisineController.update();
@@ -856,15 +932,21 @@ class _RestaurantSettingsScreenState extends State<RestaurantSettingsScreen> {
                             ? Theme.of(context).primaryColor
                             : Theme.of(context).cardColor,
                         border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
+                        borderRadius:
+                            BorderRadius.circular(Dimensions.radiusDefault)),
                     padding: const EdgeInsets.symmetric(
                         vertical: Dimensions.paddingSizeExtraSmall,
                         horizontal: Dimensions.paddingSizeExtraSmall),
-                    child: Text(cuisineController.cuisineModel!.cuisines![i].name ?? "",
+                    child: Text(
+                        cuisineController.cuisineModel!.cuisines![i].name ?? "",
                         style: senMedium.copyWith(
-                            color: cuisineController.selectedCuisines!.contains(i)
-                                ? Colors.white
-                                : Theme.of(context).textTheme.bodyText1!.color)),
+                            color:
+                                cuisineController.selectedCuisines!.contains(i)
+                                    ? Colors.white
+                                    : Theme.of(context)
+                                        .textTheme
+                                        .bodyText1!
+                                        .color)),
                   ),
                 )
             ],

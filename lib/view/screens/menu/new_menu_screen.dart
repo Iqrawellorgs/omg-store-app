@@ -13,7 +13,6 @@ import 'package:efood_multivendor_restaurant/view/base/custom_app_bar.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_snackbar.dart';
 import 'package:efood_multivendor_restaurant/view/screens/bank/widget/withdraw_request_bottom_sheet.dart';
 import 'package:efood_multivendor_restaurant/view/screens/menu/widget/portion_widget.dart';
-import 'package:efood_multivendor_restaurant/view/screens/order/order_history_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -68,7 +67,8 @@ class NewMenuScreen extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                          PriceConverter.convertPrice(authController.profileModel!.balance),
+                          PriceConverter.convertPrice(
+                              authController.profileModel!.balance),
                           style: const TextStyle(
                               fontFamily: "Sen",
                               fontSize: 40,
@@ -86,14 +86,16 @@ class NewMenuScreen extends StatelessWidget {
                                 isScrollControlled: true,
                               );
                             } else {
-                              showCustomSnackBar('currently_no_bank_account_added'.tr);
+                              showCustomSnackBar(
+                                  'currently_no_bank_account_added'.tr);
                             }
                           },
                           child: Container(
                             width: 100,
                             height: MediaQuery.sizeOf(context).height * 0.039,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                              borderRadius: BorderRadius.circular(
+                                  Dimensions.radiusDefault),
                               border: Border.all(
                                 color: Colors.white,
                               ),
@@ -123,28 +125,36 @@ class NewMenuScreen extends StatelessWidget {
                         physics: const BouncingScrollPhysics(),
                         child: Column(
                           children: [
-                            const SizedBox(height: Dimensions.paddingSizeDefault),
+                            const SizedBox(
+                                height: Dimensions.paddingSizeDefault),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: Dimensions.paddingSizeExtraLarge),
+                                      horizontal:
+                                          Dimensions.paddingSizeExtraLarge),
                                   child: Text(
                                     'General',
                                     style: senBold.copyWith(
                                         fontSize: Dimensions.fontSizeDefault,
-                                        color: Theme.of(context).primaryColor.withOpacity(0.5)),
+                                        color: Theme.of(context)
+                                            .primaryColor
+                                            .withOpacity(0.5)),
                                   ),
                                 ),
-                                const SizedBox(height: Dimensions.paddingSizeDefault),
+                                const SizedBox(
+                                    height: Dimensions.paddingSizeDefault),
                                 Container(
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFF6F8FA),
-                                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                    borderRadius: BorderRadius.circular(
+                                        Dimensions.radiusDefault),
                                     boxShadow: const [
                                       BoxShadow(
-                                          color: Colors.black12, spreadRadius: 1, blurRadius: 5)
+                                          color: Colors.black12,
+                                          spreadRadius: 1,
+                                          blurRadius: 5)
                                     ],
                                   ),
                                   padding: const EdgeInsets.symmetric(
@@ -152,7 +162,8 @@ class NewMenuScreen extends StatelessWidget {
                                     vertical: Dimensions.paddingSizeDefault,
                                   ),
                                   margin: const EdgeInsets.symmetric(
-                                      horizontal: Dimensions.paddingSizeExtraLarge),
+                                      horizontal:
+                                          Dimensions.paddingSizeExtraLarge),
                                   child: Column(
                                     children: [
                                       PortionWidget(
@@ -165,8 +176,10 @@ class NewMenuScreen extends StatelessWidget {
                                         title: 'My Address'.tr,
                                         // route: RouteHelper.getProfileRoute(),
                                         onTap: () {
-                                          Navigator.of(context).push(MaterialPageRoute(
-                                            builder: (context) => const AddressScreen(),
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                const AddressScreen(),
                                           ));
                                         },
                                       ),
@@ -198,28 +211,36 @@ class NewMenuScreen extends StatelessWidget {
                                 )
                               ],
                             ),
-                            const SizedBox(height: Dimensions.paddingSizeDefault),
+                            const SizedBox(
+                                height: Dimensions.paddingSizeDefault),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: Dimensions.paddingSizeExtraLarge),
+                                      horizontal:
+                                          Dimensions.paddingSizeExtraLarge),
                                   child: Text(
                                     'History',
                                     style: senBold.copyWith(
                                         fontSize: Dimensions.fontSizeDefault,
-                                        color: Theme.of(context).primaryColor.withOpacity(0.5)),
+                                        color: Theme.of(context)
+                                            .primaryColor
+                                            .withOpacity(0.5)),
                                   ),
                                 ),
-                                const SizedBox(height: Dimensions.paddingSizeDefault),
+                                const SizedBox(
+                                    height: Dimensions.paddingSizeDefault),
                                 Container(
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFF6F8FA),
-                                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                    borderRadius: BorderRadius.circular(
+                                        Dimensions.radiusDefault),
                                     boxShadow: const [
                                       BoxShadow(
-                                          color: Colors.black12, spreadRadius: 1, blurRadius: 5)
+                                          color: Colors.black12,
+                                          spreadRadius: 1,
+                                          blurRadius: 5)
                                     ],
                                   ),
                                   padding: const EdgeInsets.symmetric(
@@ -227,13 +248,15 @@ class NewMenuScreen extends StatelessWidget {
                                     vertical: Dimensions.paddingSizeDefault,
                                   ),
                                   margin: const EdgeInsets.symmetric(
-                                      horizontal: Dimensions.paddingSizeExtraLarge),
+                                      horizontal:
+                                          Dimensions.paddingSizeExtraLarge),
                                   child: Column(
                                     children: [
                                       PortionWidget(
                                         icon: Images.addFood,
                                         title: 'Order History'.tr,
-                                        route: RouteHelper.getOrderHistoryRoute(),
+                                        route:
+                                            RouteHelper.getOrderHistoryRoute(),
                                         // onTap: () {
                                         //   Navigator.of(context).push(MaterialPageRoute(
                                         //     builder: (context) => const OrderHistoryScreen(),
@@ -243,7 +266,7 @@ class NewMenuScreen extends StatelessWidget {
                                       PortionWidget(
                                           icon: Images.policy,
                                           title: 'Expense report'.tr,
-                                          route: RouteHelper.getAddonsRoute()),
+                                          route: RouteHelper.getWalletRoute()),
 
                                       // PortionWidget(
                                       //     icon: Images.expense,
@@ -254,28 +277,36 @@ class NewMenuScreen extends StatelessWidget {
                                 )
                               ],
                             ),
-                            const SizedBox(height: Dimensions.paddingSizeDefault),
+                            const SizedBox(
+                                height: Dimensions.paddingSizeDefault),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: Dimensions.paddingSizeExtraLarge),
+                                      horizontal:
+                                          Dimensions.paddingSizeExtraLarge),
                                   child: Text(
                                     'Store',
                                     style: senBold.copyWith(
                                         fontSize: Dimensions.fontSizeDefault,
-                                        color: Theme.of(context).primaryColor.withOpacity(0.5)),
+                                        color: Theme.of(context)
+                                            .primaryColor
+                                            .withOpacity(0.5)),
                                   ),
                                 ),
-                                const SizedBox(height: Dimensions.paddingSizeDefault),
+                                const SizedBox(
+                                    height: Dimensions.paddingSizeDefault),
                                 Container(
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFF6F8FA),
-                                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                    borderRadius: BorderRadius.circular(
+                                        Dimensions.radiusDefault),
                                     boxShadow: const [
                                       BoxShadow(
-                                          color: Colors.black12, spreadRadius: 1, blurRadius: 5)
+                                          color: Colors.black12,
+                                          spreadRadius: 1,
+                                          blurRadius: 5)
                                     ],
                                   ),
                                   padding: const EdgeInsets.symmetric(
@@ -283,13 +314,15 @@ class NewMenuScreen extends StatelessWidget {
                                     vertical: Dimensions.paddingSizeDefault,
                                   ),
                                   margin: const EdgeInsets.symmetric(
-                                      horizontal: Dimensions.paddingSizeExtraLarge),
+                                      horizontal:
+                                          Dimensions.paddingSizeExtraLarge),
                                   child: Column(
                                     children: [
                                       PortionWidget(
                                         icon: Images.addFood,
                                         title: 'add_food'.tr,
-                                        route: RouteHelper.getProductRoute(null),
+                                        route:
+                                            RouteHelper.getProductRoute(null),
                                       ),
                                       PortionWidget(
                                           icon: Images.addon,
@@ -298,7 +331,8 @@ class NewMenuScreen extends StatelessWidget {
                                       PortionWidget(
                                           icon: Images.categories,
                                           title: 'categories'.tr,
-                                          route: RouteHelper.getCategoriesRoute()),
+                                          route:
+                                              RouteHelper.getCategoriesRoute()),
                                       PortionWidget(
                                         icon: Images.campaign,
                                         title: 'Campaigns'.tr,
@@ -318,7 +352,7 @@ class NewMenuScreen extends StatelessWidget {
                                 )
                               ],
                             ),
-                            const SizedBox(height: Dimensions.paddingSizeLarge),
+                            // const SizedBox(height: Dimensions.paddingSizeLarge),
                             // Column(
                             //   crossAxisAlignment: CrossAxisAlignment.start,
                             //   children: [
@@ -375,22 +409,29 @@ class NewMenuScreen extends StatelessWidget {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: Dimensions.paddingSizeExtraLarge),
+                                      horizontal:
+                                          Dimensions.paddingSizeExtraLarge),
                                   child: Text(
                                     'Terms and Conditions',
                                     style: senBold.copyWith(
                                         fontSize: Dimensions.fontSizeDefault,
-                                        color: Theme.of(context).primaryColor.withOpacity(0.5)),
+                                        color: Theme.of(context)
+                                            .primaryColor
+                                            .withOpacity(0.5)),
                                   ),
                                 ),
-                                const SizedBox(height: Dimensions.paddingSizeDefault),
+                                const SizedBox(
+                                    height: Dimensions.paddingSizeDefault),
                                 Container(
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFF6F8FA),
-                                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                    borderRadius: BorderRadius.circular(
+                                        Dimensions.radiusDefault),
                                     boxShadow: const [
                                       BoxShadow(
-                                          color: Colors.black12, spreadRadius: 1, blurRadius: 5)
+                                          color: Colors.black12,
+                                          spreadRadius: 1,
+                                          blurRadius: 5)
                                     ],
                                   ),
                                   padding: const EdgeInsets.symmetric(
@@ -398,7 +439,8 @@ class NewMenuScreen extends StatelessWidget {
                                     vertical: Dimensions.paddingSizeDefault,
                                   ),
                                   margin: const EdgeInsets.symmetric(
-                                      horizontal: Dimensions.paddingSizeExtraLarge),
+                                      horizontal:
+                                          Dimensions.paddingSizeExtraLarge),
                                   child: Column(
                                     children: [
                                       PortionWidget(
@@ -436,9 +478,13 @@ class NewMenuScreen extends StatelessWidget {
                               //     horizontal: Dimensions.paddingSizeExtraLarge),
                               decoration: BoxDecoration(
                                 color: const Color(0xFFF6F8FA),
-                                borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                borderRadius: BorderRadius.circular(
+                                    Dimensions.radiusDefault),
                                 boxShadow: const [
-                                  BoxShadow(color: Colors.black12, spreadRadius: 1, blurRadius: 5)
+                                  BoxShadow(
+                                      color: Colors.black12,
+                                      spreadRadius: 1,
+                                      blurRadius: 5)
                                 ],
                               ),
                               padding: const EdgeInsets.symmetric(
@@ -460,15 +506,19 @@ class NewMenuScreen extends StatelessWidget {
                                     Get.dialog(
                                         ConfirmationDialog(
                                             icon: Images.support,
-                                            description: 'are_you_sure_to_logout'.tr,
+                                            description:
+                                                'are_you_sure_to_logout'.tr,
                                             isLogOut: true,
                                             onYesPressed: () {
-                                              Get.find<AuthController>().clearSharedData();
-                                              Get.offAllNamed(RouteHelper.getSignInRoute());
+                                              Get.find<AuthController>()
+                                                  .clearSharedData();
+                                              Get.offAllNamed(
+                                                  RouteHelper.getSignInRoute());
                                             }),
                                         useSafeArea: false);
                                   } else {
-                                    Get.find<AuthController>().clearSharedData();
+                                    Get.find<AuthController>()
+                                        .clearSharedData();
                                     Get.toNamed(RouteHelper.getSignInRoute());
                                   }
                                 },

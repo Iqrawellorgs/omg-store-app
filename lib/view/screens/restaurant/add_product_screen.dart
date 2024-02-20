@@ -50,7 +50,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final List<TextEditingController> _descriptionControllerList = [];
   final List<FocusNode> _nameFocusList = [];
   final List<FocusNode> _descriptionFocusList = [];
-  final List<Language>? _languageList = Get.find<SplashController>().configModel!.language;
+  final List<Language>? _languageList =
+      Get.find<SplashController>().configModel!.language;
   @override
   void initState() {
     super.initState();
@@ -67,11 +68,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
         _nameFocusList.add(FocusNode());
         _descriptionFocusList.add(FocusNode());
         for (var translation in widget.product!.translations!) {
-          if (_languageList![index].key == translation.locale && translation.key == 'name') {
-            _nameControllerList[index] = TextEditingController(text: translation.value);
+          if (_languageList![index].key == translation.locale &&
+              translation.key == 'name') {
+            _nameControllerList[index] =
+                TextEditingController(text: translation.value);
           } else if (_languageList![index].key == translation.locale &&
               translation.key == 'description') {
-            _descriptionControllerList[index] = TextEditingController(text: translation.value);
+            _descriptionControllerList[index] =
+                TextEditingController(text: translation.value);
           }
         }
       }
@@ -102,10 +106,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
       }
       _priceController.text = _product!.price.toString();
       _discountController.text = _product!.discount.toString();
-      Get.find<RestaurantController>()
-          .setDiscountTypeIndex(_product!.discountType == 'percent' ? 0 : 1, false);
+      Get.find<RestaurantController>().setDiscountTypeIndex(
+          _product!.discountType == 'percent' ? 0 : 1, false);
       // Get.find<RestaurantController>().setVeg(_product!.veg == 1, false);
-      Get.find<RestaurantController>().setExistingVariation(_product!.variations);
+      Get.find<RestaurantController>()
+          .setExistingVariation(_product!.variations);
     } else {
       Get.find<RestaurantController>().setEmptyVariationList();
       _product = Product();
@@ -117,14 +122,16 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: widget.product != null ? 'update_food'.tr : 'add_food'.tr),
+      appBar: CustomAppBar(
+          title: widget.product != null ? 'update_food'.tr : 'add_food'.tr),
       body: SafeArea(
         child: GetBuilder<RestaurantController>(builder: (restController) {
           return restController.categoryList != null
               ? Column(children: [
                   Expanded(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: Dimensions.paddingSizeLarge),
                       physics: const BouncingScrollPhysics(),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,7 +144,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               return Column(
                                 children: [
                                   // Text(_languageList![index].value!, style: robotoBold),
-                                  const SizedBox(height: Dimensions.paddingSizeSmall),
+                                  const SizedBox(
+                                      height: Dimensions.paddingSizeSmall),
                                   MyTextField(
                                     hintText: '${'food_name'.tr} *',
                                     controller: _nameControllerList[index],
@@ -145,7 +153,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                     focusNode: _nameFocusList[index],
                                     nextFocus: _descriptionFocusList[index],
                                   ),
-                                  const SizedBox(height: Dimensions.paddingSizeLarge),
+                                  const SizedBox(
+                                      height: Dimensions.paddingSizeLarge),
                                 ],
                               );
                             },
@@ -164,30 +173,36 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                         fontSize: Dimensions.fontSizeSmall,
                                         color: Theme.of(context).disabledColor),
                                   ),
-                                  SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                                  SizedBox(
+                                      width: Dimensions.paddingSizeExtraSmall),
                                   Text(
                                     '(${'max_size_2_mb'.tr})',
                                     style: senRegular.copyWith(
                                         fontSize: Dimensions.fontSizeExtraSmall,
-                                        color: Theme.of(context).colorScheme.error),
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .error),
                                   ),
                                   Row(
                                     children: [
                                       Stack(
                                         children: [
                                           ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(Dimensions.radiusSmall),
-                                            child: restController.pickedLogo != null
+                                            borderRadius: BorderRadius.circular(
+                                                Dimensions.radiusSmall),
+                                            child: restController.pickedLogo !=
+                                                    null
                                                 ? GetPlatform.isWeb
                                                     ? Image.network(
-                                                        restController.pickedLogo!.path,
+                                                        restController
+                                                            .pickedLogo!.path,
                                                         width: 150,
                                                         height: 120,
                                                         fit: BoxFit.cover,
                                                       )
                                                     : Image.file(
-                                                        File(restController.pickedLogo!.path),
+                                                        File(restController
+                                                            .pickedLogo!.path),
                                                         width: 150,
                                                         height: 120,
                                                         fit: BoxFit.cover,
@@ -199,10 +214,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                                     height: 120,
                                                     width: 150,
                                                     fit: BoxFit.cover,
-                                                    imageErrorBuilder: (c, o, s) => Container(
+                                                    imageErrorBuilder:
+                                                        (c, o, s) => Container(
                                                       width: 150,
                                                       height: 122,
-                                                      alignment: Alignment.center,
+                                                      alignment:
+                                                          Alignment.center,
                                                       decoration: BoxDecoration(
                                                         borderRadius: BorderRadius.circular(
                                                             Dimensions.paddingSizeSmall),
@@ -236,15 +253,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                             top: 0,
                                             left: 0,
                                             child: InkWell(
-                                              onTap: () => restController.pickImage(true, false),
+                                              onTap: () => restController
+                                                  .pickImage(true, false),
                                               child: Container(
                                                 decoration: BoxDecoration(
                                                   // color: Colors.black.withOpacity(0.3),
-                                                  borderRadius: BorderRadius.circular(
-                                                      Dimensions.paddingSizeSmall),
+                                                  borderRadius: BorderRadius
+                                                      .circular(Dimensions
+                                                          .paddingSizeSmall),
                                                   border: Border.all(
                                                       width: 2,
-                                                      color: Theme.of(context).primaryColor),
+                                                      color: Theme.of(context)
+                                                          .primaryColor),
                                                 ),
                                                 // child: Container(
                                                 //   margin: EdgeInsets.all(25),
@@ -427,11 +447,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               ? SizedBox(
                                   height: 100,
                                   child: GridView.builder(
-                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 1,
                                       childAspectRatio: 1 / 1,
-                                      mainAxisSpacing: Dimensions.paddingSizeSmall,
-                                      crossAxisSpacing: Dimensions.paddingSizeSmall,
+                                      mainAxisSpacing:
+                                          Dimensions.paddingSizeSmall,
+                                      crossAxisSpacing:
+                                          Dimensions.paddingSizeSmall,
                                     ),
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
@@ -439,26 +462,30 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                         restController.rawImages.length -
                                         1,
                                     itemBuilder: (context, index) {
-                                      index++;
                                       bool savedImage = index < restController.savedImages.length;
                                       XFile? file = (savedImage ||
-                                              index == restController.savedImages.length)
+                                              index ==
+                                                  restController
+                                                      .savedImages.length)
                                           ? null
-                                          : restController
-                                              .rawImages[index]; // Modify index calculation here
+                                          : restController.rawImages[
+                                              index]; // Modify index calculation here
 
                                       return Container(
                                         decoration: BoxDecoration(
                                           border: Border.all(
-                                              color: Theme.of(context).primaryColor, width: 2),
-                                          borderRadius:
-                                              BorderRadius.circular(Dimensions.radiusSmall),
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              width: 2),
+                                          borderRadius: BorderRadius.circular(
+                                              Dimensions.radiusSmall),
                                         ),
                                         child: Stack(
                                           children: [
                                             ClipRRect(
                                               borderRadius:
-                                                  BorderRadius.circular(Dimensions.radiusSmall),
+                                                  BorderRadius.circular(
+                                                      Dimensions.radiusSmall),
                                               child: savedImage
                                                   ? CustomImage(
                                                       image:
@@ -471,14 +498,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                                       ? GetPlatform.isWeb
                                                           ? Image.network(
                                                               file.path,
-                                                              width: context.width,
-                                                              height: context.width,
+                                                              width:
+                                                                  context.width,
+                                                              height:
+                                                                  context.width,
                                                               fit: BoxFit.cover,
                                                             )
                                                           : Image.file(
                                                               File(file.path),
-                                                              width: context.width,
-                                                              height: context.width,
+                                                              width:
+                                                                  context.width,
+                                                              height:
+                                                                  context.width,
                                                               fit: BoxFit.cover,
                                                             )
                                                       : SizedBox(),
@@ -489,17 +520,24 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                               child: InkWell(
                                                 onTap: () {
                                                   if (savedImage) {
-                                                    restController.removeSavedImage(index);
+                                                    restController
+                                                        .removeSavedImage(
+                                                            index);
                                                   } else {
                                                     restController.removeImage(
-                                                        index - restController.savedImages.length);
+                                                        index -
+                                                            restController
+                                                                .savedImages
+                                                                .length);
                                                   }
                                                 },
                                                 child: Padding(
-                                                  padding:
-                                                      EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                                  child:
-                                                      Icon(Icons.delete_forever, color: Colors.red),
+                                                  padding: EdgeInsets.all(
+                                                      Dimensions
+                                                          .paddingSizeSmall),
+                                                  child: Icon(
+                                                      Icons.delete_forever,
+                                                      color: Colors.red),
                                                 ),
                                               ),
                                             ),
@@ -533,52 +571,61 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             ),
                             const SizedBox(width: Dimensions.paddingSizeSmall),
                             Expanded(
-                                child:
-                                    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              Text(
-                                'discount_type'.tr,
-                                style: senRegular.copyWith(
-                                    fontSize: Dimensions.fontSizeSmall,
-                                    color: themeController.darkTheme
-                                        ? Colors.white
-                                        : Theme.of(context).dividerColor),
-                              ),
-                              const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: Dimensions.paddingSizeSmall),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).cardColor,
-                                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                  border: Border.all(color: Colors.grey.withOpacity(.3)),
-                                  // boxShadow: [
-                                  //   BoxShadow(
-                                  //       color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
-                                  //       spreadRadius: 2,
-                                  //       blurRadius: 5,
-                                  //       offset: const Offset(0, 5))
-                                  // ],
-                                ),
-                                child: DropdownButton<String>(
-                                  value:
-                                      restController.discountTypeIndex == 0 ? 'percent' : 'amount',
-                                  items: <String>['percent', 'amount'].map((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value.tr),
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    restController.setDiscountTypeIndex(
-                                      value == 'percent' ? 0 : 1,
-                                      true,
-                                    );
-                                  },
-                                  isExpanded: true,
-                                  underline: const SizedBox(),
-                                ),
-                              ),
-                            ])),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                  Text(
+                                    'discount_type'.tr,
+                                    style: senRegular.copyWith(
+                                        fontSize: Dimensions.fontSizeSmall,
+                                        color: themeController.darkTheme
+                                            ? Colors.white
+                                            : Theme.of(context).dividerColor),
+                                  ),
+                                  const SizedBox(
+                                      height: Dimensions.paddingSizeExtraSmall),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal:
+                                            Dimensions.paddingSizeSmall),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).cardColor,
+                                      borderRadius: BorderRadius.circular(
+                                          Dimensions.radiusDefault),
+                                      border: Border.all(
+                                          color: Colors.grey.withOpacity(.3)),
+                                      // boxShadow: [
+                                      //   BoxShadow(
+                                      //       color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
+                                      //       spreadRadius: 2,
+                                      //       blurRadius: 5,
+                                      //       offset: const Offset(0, 5))
+                                      // ],
+                                    ),
+                                    child: DropdownButton<String>(
+                                      value:
+                                          restController.discountTypeIndex == 0
+                                              ? 'percent'
+                                              : 'amount',
+                                      items: <String>['percent', 'amount']
+                                          .map((String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value.tr),
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        restController.setDiscountTypeIndex(
+                                          value == 'percent' ? 0 : 1,
+                                          true,
+                                        );
+                                      },
+                                      isExpanded: true,
+                                      underline: const SizedBox(),
+                                    ),
+                                  ),
+                                ])),
                           ]),
                           const SizedBox(height: Dimensions.paddingSizeLarge),
                           // Align(
@@ -633,110 +680,134 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           //         : 0),
                           Row(children: [
                             Expanded(
-                                child:
-                                    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              Text(
-                                '${'category'.tr} *',
-                                style: senRegular.copyWith(
-                                    fontSize: Dimensions.fontSizeSmall,
-                                    color: themeController.darkTheme
-                                        ? Colors.white
-                                        : Theme.of(context).dividerColor),
-                              ),
-                              const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: Dimensions.paddingSizeSmall),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).cardColor,
-                                  // borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                  // boxShadow: [
-                                  //   BoxShadow(
-                                  //       color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
-                                  //       spreadRadius: 2,
-                                  //       blurRadius: 5,
-                                  //       offset: const Offset(0, 5))
-                                  // ],
-                                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                  border: Border.all(color: Colors.grey.withOpacity(.3)),
-                                ),
-                                child: DropdownButton<int>(
-                                  value: restController.categoryIndex,
-                                  items: restController.categoryIds.map((int? value) {
-                                    return DropdownMenuItem<int>(
-                                      value: restController.categoryIds.indexOf(value),
-                                      child: Text(value != 0
-                                          ? restController
-                                              .categoryList![
-                                                  (restController.categoryIds.indexOf(value) - 1)]
-                                              .name!
-                                          : 'Select'),
-                                    );
-                                  }).toList(),
-                                  onChanged: (int? value) {
-                                    restController.setCategoryIndex(value, true);
-                                    restController.getSubCategoryList(
-                                        value != 0
-                                            ? restController.categoryList![value! - 1].id
-                                            : 0,
-                                        null);
-                                  },
-                                  isExpanded: true,
-                                  underline: const SizedBox(),
-                                ),
-                              ),
-                            ])),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                  Text(
+                                    '${'category'.tr} *',
+                                    style: senRegular.copyWith(
+                                        fontSize: Dimensions.fontSizeSmall,
+                                        color: themeController.darkTheme
+                                            ? Colors.white
+                                            : Theme.of(context).dividerColor),
+                                  ),
+                                  const SizedBox(
+                                      height: Dimensions.paddingSizeExtraSmall),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal:
+                                            Dimensions.paddingSizeSmall),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).cardColor,
+                                      // borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                      // boxShadow: [
+                                      //   BoxShadow(
+                                      //       color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
+                                      //       spreadRadius: 2,
+                                      //       blurRadius: 5,
+                                      //       offset: const Offset(0, 5))
+                                      // ],
+                                      borderRadius: BorderRadius.circular(
+                                          Dimensions.radiusDefault),
+                                      border: Border.all(
+                                          color: Colors.grey.withOpacity(.3)),
+                                    ),
+                                    child: DropdownButton<int>(
+                                      value: restController.categoryIndex,
+                                      items: restController.categoryIds
+                                          .map((int? value) {
+                                        return DropdownMenuItem<int>(
+                                          value: restController.categoryIds
+                                              .indexOf(value),
+                                          child: Text(value != 0
+                                              ? restController
+                                                  .categoryList![(restController
+                                                          .categoryIds
+                                                          .indexOf(value) -
+                                                      1)]
+                                                  .name!
+                                              : 'Select'),
+                                        );
+                                      }).toList(),
+                                      onChanged: (int? value) {
+                                        restController.setCategoryIndex(
+                                            value, true);
+                                        restController.getSubCategoryList(
+                                            value != 0
+                                                ? restController
+                                                    .categoryList![value! - 1]
+                                                    .id
+                                                : 0,
+                                            null);
+                                      },
+                                      isExpanded: true,
+                                      underline: const SizedBox(),
+                                    ),
+                                  ),
+                                ])),
                             const SizedBox(width: Dimensions.paddingSizeSmall),
                             Expanded(
-                                child:
-                                    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              Text(
-                                '${'sub_category'.tr} *',
-                                style: senRegular.copyWith(
-                                  fontSize: Dimensions.fontSizeSmall,
-                                  color: themeController.darkTheme
-                                      ? Colors.white
-                                      : Theme.of(context).dividerColor,
-                                ),
-                              ),
-                              const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: Dimensions.paddingSizeSmall),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).cardColor,
-                                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                  border: Border.all(color: Colors.grey.withOpacity(.3)),
-                                  // boxShadow: [
-                                  //   BoxShadow(
-                                  //       color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
-                                  //       spreadRadius: 2,
-                                  //       blurRadius: 5,
-                                  //       offset: const Offset(0, 5))
-                                  // ],
-                                ),
-                                child: DropdownButton<int>(
-                                  value: restController.subCategoryIndex,
-                                  items: restController.subCategoryIds.map((int? value) {
-                                    return DropdownMenuItem<int>(
-                                      value: restController.subCategoryIds.indexOf(value),
-                                      child: Text(value != 0
-                                          ? restController
-                                              .subCategoryList![
-                                                  (restController.subCategoryIds.indexOf(value) -
-                                                      1)]
-                                              .name!
-                                          : 'Select'),
-                                    );
-                                  }).toList(),
-                                  onChanged: (int? value) {
-                                    restController.setSubCategoryIndex(value, true);
-                                  },
-                                  isExpanded: true,
-                                  underline: const SizedBox(),
-                                ),
-                              ),
-                            ])),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                  Text(
+                                    '${'sub_category'.tr} *',
+                                    style: senRegular.copyWith(
+                                      fontSize: Dimensions.fontSizeSmall,
+                                      color: themeController.darkTheme
+                                          ? Colors.white
+                                          : Theme.of(context).dividerColor,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                      height: Dimensions.paddingSizeExtraSmall),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal:
+                                            Dimensions.paddingSizeSmall),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).cardColor,
+                                      borderRadius: BorderRadius.circular(
+                                          Dimensions.radiusDefault),
+                                      border: Border.all(
+                                          color: Colors.grey.withOpacity(.3)),
+                                      // boxShadow: [
+                                      //   BoxShadow(
+                                      //       color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
+                                      //       spreadRadius: 2,
+                                      //       blurRadius: 5,
+                                      //       offset: const Offset(0, 5))
+                                      // ],
+                                    ),
+                                    child: DropdownButton<int>(
+                                      value: restController.subCategoryIndex,
+                                      items: restController.subCategoryIds
+                                          .map((int? value) {
+                                        return DropdownMenuItem<int>(
+                                          value: restController.subCategoryIds
+                                              .indexOf(value),
+                                          child: Text(value != 0
+                                              ? restController
+                                                  .subCategoryList![
+                                                      (restController
+                                                              .subCategoryIds
+                                                              .indexOf(value) -
+                                                          1)]
+                                                  .name!
+                                              : 'Select'),
+                                        );
+                                      }).toList(),
+                                      onChanged: (int? value) {
+                                        restController.setSubCategoryIndex(
+                                            value, true);
+                                      },
+                                      isExpanded: true,
+                                      underline: const SizedBox(),
+                                    ),
+                                  ),
+                                ])),
                           ]),
                           const SizedBox(height: Dimensions.paddingSizeLarge),
                           Text(
@@ -822,7 +893,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           //           : const SizedBox(),
                           //     ]),
                           const SizedBox(height: Dimensions.paddingSizeLarge),
-                          VariationView(restController: restController, product: _product),
+                          VariationView(
+                              restController: restController,
+                              product: _product),
                           Text(
                             'addons'.tr,
                             style: senRegular.copyWith(
@@ -831,15 +904,20 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                     ? Colors.white
                                     : Theme.of(context).dividerColor),
                           ),
-                          const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                          GetBuilder<AddonController>(builder: (addonController) {
+                          const SizedBox(
+                              height: Dimensions.paddingSizeExtraSmall),
+                          GetBuilder<AddonController>(
+                              builder: (addonController) {
                             List<int> addons = [];
                             if (addonController.addonList != null) {
                               for (int index = 0;
-                                  index < (addonController.addonList ?? []).length;
+                                  index <
+                                      (addonController.addonList ?? []).length;
                                   index++) {
-                                if (addonController.addonList?[index].status == 1 &&
-                                    !(restController.selectedAddons ?? []).contains(index)) {
+                                if (addonController.addonList?[index].status ==
+                                        1 &&
+                                    !(restController.selectedAddons ?? [])
+                                        .contains(index)) {
                                   addons.add(index);
                                 }
                               }
@@ -855,16 +933,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                       .contains(value.text.toLowerCase()));
                                 }
                               },
-                              fieldViewBuilder: (context, controller, node, onComplete) {
+                              fieldViewBuilder:
+                                  (context, controller, node, onComplete) {
                                 _c = controller;
                                 return Container(
                                   height: 50,
                                   decoration: BoxDecoration(
                                     color: Theme.of(context).cardColor,
-                                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                    borderRadius: BorderRadius.circular(
+                                        Dimensions.radiusSmall),
                                     boxShadow: [
                                       BoxShadow(
-                                          color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
+                                          color: Colors.grey[
+                                              Get.isDarkMode ? 800 : 200]!,
                                           spreadRadius: 2,
                                           blurRadius: 5,
                                           offset: const Offset(0, 5))
@@ -880,32 +961,40 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                     decoration: InputDecoration(
                                       hintText: 'addons'.tr,
                                       border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(Dimensions.radiusSmall),
+                                          borderRadius: BorderRadius.circular(
+                                              Dimensions.radiusSmall),
                                           borderSide: BorderSide.none),
                                     ),
                                   ),
                                 );
                               },
-                              optionsViewBuilder: (context, Function(int i) onSelected, data) {
+                              optionsViewBuilder:
+                                  (context, Function(int i) onSelected, data) {
                                 return Scaffold(
                                   body: ConstrainedBox(
-                                    constraints: BoxConstraints(maxWidth: context.width * 0.4),
+                                    constraints: BoxConstraints(
+                                        maxWidth: context.width * 0.4),
                                     child: ListView.builder(
                                       itemCount: data.length,
                                       padding: EdgeInsets.zero,
                                       shrinkWrap: true,
                                       itemBuilder: (context, index) {
                                         return InkWell(
-                                          onTap: () => onSelected(data.elementAt(index)),
+                                          onTap: () =>
+                                              onSelected(data.elementAt(index)),
                                           child: Container(
-                                            decoration:
-                                                BoxDecoration(color: Theme.of(context).cardColor),
+                                            decoration: BoxDecoration(
+                                                color: Theme.of(context)
+                                                    .cardColor),
                                             padding: const EdgeInsets.symmetric(
-                                                vertical: Dimensions.paddingSizeSmall,
-                                                horizontal: Dimensions.paddingSizeExtraSmall),
+                                                vertical:
+                                                    Dimensions.paddingSizeSmall,
+                                                horizontal: Dimensions
+                                                    .paddingSizeExtraSmall),
                                             child: Text(addonController
-                                                    .addonList![data.elementAt(index)].name ??
+                                                    .addonList![
+                                                        data.elementAt(index)]
+                                                    .name ??
                                                 ''),
                                           ),
                                         );
@@ -918,46 +1007,57 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                   addonController.addonList![value].name ?? "",
                               onSelected: (int value) {
                                 _c.text = '';
-                                restController.setSelectedAddonIndex(value, true);
+                                restController.setSelectedAddonIndex(
+                                    value, true);
                                 //_addons.removeAt(value);
                               },
                             );
                           }),
                           SizedBox(
-                              height: (restController.selectedAddons ?? []).isNotEmpty
+                              height: (restController.selectedAddons ?? [])
+                                      .isNotEmpty
                                   ? Dimensions.paddingSizeSmall
                                   : 0),
                           SizedBox(
-                            height: (restController.selectedAddons ?? []).isNotEmpty ? 40 : 0,
+                            height:
+                                (restController.selectedAddons ?? []).isNotEmpty
+                                    ? 40
+                                    : 0,
                             child: ListView.builder(
                               itemCount: restController.selectedAddons!.length,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 return Container(
-                                  padding:
-                                      const EdgeInsets.only(left: Dimensions.paddingSizeExtraSmall),
-                                  margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
+                                  padding: const EdgeInsets.only(
+                                      left: Dimensions.paddingSizeExtraSmall),
+                                  margin: const EdgeInsets.only(
+                                      right: Dimensions.paddingSizeSmall),
                                   decoration: BoxDecoration(
                                     color: Theme.of(context).primaryColor,
-                                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                    borderRadius: BorderRadius.circular(
+                                        Dimensions.radiusSmall),
                                   ),
                                   child: Row(children: [
-                                    GetBuilder<AddonController>(builder: (addonController) {
+                                    GetBuilder<AddonController>(
+                                        builder: (addonController) {
                                       return Text(
                                         addonController
-                                            .addonList![restController.selectedAddons![index]]
+                                            .addonList![restController
+                                                .selectedAddons![index]]
                                             .name!,
-                                        style:
-                                            senRegular.copyWith(color: Theme.of(context).cardColor),
+                                        style: senRegular.copyWith(
+                                            color: Theme.of(context).cardColor),
                                       );
                                     }),
                                     InkWell(
-                                      onTap: () => restController.removeAddon(index),
+                                      onTap: () =>
+                                          restController.removeAddon(index),
                                       child: Padding(
-                                        padding:
-                                            const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                                        padding: const EdgeInsets.all(
+                                            Dimensions.paddingSizeExtraSmall),
                                         child: Icon(Icons.close,
-                                            size: 15, color: Theme.of(context).cardColor),
+                                            size: 15,
+                                            color: Theme.of(context).cardColor),
                                       ),
                                     ),
                                   ]),
@@ -971,14 +1071,16 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 child: CustomTimePicker(
                               title: 'available_time_starts'.tr + ' *',
                               time: _product!.availableTimeStarts,
-                              onTimeChanged: (time) => _product!.availableTimeStarts = time,
+                              onTimeChanged: (time) =>
+                                  _product!.availableTimeStarts = time,
                             )),
                             const SizedBox(width: Dimensions.paddingSizeSmall),
                             Expanded(
                                 child: CustomTimePicker(
                               title: 'available_time_ends'.tr + ' *',
                               time: _product!.availableTimeEnds,
-                              onTimeChanged: (time) => _product!.availableTimeEnds = time,
+                              onTimeChanged: (time) =>
+                                  _product!.availableTimeEnds = time,
                             )),
                           ]),
                           const SizedBox(height: Dimensions.paddingSizeLarge),
@@ -989,21 +1091,27 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             itemBuilder: (context, index) {
                               return Column(
                                 children: [
-                                  const SizedBox(height: Dimensions.paddingSizeLarge),
+                                  const SizedBox(
+                                      height: Dimensions.paddingSizeLarge),
                                   MyTextField(
                                     hintText: 'DETAILS'.tr + '*',
-                                    controller: _descriptionControllerList[index],
+                                    controller:
+                                        _descriptionControllerList[index],
                                     focusNode: _descriptionFocusList[index],
-                                    capitalization: TextCapitalization.sentences,
+                                    capitalization:
+                                        TextCapitalization.sentences,
                                     maxLines: 5,
-                                    inputAction: index != _languageList!.length - 1
-                                        ? TextInputAction.next
-                                        : TextInputAction.done,
-                                    nextFocus: index != _languageList!.length - 1
-                                        ? _nameFocusList[index + 1]
-                                        : null,
+                                    inputAction:
+                                        index != _languageList!.length - 1
+                                            ? TextInputAction.next
+                                            : TextInputAction.done,
+                                    nextFocus:
+                                        index != _languageList!.length - 1
+                                            ? _nameFocusList[index + 1]
+                                            : null,
                                   ),
-                                  const SizedBox(height: Dimensions.paddingSizeLarge),
+                                  const SizedBox(
+                                      height: Dimensions.paddingSizeLarge),
                                 ],
                               );
                             },
@@ -1048,23 +1156,33 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               if (variationModel.nameController!.text.isEmpty) {
                                 variationNameEmpty = true;
                               } else if (!variationModel.isSingle) {
-                                if (variationModel.minController!.text.isEmpty ||
-                                    variationModel.maxController!.text.isEmpty) {
+                                if (variationModel
+                                        .minController!.text.isEmpty ||
+                                    variationModel
+                                        .maxController!.text.isEmpty) {
                                   variationMinMaxEmpty = true;
-                                } else if (int.parse(variationModel.minController!.text) < 1) {
+                                } else if (int.parse(
+                                        variationModel.minController!.text) <
+                                    1) {
                                   variationMinLessThenZero = true;
-                                } else if (int.parse(variationModel.maxController!.text) <
-                                    int.parse(variationModel.minController!.text)) {
+                                } else if (int.parse(
+                                        variationModel.maxController!.text) <
+                                    int.parse(
+                                        variationModel.minController!.text)) {
                                   variationMaxSmallThenMin = true;
-                                } else if (int.parse(variationModel.maxController!.text) >
+                                } else if (int.parse(
+                                        variationModel.maxController!.text) >
                                     (variationModel.options ?? []).length) {
                                   variationMaxBigThenOptions = true;
                                 }
                               } else {
-                                for (Option option in variationModel.options ?? []) {
-                                  if (option.optionNameController!.text.isEmpty) {
+                                for (Option option
+                                    in variationModel.options ?? []) {
+                                  if (option
+                                      .optionNameController!.text.isEmpty) {
                                     variationOptionNameEmpty = true;
-                                  } else if (option.optionPriceController!.text.isEmpty) {
+                                  } else if (option
+                                      .optionPriceController!.text.isEmpty) {
                                     variationOptionPriceEmpty = true;
                                   }
                                 }
@@ -1080,20 +1198,28 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             } else if (restController.categoryIndex == 0) {
                               showCustomSnackBar('select_a_category'.tr);
                             } else if (variationNameEmpty) {
-                              showCustomSnackBar('enter_name_for_every_variation'.tr);
+                              showCustomSnackBar(
+                                  'enter_name_for_every_variation'.tr);
                             } else if (variationMinMaxEmpty) {
-                              showCustomSnackBar('enter_min_max_for_every_multipart_variation'.tr);
+                              showCustomSnackBar(
+                                  'enter_min_max_for_every_multipart_variation'
+                                      .tr);
                             } else if (variationOptionNameEmpty) {
-                              showCustomSnackBar('enter_option_name_for_every_variation'.tr);
+                              showCustomSnackBar(
+                                  'enter_option_name_for_every_variation'.tr);
                             } else if (variationOptionPriceEmpty) {
-                              showCustomSnackBar('enter_option_price_for_every_variation'.tr);
+                              showCustomSnackBar(
+                                  'enter_option_price_for_every_variation'.tr);
                             } else if (variationMinLessThenZero) {
-                              showCustomSnackBar('minimum_type_cant_be_less_then_1'.tr);
+                              showCustomSnackBar(
+                                  'minimum_type_cant_be_less_then_1'.tr);
                             } else if (variationMaxSmallThenMin) {
-                              showCustomSnackBar('max_type_cant_be_less_then_minimum_type'.tr);
+                              showCustomSnackBar(
+                                  'max_type_cant_be_less_then_minimum_type'.tr);
                             } else if (variationMaxBigThenOptions) {
                               showCustomSnackBar(
-                                  'max_type_length_should_not_be_more_then_options_length'.tr);
+                                  'max_type_length_should_not_be_more_then_options_length'
+                                      .tr);
                             } else if (_product!.availableTimeStarts == null) {
                               showCustomSnackBar('pick_start_time'.tr);
                             } else if (_product!.availableTimeEnds == null) {
@@ -1103,20 +1229,32 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             } else {
                               //
                               translations = [];
-                              for (int index = 0; index < _languageList!.length; index++) {
+                              for (int index = 0;
+                                  index < _languageList!.length;
+                                  index++) {
                                 translations.add(Translation(
                                   locale: _languageList![index].key,
                                   key: 'name',
-                                  value: _nameControllerList[index].text.trim().isNotEmpty
+                                  value: _nameControllerList[index]
+                                          .text
+                                          .trim()
+                                          .isNotEmpty
                                       ? _nameControllerList[index].text.trim()
                                       : _nameControllerList[0].text.trim(),
                                 ));
                                 translations.add(Translation(
                                   locale: _languageList![index].key,
                                   key: 'description',
-                                  value: _descriptionControllerList[index].text.trim().isNotEmpty
-                                      ? _descriptionControllerList[index].text.trim()
-                                      : _descriptionControllerList[0].text.trim(),
+                                  value: _descriptionControllerList[index]
+                                          .text
+                                          .trim()
+                                          .isNotEmpty
+                                      ? _descriptionControllerList[index]
+                                          .text
+                                          .trim()
+                                      : _descriptionControllerList[0]
+                                          .text
+                                          .trim(),
                                 ));
                               }
                               //
@@ -1124,40 +1262,60 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               _product!.price = double.parse(price);
                               _product!.discount = double.parse(discount);
                               _product!.discountType =
-                                  restController.discountTypeIndex == 0 ? 'percent' : 'amount';
+                                  restController.discountTypeIndex == 0
+                                      ? 'percent'
+                                      : 'amount';
                               _product!.categoryIds = [];
                               _product!.categoryIds!.add(CategoryIds(
                                   id: restController
-                                      .categoryList![restController.categoryIndex! - 1].id
+                                      .categoryList![
+                                          restController.categoryIndex! - 1]
+                                      .id
                                       .toString()));
                               if (restController.subCategoryIndex != 0) {
                                 _product!.categoryIds!.add(CategoryIds(
                                     id: restController
-                                        .subCategoryList![restController.subCategoryIndex! - 1].id
+                                        .subCategoryList![
+                                            restController.subCategoryIndex! -
+                                                1]
+                                        .id
                                         .toString()));
                               }
                               _product!.addOns = [];
-                              for (var index in restController.selectedAddons ?? []) {
-                                _product!.addOns!
-                                    .add(Get.find<AddonController>().addonList![index]);
+                              for (var index
+                                  in restController.selectedAddons ?? []) {
+                                _product!.addOns!.add(
+                                    Get.find<AddonController>()
+                                        .addonList![index]);
                               }
                               _product!.variations = [];
-                              if ((restController.variationList ?? []).isNotEmpty) {
-                                for (var variation in restController.variationList ?? []) {
+                              if ((restController.variationList ?? [])
+                                  .isNotEmpty) {
+                                for (var variation
+                                    in restController.variationList ?? []) {
                                   List<VariationOption> values = [];
                                   for (var option in variation.options!) {
                                     values.add(VariationOption(
-                                        level: option.optionNameController!.text.trim(),
-                                        optionPrice: option.optionPriceController!.text.trim()));
+                                        level: option.optionNameController!.text
+                                            .trim(),
+                                        optionPrice: option
+                                            .optionPriceController!.text
+                                            .trim()));
                                   }
 
                                   _product!.variations?.add(
                                     Variation(
-                                        name: variation.nameController!.text.trim(),
-                                        type: variation.isSingle ? 'single' : 'multi',
-                                        min: variation.minController!.text.trim(),
-                                        max: variation.maxController!.text.trim(),
-                                        required: variation.required ? 'on' : 'off',
+                                        name: variation.nameController!.text
+                                            .trim(),
+                                        type: variation.isSingle
+                                            ? 'single'
+                                            : 'multi',
+                                        min: variation.minController!.text
+                                            .trim(),
+                                        max: variation.maxController!.text
+                                            .trim(),
+                                        required:
+                                            variation.required ? 'on' : 'off',
                                         variationValues: values),
                                   );
                                   print(_product!.variations);
@@ -1166,7 +1324,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               _product!.translations = [];
                               _product!.translations!.addAll(translations);
 
-                              restController.addProduct(_product!, widget.product == null);
+                              restController.addProduct(
+                                  _product!, widget.product == null);
                             }
                           },
                         )

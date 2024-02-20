@@ -1,6 +1,5 @@
 import 'package:efood_multivendor_restaurant/controller/auth_controller.dart';
 import 'package:efood_multivendor_restaurant/controller/splash_controller.dart';
-import 'package:efood_multivendor_restaurant/controller/theme_controller.dart';
 import 'package:efood_multivendor_restaurant/helper/route_helper.dart';
 import 'package:efood_multivendor_restaurant/util/app_constants.dart';
 import 'package:efood_multivendor_restaurant/util/dimensions.dart';
@@ -45,7 +44,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     // width: 1170,
                     color: Theme.of(context).cardColor,
                     padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                    margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: Dimensions.paddingSizeDefault),
                     child: Column(children: [
                       Row(
                         children: [
@@ -58,8 +58,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               height: 80,
                               width: 80,
                               fit: BoxFit.cover,
-                              imageErrorBuilder: (c, o, s) => Image.asset(Images.placeholder,
-                                  height: 80, width: 80, fit: BoxFit.cover),
+                              imageErrorBuilder: (c, o, s) => Image.asset(
+                                  Images.placeholder,
+                                  height: 80,
+                                  width: 80,
+                                  fit: BoxFit.cover),
                             ),
                           ),
                           SizedBox(width: Dimensions.paddingSizeLarge),
@@ -94,9 +97,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Container(
                         decoration: BoxDecoration(
                           color: const Color(0xFFF6F8FA),
-                          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.radiusDefault),
                           boxShadow: const [
-                            BoxShadow(color: Colors.black12, spreadRadius: 1, blurRadius: 5)
+                            BoxShadow(
+                                color: Colors.black12,
+                                spreadRadius: 1,
+                                blurRadius: 5)
                           ],
                         ),
                         padding: const EdgeInsets.symmetric(
@@ -107,20 +114,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         //     horizontal: Dimensions.paddingSizeExtraLarge),
                         child: Column(
                           children: [
-                            SwitchButton(
-                                icon: Icons.dark_mode,
-                                title: 'dark_mode'.tr,
-                                isButtonActive: Get.isDarkMode,
-                                onTap: () {
-                                  Get.find<ThemeController>().toggleTheme();
-                                }),
-                            const SizedBox(height: Dimensions.paddingSizeSmall),
+                            // SwitchButton(
+                            //     icon: Icons.dark_mode,
+                            //     title: 'dark_mode'.tr,
+                            //     isButtonActive: Get.isDarkMode,
+                            //     onTap: () {
+                            //       Get.find<ThemeController>().toggleTheme();
+                            //     }),
+                            // const SizedBox(height: Dimensions.paddingSizeSmall),
                             SwitchButton(
                               icon: Icons.notifications,
                               title: 'notification'.tr,
                               isButtonActive: authController.notification,
                               onTap: () {
-                                authController.setNotificationActive(!authController.notification);
+                                authController.setNotificationActive(
+                                    !authController.notification);
                               },
                             ),
                             const SizedBox(height: Dimensions.paddingSizeSmall),
@@ -128,15 +136,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 icon: Icons.lock,
                                 title: 'change_password'.tr,
                                 onTap: () {
-                                  Get.toNamed(
-                                      RouteHelper.getResetPasswordRoute('', '', 'password-change'));
+                                  Get.toNamed(RouteHelper.getResetPasswordRoute(
+                                      '', '', 'password-change'));
                                 }),
                             const SizedBox(height: Dimensions.paddingSizeSmall),
                             SwitchButton(
                                 icon: Icons.edit,
                                 title: 'edit_profile'.tr,
                                 onTap: () {
-                                  Get.toNamed(RouteHelper.getUpdateProfileRoute());
+                                  Get.toNamed(
+                                      RouteHelper.getUpdateProfileRoute());
                                 }),
                             const SizedBox(height: Dimensions.paddingSizeSmall),
                             SwitchButton(
@@ -146,10 +155,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 Get.dialog(
                                     ConfirmationDialog(
                                         icon: Images.warning,
-                                        title: 'are_you_sure_to_delete_account'.tr,
-                                        description: 'it_will_remove_your_all_information'.tr,
+                                        title:
+                                            'are_you_sure_to_delete_account'.tr,
+                                        description:
+                                            'it_will_remove_your_all_information'
+                                                .tr,
                                         isLogOut: true,
-                                        onYesPressed: () => authController.removeVendor()),
+                                        onYesPressed: () =>
+                                            authController.removeVendor()),
                                     useSafeArea: false);
                               },
                             ),
@@ -157,13 +170,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                       const SizedBox(height: Dimensions.paddingSizeLarge),
-                      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                        Text('${'version'.tr}:',
-                            style: senRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall)),
-                        const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-                        Text(AppConstants.appVersion.toString(),
-                            style: senMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall)),
-                      ]),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('${'version'.tr}:',
+                                style: senRegular.copyWith(
+                                    fontSize: Dimensions.fontSizeExtraSmall)),
+                            const SizedBox(
+                                width: Dimensions.paddingSizeExtraSmall),
+                            Text(AppConstants.appVersion.toString(),
+                                style: senMedium.copyWith(
+                                    fontSize: Dimensions.fontSizeExtraSmall)),
+                          ]),
                     ]),
                   ),
                 ),
