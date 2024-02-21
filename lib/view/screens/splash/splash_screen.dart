@@ -29,15 +29,12 @@ class SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     bool firstTime = true;
-    _onConnectivityChanged = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult result) {
+    _onConnectivityChanged =
+        Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
       if (!firstTime) {
-        bool isNotConnected = result != ConnectivityResult.wifi &&
-            result != ConnectivityResult.mobile;
-        isNotConnected
-            ? const SizedBox()
-            : ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        bool isNotConnected =
+            result != ConnectivityResult.wifi && result != ConnectivityResult.mobile;
+        isNotConnected ? const SizedBox() : ScaffoldMessenger.of(context).hideCurrentSnackBar();
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           backgroundColor: isNotConnected ? Colors.red : Colors.green,
           duration: Duration(seconds: isNotConnected ? 6000 : 3),
@@ -70,31 +67,23 @@ class SplashScreenState extends State<SplashScreen> {
         Timer(const Duration(seconds: 1), () async {
           double? minimumVersion = 0;
           if (GetPlatform.isAndroid) {
-            minimumVersion = Get.find<SplashController>()
-                .configModel!
-                .appMinimumVersionAndroid;
+            minimumVersion = Get.find<SplashController>().configModel!.appMinimumVersionAndroid;
           } else if (GetPlatform.isIOS) {
-            minimumVersion =
-                Get.find<SplashController>().configModel!.appMinimumVersionIos;
+            minimumVersion = Get.find<SplashController>().configModel!.appMinimumVersionIos;
           }
           if (AppConstants.appVersion < minimumVersion! ||
               Get.find<SplashController>().configModel!.maintenanceMode!) {
-            Get.offNamed(RouteHelper.getUpdateRoute(
-                AppConstants.appVersion < minimumVersion));
+            Get.offNamed(RouteHelper.getUpdateRoute(AppConstants.appVersion < minimumVersion));
           } else {
             if (widget.body != null) {
               if (widget.body!.notificationType == NotificationType.order) {
                 await Get.find<AuthController>().getProfile();
-                Get.offNamed(
-                    RouteHelper.getOrderDetailsRoute(widget.body!.orderId));
-              } else if (widget.body!.notificationType ==
-                  NotificationType.general) {
-                Get.offNamed(
-                    RouteHelper.getNotificationRoute(fromNotification: true));
+                Get.offNamed(RouteHelper.getOrderDetailsRoute(widget.body!.orderId));
+              } else if (widget.body!.notificationType == NotificationType.general) {
+                Get.offNamed(RouteHelper.getNotificationRoute(fromNotification: true));
               } else {
                 Get.offNamed(RouteHelper.getChatRoute(
-                    notificationBody: widget.body,
-                    conversationId: widget.body!.conversationId));
+                    notificationBody: widget.body, conversationId: widget.body!.conversationId));
               }
             } else {
               if (Get.find<AuthController>().isLoggedIn()) {
@@ -102,9 +91,10 @@ class SplashScreenState extends State<SplashScreen> {
                 await Get.find<AuthController>().getProfile();
                 Get.offNamed(RouteHelper.getInitialRoute());
               } else {
-                if (AppConstants.languages.length > 1 &&
-                    Get.find<SplashController>().showIntro()) {
-                  Get.offNamed(RouteHelper.getLanguageRoute('splash'));
+                if (AppConstants.languages.length > 1 && Get.find<SplashController>().showIntro()) {
+                  Get.find<SplashController>().setIntro(false);
+                  Get.offNamed(RouteHelper.getSignInRoute());
+                  // Get.offNamed(RouteHelper.getLanguageRoute('splash'));
                 } else {
                   Get.offNamed(RouteHelper.getSignInRoute());
                 }
