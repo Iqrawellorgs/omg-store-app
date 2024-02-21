@@ -82,6 +82,7 @@ class RouteHelper {
   static const String deliveryManDetails = '/delivery-man-details';
   static const String terms = '/terms-and-condition';
   static const String privacy = '/privacy-policy';
+  static const String faq = '/faq';
   static const String update = '/update';
   static const String chatScreen = '/chat-screen';
   static const String conversationListScreen = '/chat-list-screen';
@@ -190,6 +191,7 @@ class RouteHelper {
 
   static String getTermsRoute() => terms;
   static String getPrivacyRoute() => privacy;
+  static String getFaqRoute() => faq;
   static String getChatRoute(
       {required NotificationBody? notificationBody, User? user, int? conversationId}) {
     String notificationBody0 = 'null';
@@ -350,6 +352,7 @@ class RouteHelper {
         }),
     GetPage(name: terms, page: () => const HtmlViewerScreen(isPrivacyPolicy: false)),
     GetPage(name: privacy, page: () => const HtmlViewerScreen(isPrivacyPolicy: true)),
+    GetPage(name: faq, page: () => const HtmlViewerScreen(isPrivacyPolicy: false, isFaq: true)),
     GetPage(name: update, page: () => UpdateScreen(isUpdate: Get.parameters['update'] == 'true')),
     GetPage(
         name: chatScreen,
