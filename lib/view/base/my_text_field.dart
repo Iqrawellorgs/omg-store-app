@@ -98,90 +98,73 @@ class MyTextFieldState extends State<MyTextField> {
             ])
           : const SizedBox(),
       SizedBox(height: widget.title ? Dimensions.paddingSizeExtraSmall : 0),
-      Container(
-        height: widget.maxLines != 5 ? 50 : 100,
-        decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-          border: widget.isBorderenabled
-              ? Border.all(color: Colors.grey.withOpacity(.3), width: 1)
+      TextField(
+        maxLines: widget.maxLines,
+        controller: widget.controller,
+        focusNode: widget.focusNode,
+        readOnly: widget.readOnly,
+        style: senRegular,
+        textInputAction: widget.nextFocus != null ? widget.inputAction : TextInputAction.done,
+        keyboardType: widget.isAmount ? TextInputType.number : widget.inputType,
+        autofillHints: widget.inputType == TextInputType.name
+            ? [AutofillHints.name]
+            : widget.inputType == TextInputType.emailAddress
+                ? [AutofillHints.email]
+                : widget.inputType == TextInputType.phone
+                    ? [AutofillHints.telephoneNumber]
+                    : widget.inputType == TextInputType.streetAddress
+                        ? [AutofillHints.fullStreetAddress]
+                        : widget.inputType == TextInputType.url
+                            ? [AutofillHints.url]
+                            : widget.inputType == TextInputType.visiblePassword
+                                ? [AutofillHints.password]
+                                : null,
+        cursorColor: Theme.of(context).primaryColor,
+        textCapitalization: widget.capitalization,
+        enabled: widget.isEnabled,
+        textAlignVertical: TextAlignVertical.center,
+        autofocus: false,
+        //onChanged: widget.isSearch ? widget.languageProvider.searchLanguage : null,
+        obscureText: widget.isPassword ? _obscureText : false,
+        inputFormatters: widget.inputType == TextInputType.phone
+            ? <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp('[0-9+]'))]
+            : widget.isAmount
+                ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))]
+                : null,
+        decoration: InputDecoration(
+          hintText: widget.hintText,
+          isDense: true,
+          filled: true,
+          fillColor: widget.fillColor ?? Theme.of(context).cardColor,
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+              borderSide: BorderSide.none),
+          hintStyle: senRegular.copyWith(
+              color: Theme.of(context).hintColor, fontSize: Dimensions.fontSizeSmall),
+          suffixIcon: widget.isPassword
+              ? IconButton(
+                  icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility,
+                      color: Theme.of(context).hintColor.withOpacity(0.3)),
+                  onPressed: _toggle,
+                )
               : null,
-          // boxShadow: [
-          //   BoxShadow(
-          //       color: Colors.grey[Get.isDarkMode ? 800 : 200]!,
-          //       spreadRadius: 1,
-          //       blurRadius: 5,
-          //       offset: const Offset(0, 5))
-          // ],
+          prefixIcon: widget.amountIcon
+              ? SizedBox(
+                  width: 20,
+                  child: Center(
+                      child: Text('${Get.find<SplashController>().configModel!.currencySymbol}',
+                          style: const TextStyle(fontSize: 20), textAlign: TextAlign.center)),
+                )
+              : null,
         ),
-        child: TextField(
-          maxLines: widget.maxLines,
-          controller: widget.controller,
-          focusNode: widget.focusNode,
-          readOnly: widget.readOnly,
-          style: senRegular,
-          textInputAction: widget.nextFocus != null ? widget.inputAction : TextInputAction.done,
-          keyboardType: widget.isAmount ? TextInputType.number : widget.inputType,
-          autofillHints: widget.inputType == TextInputType.name
-              ? [AutofillHints.name]
-              : widget.inputType == TextInputType.emailAddress
-                  ? [AutofillHints.email]
-                  : widget.inputType == TextInputType.phone
-                      ? [AutofillHints.telephoneNumber]
-                      : widget.inputType == TextInputType.streetAddress
-                          ? [AutofillHints.fullStreetAddress]
-                          : widget.inputType == TextInputType.url
-                              ? [AutofillHints.url]
-                              : widget.inputType == TextInputType.visiblePassword
-                                  ? [AutofillHints.password]
-                                  : null,
-          cursorColor: Theme.of(context).primaryColor,
-          textCapitalization: widget.capitalization,
-          enabled: widget.isEnabled,
-          textAlignVertical: TextAlignVertical.center,
-          autofocus: false,
-          //onChanged: widget.isSearch ? widget.languageProvider.searchLanguage : null,
-          obscureText: widget.isPassword ? _obscureText : false,
-          inputFormatters: widget.inputType == TextInputType.phone
-              ? <TextInputFormatter>[FilteringTextInputFormatter.allow(RegExp('[0-9+]'))]
-              : widget.isAmount
-                  ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))]
-                  : null,
-          decoration: InputDecoration(
-            hintText: widget.hintText,
-            isDense: true,
-            filled: true,
-            fillColor: widget.fillColor ?? Theme.of(context).cardColor,
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
-                borderSide: BorderSide.none),
-            hintStyle: senRegular.copyWith(
-                color: Theme.of(context).hintColor, fontSize: Dimensions.fontSizeSmall),
-            suffixIcon: widget.isPassword
-                ? IconButton(
-                    icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility,
-                        color: Theme.of(context).hintColor.withOpacity(0.3)),
-                    onPressed: _toggle,
-                  )
+        onTap: widget.onTap as void Function()?,
+        onSubmitted: (text) => widget.nextFocus != null
+            ? FocusScope.of(context).requestFocus(widget.nextFocus)
+            : widget.onSubmit != null
+                ? widget.onSubmit!(text)
                 : null,
-            prefixIcon: widget.amountIcon
-                ? SizedBox(
-                    width: 20,
-                    child: Center(
-                        child: Text('${Get.find<SplashController>().configModel!.currencySymbol}',
-                            style: const TextStyle(fontSize: 20), textAlign: TextAlign.center)),
-                  )
-                : null,
-          ),
-          onTap: widget.onTap as void Function()?,
-          onSubmitted: (text) => widget.nextFocus != null
-              ? FocusScope.of(context).requestFocus(widget.nextFocus)
-              : widget.onSubmit != null
-                  ? widget.onSubmit!(text)
-                  : null,
-          onChanged: widget.onChanged as void Function(String)?,
-          onEditingComplete: widget.onComplete as void Function()?,
-        ),
+        onChanged: widget.onChanged as void Function(String)?,
+        onEditingComplete: widget.onComplete as void Function()?,
       ),
     ]);
   }
