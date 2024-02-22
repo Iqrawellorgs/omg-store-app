@@ -353,8 +353,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> with TickerProvider
                                           itemCount: restController.restaurantReviewList!.length,
                                           physics: const NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
-                                          padding:
-                                              const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: Dimensions.paddingSizeLarge),
                                           itemBuilder: (context, index) {
                                             return ReviewWidget(
                                               review: restController.restaurantReviewList![index],
