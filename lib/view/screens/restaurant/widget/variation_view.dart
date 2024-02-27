@@ -12,8 +12,7 @@ import '../../../../controller/theme_controller.dart';
 class VariationView extends StatefulWidget {
   final RestaurantController restController;
   final Product? product;
-  const VariationView(
-      {Key? key, required this.restController, required this.product})
+  const VariationView({Key? key, required this.restController, required this.product})
       : super(key: key);
 
   @override
@@ -29,9 +28,7 @@ class _VariationViewState extends State<VariationView> {
         'variation'.tr,
         style: senRegular.copyWith(
             fontSize: Dimensions.fontSizeSmall,
-            color: themeController.darkTheme
-                ? Colors.white
-                : Theme.of(context).dividerColor),
+            color: themeController.darkTheme ? Colors.white : Theme.of(context).dividerColor),
       ),
       // const SizedBox(height: Dimensions.paddingSizeExtraSmall),
       (widget.restController.variationList ?? []).isNotEmpty
@@ -42,14 +39,11 @@ class _VariationViewState extends State<VariationView> {
               itemBuilder: (context, index) {
                 return Stack(children: [
                   Container(
-                    margin: const EdgeInsets.symmetric(
-                        vertical: Dimensions.paddingSizeExtraSmall),
+                    margin: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
                     padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                     decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Theme.of(context).primaryColor),
-                        borderRadius:
-                            BorderRadius.circular(Dimensions.radiusSmall)),
+                        border: Border.all(color: Theme.of(context).primaryColor),
+                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
                     child: Column(
                       children: [
                         const SizedBox(height: Dimensions.paddingSizeSmall),
@@ -57,23 +51,19 @@ class _VariationViewState extends State<VariationView> {
                           hintText: 'name'.tr,
                           showTitle: true,
                           //showShadow: true,
-                          controller: widget.restController
-                              .variationList![index].nameController,
+                          controller: widget.restController.variationList![index].nameController,
                         ),
                         ListTileTheme(
                           contentPadding: EdgeInsets.zero,
                           child: CheckboxListTile(
-                            visualDensity:
-                                VisualDensity(horizontal: -4, vertical: -4),
+                            visualDensity: VisualDensity(horizontal: -4, vertical: -4),
 
                             controlAffinity: ListTileControlAffinity.leading,
                             // contentPadding: const EdgeInsets.symmetric(horizontal: 32),
-                            value: widget
-                                .restController.variationList![index].required,
+                            value: widget.restController.variationList![index].required,
                             title: Text(
                               'required'.tr,
-                              style: const TextStyle(
-                                  fontSize: Dimensions.fontSizeSmall),
+                              style: const TextStyle(fontSize: Dimensions.fontSizeSmall),
                             ),
                             tristate: true,
                             checkboxShape: RoundedRectangleBorder(
@@ -87,54 +77,42 @@ class _VariationViewState extends State<VariationView> {
                           ),
                         ),
                         const SizedBox(height: Dimensions.paddingSizeSmall),
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text('select_type'.tr, style: senMedium),
-                              Row(children: [
-                                InkWell(
-                                  onTap: () => widget.restController
-                                      .changeSelectVariationType(index),
-                                  child: Row(children: [
-                                    Radio(
-                                      value: true,
-                                      groupValue: widget.restController
-                                          .variationList![index].isSingle,
-                                      onChanged: (bool? value) {
-                                        widget.restController
-                                            .changeSelectVariationType(index);
-                                      },
-                                      activeColor:
-                                          Theme.of(context).primaryColor,
-                                    ),
-                                    Text('single'.tr)
-                                  ]),
+                        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          Text('select_type'.tr, style: senMedium),
+                          Row(children: [
+                            InkWell(
+                              onTap: () => widget.restController.changeSelectVariationType(index),
+                              child: Row(children: [
+                                Radio(
+                                  value: true,
+                                  groupValue: widget.restController.variationList![index].isSingle,
+                                  onChanged: (bool? value) {
+                                    widget.restController.changeSelectVariationType(index);
+                                  },
+                                  activeColor: Theme.of(context).primaryColor,
                                 ),
-                                const SizedBox(
-                                    width: Dimensions.paddingSizeLarge),
-                                InkWell(
-                                  onTap: () => widget.restController
-                                      .changeSelectVariationType(index),
-                                  child: Row(children: [
-                                    Radio(
-                                      value: false,
-                                      groupValue: widget.restController
-                                          .variationList![index].isSingle,
-                                      onChanged: (bool? value) {
-                                        widget.restController
-                                            .changeSelectVariationType(index);
-                                      },
-                                      activeColor:
-                                          Theme.of(context).primaryColor,
-                                    ),
-                                    Text('multiple'.tr)
-                                  ]),
-                                ),
+                                Text('single'.tr)
                               ]),
-                            ]),
+                            ),
+                            const SizedBox(width: Dimensions.paddingSizeLarge),
+                            InkWell(
+                              onTap: () => widget.restController.changeSelectVariationType(index),
+                              child: Row(children: [
+                                Radio(
+                                  value: false,
+                                  groupValue: widget.restController.variationList![index].isSingle,
+                                  onChanged: (bool? value) {
+                                    widget.restController.changeSelectVariationType(index);
+                                  },
+                                  activeColor: Theme.of(context).primaryColor,
+                                ),
+                                Text('multiple'.tr)
+                              ]),
+                            ),
+                          ]),
+                        ]),
                         Visibility(
-                          visible: !widget
-                              .restController.variationList![index].isSingle,
+                          visible: !widget.restController.variationList![index].isSingle,
                           child: Row(children: [
                             Flexible(
                                 child: CustomTextField(
@@ -142,8 +120,7 @@ class _VariationViewState extends State<VariationView> {
                               showTitle: true,
                               //showShadow: true,
                               inputType: TextInputType.number,
-                              controller: widget.restController
-                                  .variationList![index].minController,
+                              controller: widget.restController.variationList![index].minController,
                             )),
                             const SizedBox(width: Dimensions.paddingSizeSmall),
                             Flexible(
@@ -152,8 +129,8 @@ class _VariationViewState extends State<VariationView> {
                                 inputType: TextInputType.number,
                                 showTitle: true,
                                 //showShadow: true,
-                                controller: widget.restController
-                                    .variationList![index].maxController,
+                                controller:
+                                    widget.restController.variationList![index].maxController,
                               ),
                             ),
                           ]),
@@ -169,52 +146,39 @@ class _VariationViewState extends State<VariationView> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               ListView.builder(
-                                  itemCount: (widget.restController
-                                              .variationList![index].options ??
-                                          [])
-                                      .length,
+                                  itemCount:
+                                      (widget.restController.variationList![index].options ?? [])
+                                          .length,
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, i) {
                                     return Padding(
                                       padding: const EdgeInsets.symmetric(
-                                          vertical:
-                                              Dimensions.paddingSizeExtraSmall),
-                                      child: Expanded(
-                                        child: Column(children: [
+                                          vertical: Dimensions.paddingSizeExtraSmall),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
                                           CustomTextField(
                                             hintText: 'option_name'.tr,
                                             showTitle: true,
                                             // showShadow: true,
-                                            controller: widget
-                                                .restController
-                                                .variationList![index]
-                                                .options![i]
-                                                .optionNameController,
+                                            controller: widget.restController.variationList![index]
+                                                .options![i].optionNameController,
                                           ),
-                                          const SizedBox(
-                                              height: Dimensions
-                                                  .paddingSizeDefault),
+                                          const SizedBox(height: Dimensions.paddingSizeDefault),
                                           CustomTextField(
                                             hintText: 'additional_price'.tr,
                                             showTitle: true,
                                             //showShadow: true,
-                                            controller: widget
-                                                .restController
-                                                .variationList![index]
-                                                .options![i]
-                                                .optionPriceController,
+                                            controller: widget.restController.variationList![index]
+                                                .options![i].optionPriceController,
                                             inputType: TextInputType.number,
                                             inputAction: TextInputAction.done,
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(
-                                                top: Dimensions
-                                                    .paddingSizeSmall),
-                                            child: (widget
-                                                                .restController
-                                                                .variationList![
-                                                                    index]
+                                                top: Dimensions.paddingSizeSmall),
+                                            child: (widget.restController.variationList![index]
                                                                 .options ??
                                                             [])
                                                         .length >
@@ -223,33 +187,26 @@ class _VariationViewState extends State<VariationView> {
                                                     child: Text(
                                                       "Remove",
                                                       style: const TextStyle(
-                                                          fontSize: Dimensions
-                                                              .fontSizeSmall),
+                                                          fontSize: Dimensions.fontSizeSmall),
                                                     ),
-                                                    onPressed: () => widget
-                                                        .restController
-                                                        .removeOptionVariation(
-                                                            index, i),
+                                                    onPressed: () => widget.restController
+                                                        .removeOptionVariation(index, i),
                                                   )
                                                 : const SizedBox(),
                                           )
-                                        ]),
+                                        ],
                                       ),
                                     );
                                   }),
-                              const SizedBox(
-                                  height: Dimensions.paddingSizeSmall),
+                              const SizedBox(height: Dimensions.paddingSizeSmall),
                               InkWell(
                                 onTap: () {
                                   bool allFieldsFilled = true;
-                                  var variation = widget
-                                      .restController.variationList![index];
+                                  var variation = widget.restController.variationList![index];
                                   if (variation.options != null) {
                                     for (var option in variation.options!) {
-                                      if (option.optionNameController!.text
-                                              .isEmpty ||
-                                          option.optionPriceController!.text
-                                              .isEmpty) {
+                                      if (option.optionNameController!.text.isEmpty ||
+                                          option.optionPriceController!.text.isEmpty) {
                                         allFieldsFilled = false;
                                         break;
                                       }
@@ -257,8 +214,7 @@ class _VariationViewState extends State<VariationView> {
                                   }
                                   if (allFieldsFilled) {
                                     // All fields are filled, proceed with adding a new option for the variation
-                                    widget.restController
-                                        .addOptionVariation(index);
+                                    widget.restController.addOptionVariation(index);
                                   } else {
                                     // Show an alert because some fields are not filled
                                     showCustomSnackBar(
@@ -272,8 +228,7 @@ class _VariationViewState extends State<VariationView> {
                                       vertical: Dimensions.paddingSizeSmall),
                                   decoration: BoxDecoration(
                                     color: Theme.of(context).primaryColor,
-                                    borderRadius: BorderRadius.circular(
-                                        Dimensions.radiusSmall),
+                                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                     // border: Border.all(color: Theme.of(context).primaryColor),
                                   ),
                                   child: Text(
@@ -296,8 +251,7 @@ class _VariationViewState extends State<VariationView> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       icon: const Icon(Icons.delete),
-                      onPressed: () =>
-                          widget.restController.removeVariation(index),
+                      onPressed: () => widget.restController.removeVariation(index),
                     ),
                   ),
                 ]);
@@ -309,8 +263,7 @@ class _VariationViewState extends State<VariationView> {
           bool allFieldsFilled = true;
           // Check if all fields are filled for the current variations
           for (var variation in widget.restController.variationList ?? []) {
-            if (variation.nameController.text.isEmpty ||
-                variation.options == null) {
+            if (variation.nameController.text.isEmpty || variation.options == null) {
               allFieldsFilled = false;
               break;
             }
@@ -330,8 +283,7 @@ class _VariationViewState extends State<VariationView> {
             widget.restController.addVariation();
           } else {
             // Show an alert because some fields are not filled
-            showCustomSnackBar(
-                'Please fill all the fields before adding a new variation.');
+            showCustomSnackBar('Please fill all the fields before adding a new variation.');
           }
         },
         child: Container(
@@ -350,9 +302,7 @@ class _VariationViewState extends State<VariationView> {
                 fontFamily: "Sen",
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
-                color: themeController.darkTheme
-                    ? Colors.white
-                    : Theme.of(context).cardColor),
+                color: themeController.darkTheme ? Colors.white : Theme.of(context).cardColor),
             //  robotoMedium.copyWith(
             //   color: themeController.darkTheme ? Colors.white : Theme.of(context).cardColor,
             //   fontSize: Dimensions.fontSizeDefault,

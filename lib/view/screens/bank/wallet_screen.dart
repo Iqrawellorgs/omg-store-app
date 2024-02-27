@@ -212,6 +212,8 @@ class WalletScreen extends StatelessWidget {
                       const SizedBox(height: Dimensions.paddingSizeSmall),
                       bankController.withdrawList!.isNotEmpty
                           ? ListView.builder(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: Dimensions.paddingSizeLarge),
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: bankController.withdrawList!.length > 10

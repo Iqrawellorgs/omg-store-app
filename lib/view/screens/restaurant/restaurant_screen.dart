@@ -78,7 +78,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> with TickerProvider
                       } else {
                         if (restaurant != null) {
                           // TODO: add product
-                          Get.toNamed(RouteHelper.getProductRoute(null));
+                          Get.toNamed(RouteHelper.getProductRoute(null, restaurant));
                         }
                       }
                     } else {
@@ -340,11 +340,13 @@ class _RestaurantScreenState extends State<RestaurantScreen> with TickerProvider
                       builder: (context, child) {
                         if (_tabController!.index == 0) {
                           return ProductView(
-                              scrollController: _scrollController,
-                              type: restController.type,
-                              onVegFilterTap: (String type) {
-                                Get.find<RestaurantController>().getProductList('1', type);
-                              });
+                            scrollController: _scrollController,
+                            type: restController.type,
+                            onVegFilterTap: (String type) {
+                              Get.find<RestaurantController>().getProductList('1', type);
+                            },
+                            restaurant: restaurant,
+                          );
                         } else {
                           return haveSubscription
                               ? restController.restaurantReviewList != null

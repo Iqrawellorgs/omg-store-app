@@ -133,23 +133,26 @@ class RouteHelper {
     return '$productImages?item=$data&index=$selectedIndex';
   }
 
-  static String getProductRoute(Product? productModel) {
+  static String getProductRoute(Product? productModel, Restaurant restaurant) {
+    List<int> encoded1 = utf8.encode(jsonEncode(restaurant.toJson()));
+    String data2 = base64Encode(encoded1);
+
     if (productModel == null) {
-      return '$product?data=null';
+      return '$product?data=null&restaurant=$data2';
     }
     List<int> encoded = utf8.encode(jsonEncode(productModel.toJson()));
     String data = base64Encode(encoded);
-    return '$product?data=$data';
+    return '$product?data=$data&restaurant=$data2';
   }
 
-  static String getAddProductRoute(Product? productModel) {
-    // String translations0 = base64Encode(utf8.encode(jsonEncode(translations)));
-    if (productModel == null) {
-      return '$addProduct?data=null';
-    }
-    String data = base64Encode(utf8.encode(jsonEncode(productModel.toJson())));
-    return '$addProduct?data=$data';
-  }
+  // static String getAddProductRoute(Product? productModel) {
+  //   // String translations0 = base64Encode(utf8.encode(jsonEncode(translations)));
+  //   if (productModel == null) {
+  //     return '$addProduct?data=null';
+  //   }
+  //   String data = base64Encode(utf8.encode(jsonEncode(productModel.toJson())));
+  //   return '$addProduct?data=$data';
+  // }
 
   static String getCategoriesRoute() => categories;
   static String getCouponRoute() => coupon;
@@ -285,29 +288,34 @@ class RouteHelper {
     GetPage(
         name: product,
         page: () {
+          List<int> decode2 = base64Decode(Get.parameters['restaurant']!.replaceAll(' ', '+'));
+          Restaurant data2 = Restaurant.fromJson(jsonDecode(utf8.decode(decode2)));
           if (Get.parameters['data'] == 'null') {
-            return const AddProductScreen(product: null);
+            return AddProductScreen(
+              product: null,
+              restaurant: data2,
+            );
           }
           List<int> decode = base64Decode(Get.parameters['data']!.replaceAll(' ', '+'));
           Product data = Product.fromJson(jsonDecode(utf8.decode(decode)));
-          return AddProductScreen(product: data);
+          return AddProductScreen(product: data, restaurant: data2);
         }),
-    GetPage(
-        name: addProduct,
-        page: () {
-          List<Translation> translations = [];
-          jsonDecode(
-                  utf8.decode(base64Decode(Get.parameters['translations']!.replaceAll(' ', '+'))))
-              .forEach((data) {
-            translations.add(Translation.fromJson(data));
-          });
-          if (Get.parameters['data'] == 'null') {
-            return AddProductScreen(product: null);
-          }
-          List<int> decode = base64Decode(Get.parameters['data']!.replaceAll(' ', '+'));
-          Product data = Product.fromJson(jsonDecode(utf8.decode(decode)));
-          return AddProductScreen(product: data);
-        }),
+    // GetPage(
+    //     name: addProduct,
+    //     page: () {
+    //       List<Translation> translations = [];
+    //       jsonDecode(
+    //               utf8.decode(base64Decode(Get.parameters['translations']!.replaceAll(' ', '+'))))
+    //           .forEach((data) {
+    //         translations.add(Translation.fromJson(data));
+    //       });
+    //       if (Get.parameters['data'] == 'null') {
+    //         return AddProductScreen(product: null);
+    //       }
+    //       List<int> decode = base64Decode(Get.parameters['data']!.replaceAll(' ', '+'));
+    //       Product data = Product.fromJson(jsonDecode(utf8.decode(decode)));
+    //       return AddProductScreen(product: data);
+    //     }),
     GetPage(name: categories, page: () => const CategoryScreen(categoryModel: null)),
     GetPage(
         name: subCategories,

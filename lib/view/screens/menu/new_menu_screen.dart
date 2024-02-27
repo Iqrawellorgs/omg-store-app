@@ -288,7 +288,10 @@ class NewMenuScreen extends StatelessWidget {
                                       PortionWidget(
                                         icon: Images.addFood,
                                         title: 'add_food'.tr,
-                                        route: RouteHelper.getProductRoute(null),
+                                        route: RouteHelper.getProductRoute(
+                                          null,
+                                          Get.find<AuthController>().profileModel!.restaurants![0],
+                                        ),
                                       ),
                                       PortionWidget(
                                           icon: Images.addon,

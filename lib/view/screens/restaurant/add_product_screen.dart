@@ -8,6 +8,7 @@ import 'package:efood_multivendor_restaurant/controller/splash_controller.dart';
 import 'package:efood_multivendor_restaurant/data/model/body/variation_model_body.dart';
 import 'package:efood_multivendor_restaurant/data/model/response/config_model.dart';
 import 'package:efood_multivendor_restaurant/data/model/response/product_model.dart';
+import 'package:efood_multivendor_restaurant/data/model/response/profile_model.dart';
 import 'package:efood_multivendor_restaurant/helper/custom_print.dart';
 import 'package:efood_multivendor_restaurant/util/dimensions.dart';
 import 'package:efood_multivendor_restaurant/util/images.dart';
@@ -27,7 +28,9 @@ import '../../../controller/theme_controller.dart';
 
 class AddProductScreen extends StatefulWidget {
   final Product? product;
-  const AddProductScreen({Key? key, required this.product}) : super(key: key);
+  final Restaurant restaurant;
+  const AddProductScreen({Key? key, required this.product, required this.restaurant})
+      : super(key: key);
 
   @override
   State<AddProductScreen> createState() => _AddProductScreenState();
@@ -54,6 +57,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   void initState() {
     super.initState();
+    Get.find<RestaurantController>().initRestaurantData(widget.restaurant);
 //initfrom addname
 
     if (widget.product != null) {
@@ -194,8 +198,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                                       )
                                                 : FadeInImage.assetNetwork(
                                                     placeholder: Images.placeholder,
-                                                    image: _product!.image ?? '',
-                                                    // '${Get.find<SplashController>().configModel.baseUrls.itemImageUrl}/${_item.image != null ? _item.image : ''}',
+                                                    image:
+                                                        // '_product!.image ?? '',
+                                                        '${Get.find<SplashController>().configModel!.baseUrls!.productImageUrl}/${_product!.image ?? ''}',
                                                     height: 120,
                                                     width: 150,
                                                     fit: BoxFit.cover,
@@ -367,24 +372,17 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                                         width: 150,
                                                         height: 122,
                                                         alignment: Alignment.center,
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius.circular(
-                                                              Dimensions.paddingSizeSmall),
-                                                          border: Border.all(
-                                                            color: Theme.of(context).primaryColor,
-                                                            width: 2,
-                                                          ),
-                                                        ),
+                                                        // decoration: BoxDecoration(
+                                                        //   borderRadius: BorderRadius.circular(
+                                                        //       Dimensions.paddingSizeSmall),
+                                                        //   border: Border.all(
+                                                        //     color: Theme.of(context).primaryColor,
+                                                        //     width: 2,
+                                                        //   ),
+                                                        // ),
                                                         child: Container(
                                                           padding: EdgeInsets.all(
                                                               Dimensions.paddingSizeDefault),
-                                                          // decoration: BoxDecoration(
-                                                          //     // border: Border.all(
-                                                          //     //     width: 2,
-                                                          //     //     color:
-                                                          //     //         Theme.of(context).primaryColor),
-                                                          //     // shape: BoxShape.circle,
-                                                          //     ),
                                                           child: Icon(
                                                             Icons.add_a_photo,
                                                             size: 35,
@@ -393,6 +391,31 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                                         ),
                                                       ),
                                                     ),
+                                        ),
+                                        Positioned(
+                                          bottom: 0,
+                                          right: 0,
+                                          top: 0,
+                                          left: 0,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              // color: Colors.black.withOpacity(0.3),
+                                              borderRadius: BorderRadius.circular(
+                                                  Dimensions.paddingSizeSmall),
+                                              border: Border.all(
+                                                  width: 2, color: Theme.of(context).primaryColor),
+                                            ),
+                                            // child: Container(
+                                            //   margin: EdgeInsets.all(25),
+                                            //   decoration: BoxDecoration(
+                                            //     border:
+                                            //         Border.all(width: 2, color: Colors.white),
+                                            //     shape: BoxShape.circle,
+                                            //   ),
+                                            //   child:
+                                            //       Icon(Icons.camera_alt, color: Colors.white),
+                                            // ),
+                                          ),
                                         ),
                                         Positioned(
                                           right: 0,
@@ -408,7 +431,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                             },
                                             child: Padding(
                                               padding: EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                              child: restController.rawImages.isNotEmpty
+                                              child: restController.rawImages.isNotEmpty ||
+                                                      restController.savedImages.isNotEmpty
                                                   ? Icon(Icons.delete_forever, color: Colors.red)
                                                   : null,
                                             ),
@@ -441,11 +465,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                     itemBuilder: (context, index) {
                                       index++;
                                       bool savedImage = index < restController.savedImages.length;
-                                      XFile? file = (savedImage ||
-                                              index == restController.savedImages.length)
-                                          ? null
-                                          : restController
-                                              .rawImages[index]; // Modify index calculation here
+                                      XFile? file =
+                                          (savedImage || index < restController.savedImages.length)
+                                              ? null
+                                              : restController.rawImages[index -
+                                                  restController
+                                                      .savedImages.length]; //Just added images
 
                                       return Container(
                                         decoration: BoxDecoration(
@@ -750,77 +775,78 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             alignment: Alignment.center,
                             child: cuisineView(),
                           ),
-                          // Column(
-                          //     crossAxisAlignment: CrossAxisAlignment.start,
-                          //     mainAxisAlignment: MainAxisAlignment.center,
-                          //     children: [
-                          //       Row(children: [
-                          //         Expanded(
-                          //           flex: 8,
-                          //           child: MyTextField(
-                          //             hintText: 'tag'.tr,
-                          //             controller: _tagController,
-                          //             inputAction: TextInputAction.done,
-                          //             onSubmit: (name) {
-                          //               if (name.isNotEmpty) {
-                          //                 restController.setTag(name);
-                          //                 _tagController.text = '';
-                          //               }
-                          //             },
-                          //           ),
-                          //         ),
-                          //         const SizedBox(width: Dimensions.paddingSizeSmall),
-                          //         Expanded(
-                          //           flex: 2,
-                          //           child: Padding(
-                          //             padding: const EdgeInsets.only(top: 20),
-                          //             child: CustomButton(
-                          //                 buttonText: 'add'.tr,
-                          //                 onPressed: () {
-                          //                   if (_tagController.text.isNotEmpty) {
-                          //                     restController.setTag(_tagController.text.trim());
-                          //                     _tagController.text = '';
-                          //                   }
-                          //                 }),
-                          //           ),
-                          //         )
-                          //       ]),
-                          //       const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                          //       restController.tagList.isNotEmpty
-                          //           ? SizedBox(
-                          //               height: 40,
-                          //               child: ListView.builder(
-                          //                   shrinkWrap: true,
-                          //                   scrollDirection: Axis.horizontal,
-                          //                   itemCount: restController.tagList.length,
-                          //                   itemBuilder: (context, index) {
-                          //                     return Container(
-                          //                       margin: const EdgeInsets.symmetric(
-                          //                           horizontal: Dimensions.paddingSizeExtraSmall),
-                          //                       padding: const EdgeInsets.symmetric(
-                          //                           horizontal: Dimensions.paddingSizeSmall),
-                          //                       decoration: BoxDecoration(
-                          //                           color: Theme.of(context).primaryColor,
-                          //                           borderRadius: BorderRadius.circular(
-                          //                               Dimensions.radiusSmall)),
-                          //                       child: Center(
-                          //                           child: Row(children: [
-                          //                         Text(restController.tagList[index]!,
-                          //                             style: senMedium.copyWith(
-                          //                                 color: Theme.of(context).cardColor)),
-                          //                         const SizedBox(
-                          //                             width: Dimensions.paddingSizeExtraSmall),
-                          //                         InkWell(
-                          //                             onTap: () => restController.removeTag(index),
-                          //                             child: Icon(Icons.clear,
-                          //                                 size: 18,
-                          //                                 color: Theme.of(context).cardColor)),
-                          //                       ])),
-                          //                     );
-                          //                   }),
-                          //             )
-                          //           : const SizedBox(),
-                          //     ]),
+                          const SizedBox(height: Dimensions.paddingSizeLarge),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(children: [
+                                  Expanded(
+                                    flex: 8,
+                                    child: MyTextField(
+                                      hintText: 'tag'.tr,
+                                      controller: _tagController,
+                                      inputAction: TextInputAction.done,
+                                      onSubmit: (name) {
+                                        if (name.isNotEmpty) {
+                                          restController.setTag(name);
+                                          _tagController.text = '';
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(width: Dimensions.paddingSizeSmall),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 20),
+                                      child: CustomButton(
+                                          buttonText: 'add'.tr,
+                                          onPressed: () {
+                                            if (_tagController.text.isNotEmpty) {
+                                              restController.setTag(_tagController.text.trim());
+                                              _tagController.text = '';
+                                            }
+                                          }),
+                                    ),
+                                  )
+                                ]),
+                                const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                                restController.tagList.isNotEmpty
+                                    ? SizedBox(
+                                        height: 40,
+                                        child: ListView.builder(
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: restController.tagList.length,
+                                            itemBuilder: (context, index) {
+                                              return Container(
+                                                margin: const EdgeInsets.symmetric(
+                                                    horizontal: Dimensions.paddingSizeExtraSmall),
+                                                padding: const EdgeInsets.symmetric(
+                                                    horizontal: Dimensions.paddingSizeSmall),
+                                                decoration: BoxDecoration(
+                                                    color: Theme.of(context).primaryColor,
+                                                    borderRadius: BorderRadius.circular(
+                                                        Dimensions.radiusSmall)),
+                                                child: Center(
+                                                    child: Row(children: [
+                                                  Text(restController.tagList[index]!,
+                                                      style: senMedium.copyWith(
+                                                          color: Theme.of(context).cardColor)),
+                                                  const SizedBox(
+                                                      width: Dimensions.paddingSizeExtraSmall),
+                                                  InkWell(
+                                                      onTap: () => restController.removeTag(index),
+                                                      child: Icon(Icons.clear,
+                                                          size: 18,
+                                                          color: Theme.of(context).cardColor)),
+                                                ])),
+                                              );
+                                            }),
+                                      )
+                                    : const SizedBox(),
+                              ]),
                           const SizedBox(height: Dimensions.paddingSizeLarge),
                           VariationView(restController: restController, product: _product),
                           Text(
@@ -969,19 +995,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           Row(children: [
                             Expanded(
                                 child: CustomTimePicker(
-                              title: 'available_time_starts'.tr + ' *',
+                              title: '${'available_time_starts'.tr} *',
                               time: _product!.availableTimeStarts,
                               onTimeChanged: (time) => _product!.availableTimeStarts = time,
                             )),
                             const SizedBox(width: Dimensions.paddingSizeSmall),
                             Expanded(
                                 child: CustomTimePicker(
-                              title: 'available_time_ends'.tr + ' *',
+                              title: '${'available_time_ends'.tr} *',
                               time: _product!.availableTimeEnds,
                               onTimeChanged: (time) => _product!.availableTimeEnds = time,
                             )),
                           ]),
-                          const SizedBox(height: Dimensions.paddingSizeLarge),
+                          // const SizedBox(height: Dimensions.paddingSizeLarge),
                           ListView.builder(
                             shrinkWrap: true,
                             physics: const BouncingScrollPhysics(),
@@ -991,7 +1017,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 children: [
                                   const SizedBox(height: Dimensions.paddingSizeLarge),
                                   MyTextField(
-                                    hintText: 'DETAILS'.tr + '*',
+                                    hintText: '${'Details'.tr}*',
                                     controller: _descriptionControllerList[index],
                                     focusNode: _descriptionFocusList[index],
                                     capitalization: TextCapitalization.sentences,
@@ -1099,7 +1125,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             } else if (_product!.availableTimeEnds == null) {
                               showCustomSnackBar('pick_end_time'.tr);
                             } else if (_descriptionControllerList[0].text.trim().isEmpty) {
-                              showCustomSnackBar('Enter a description');
+                              showCustomSnackBar('Please enter details');
                             } else {
                               //
                               translations = [];

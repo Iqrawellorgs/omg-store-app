@@ -4,6 +4,7 @@ import 'package:efood_multivendor_restaurant/controller/restaurant_controller.da
 import 'package:efood_multivendor_restaurant/controller/splash_controller.dart';
 import 'package:efood_multivendor_restaurant/data/model/response/config_model.dart';
 import 'package:efood_multivendor_restaurant/data/model/response/product_model.dart';
+import 'package:efood_multivendor_restaurant/data/model/response/profile_model.dart';
 import 'package:efood_multivendor_restaurant/helper/date_converter.dart';
 import 'package:efood_multivendor_restaurant/helper/price_converter.dart';
 import 'package:efood_multivendor_restaurant/helper/responsive_helper.dart';
@@ -24,6 +25,7 @@ import 'package:get/get.dart';
 import '../../controller/theme_controller.dart';
 
 class ProductWidget extends StatefulWidget {
+  final Restaurant restaurant;
   final Product product;
   final int index;
   final int length;
@@ -35,7 +37,8 @@ class ProductWidget extends StatefulWidget {
       required this.index,
       required this.length,
       this.inRestaurant = false,
-      this.isCampaign = false})
+      this.isCampaign = false,
+      required this.restaurant})
       : super(key: key);
 
   @override
@@ -230,7 +233,8 @@ class _ProductWidgetState extends State<ProductWidget> {
                             .then((itemDetails) {
                           if (itemDetails != null) {
                             itemDetails.variations = widget.product.variations;
-                            Get.toNamed(RouteHelper.getProductRoute(itemDetails));
+                            Get.toNamed(
+                                RouteHelper.getProductRoute(itemDetails, widget.restaurant));
                           }
                         });
                       } else {

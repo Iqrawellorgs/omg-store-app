@@ -41,15 +41,16 @@ class DailyTimeWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
       child: Row(children: [
-        Expanded(flex: 2, child: Text(dayString.tr)),
+        Expanded(flex: 3, child: Text(dayString.tr)),
         const Text(':'),
         const SizedBox(width: Dimensions.paddingSizeExtraSmall),
         Expanded(
             flex: 8,
             child: SizedBox(
                 height: 50,
-                width: MediaQuery.of(context).size.width / 4,
+                // width: MediaQuery.of(context).size.width,
                 child: ListView.builder(
+                  // itemExtent: MediaQuery.of(context).size.width * 0.63,
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemCount: scheduleList.length + 1,
@@ -197,7 +198,7 @@ class DailyTimeWidget extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.only(right: Dimensions.paddingSizeExtraSmall),
                       child: Container(
-                        width: MediaQuery.sizeOf(context).width * 0.67,
+                        width: MediaQuery.of(context).size.width * 0.62,
                         decoration: BoxDecoration(
                           border: Border.all(
                               color: Theme.of(context).textTheme.bodyLarge!.color!, width: 1),

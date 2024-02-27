@@ -138,9 +138,9 @@ class AddNameScreenState extends State<AddNameScreen> {
                   // for(int i =0; i< translations.length; i++) {
                   //   print('Translations====>${translations[i].toJson()}');
                   // }
-                  Get.toNamed(
-                    RouteHelper.getAddProductRoute(widget.product),
-                  );
+                  // Get.toNamed(
+                  //   RouteHelper.getAddProductRoute(widget.product),
+                  // );
                 }
               },
             ),

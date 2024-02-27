@@ -92,12 +92,14 @@ class ApiClient extends GetxService {
             request.files.add(part);
           } else {
             File file = File(multipart.file!.path);
-            request.files.add(http.MultipartFile(
-              multipart.key,
-              file.readAsBytes().asStream(),
-              file.lengthSync(),
-              filename: file.path.split('/').last,
-            ));
+            request.files.add(
+              http.MultipartFile(
+                multipart.key,
+                file.readAsBytes().asStream(),
+                file.lengthSync(),
+                filename: file.path.split('/').last,
+              ),
+            );
           }
         }
       }

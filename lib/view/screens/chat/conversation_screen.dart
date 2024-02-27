@@ -139,20 +139,23 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                               return CustomInkWell(
                                                 onTap: () {
                                                   if (user != null) {
-                                                    Get.toNamed(RouteHelper.getChatRoute(
-                                                      notificationBody: NotificationBody(
-                                                        type: conversation.senderType,
-                                                        notificationType: NotificationType.message,
-                                                        customerId: type == UserType.customer.name
-                                                            ? user.userId
-                                                            : null,
-                                                        deliveryManId:
-                                                            type == UserType.delivery_man.name
-                                                                ? user.id
-                                                                : null,
+                                                    Get.toNamed(
+                                                      RouteHelper.getChatRoute(
+                                                        notificationBody: NotificationBody(
+                                                          type: conversation.senderType,
+                                                          notificationType:
+                                                              NotificationType.message,
+                                                          customerId: type == UserType.customer.name
+                                                              ? user.userId
+                                                              : null,
+                                                          deliveryManId:
+                                                              type == UserType.delivery_man.name
+                                                                  ? user.id
+                                                                  : null,
+                                                        ),
+                                                        conversationId: conversation.id,
                                                       ),
-                                                      conversationId: conversation.id,
-                                                    ))!
+                                                    )!
                                                         .then((value) => Get.find<ChatController>()
                                                             .getConversationList(1));
                                                   } else {

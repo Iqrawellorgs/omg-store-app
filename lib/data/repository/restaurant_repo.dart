@@ -100,6 +100,9 @@ class RestaurantRepo {
     for (int index = 0; index < images.length; index++) {
       _images.add(MultipartBody('images[]', images[index]));
     }
+    // if (_images.length == 1) {
+    //   _images.add(MultipartBody('images[]', null));
+    // }
     return apiClient.postMultipartData(
       isAdd ? AppConstants.addProductUri : AppConstants.updateProductUri,
       fields,
