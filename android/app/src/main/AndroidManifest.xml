@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.incroyable.omgstore">
+    package="com.incroyable.storeomg">
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide
@@ -77,5 +77,12 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <meta-data android:name="com.phonepe.android.sdk.isUAT" android:value="false"/>
+        <meta-data android:name="com.phonepe.android.sdk.isSimulator" android:value="false"/>
+        <meta-data android:name="com.phonepe.android.sdk.MerchantId" android:value="WELLORGSONLINE"/>
+        <meta-data android:name="com.phonepe.android.sdk.AppId" android:value="appId"/>
+
+
     </application>
 </manifest>

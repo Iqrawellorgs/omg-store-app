@@ -1,4 +1,4 @@
-package com.incroyable.omgstore
+package com.incroyable.storeomg
 
 import io.flutter.embedding.android.FlutterActivity
 

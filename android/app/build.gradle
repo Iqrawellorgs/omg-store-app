@@ -45,7 +45,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.incroyable.omgstore"
+        applicationId "com.incroyable.storeomg"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
@@ -66,7 +66,7 @@ android {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             // signingConfig signingConfigs.release
         }
     }
@@ -79,4 +79,5 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.google.firebase:firebase-messaging:21.0.1"
+    implementation 'phonepe.intentsdk.android.release:IntentSDK:2.4.3'
 }
