@@ -97,7 +97,7 @@
   "customer_details": "Customer Details",
   "call": "Call",
   "item_price": "Item Price",
-  "vat_tax": "GST(if any)",
+  "vat_tax": "GST",
   "subtotal": "Subtotal",
   "discount": "Discount",
   "coupon_discount": "Coupon Discount",

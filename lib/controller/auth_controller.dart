@@ -91,6 +91,10 @@ class AuthController extends GetxController implements GetxService {
   bool _acceptTerms = true;
 
   bool get isLoading => _isLoading;
+  set isLoading(bool value) {
+    _isLoading = value;
+  }
+
   bool get notification => _notification;
   ProfileModel? get profileModel => _profileModel;
   XFile? get pickedFile => _pickedFile;
@@ -509,9 +513,11 @@ class AuthController extends GetxController implements GetxService {
 
   String get verificationCode => _verificationCode;
 
-  void updateVerificationCode(String query) {
+  void updateVerificationCode(String query, {bool canUpdate = true}) {
     _verificationCode = query;
-    update();
+    if (canUpdate) {
+      update();
+    }
   }
 
   bool _isActiveRememberMe = false;

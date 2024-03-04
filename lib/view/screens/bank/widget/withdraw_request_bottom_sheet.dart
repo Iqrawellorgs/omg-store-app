@@ -15,12 +15,10 @@ class WithdrawRequestBottomSheet extends StatefulWidget {
   const WithdrawRequestBottomSheet({Key? key, this.balance}) : super(key: key);
 
   @override
-  State<WithdrawRequestBottomSheet> createState() =>
-      _WithdrawRequestBottomSheetState();
+  State<WithdrawRequestBottomSheet> createState() => _WithdrawRequestBottomSheetState();
 }
 
-class _WithdrawRequestBottomSheetState
-    extends State<WithdrawRequestBottomSheet> {
+class _WithdrawRequestBottomSheetState extends State<WithdrawRequestBottomSheet> {
   late TextEditingController _balanceController;
   final FocusNode _amountFocus = FocusNode();
 
@@ -29,6 +27,7 @@ class _WithdrawRequestBottomSheetState
     super.initState();
     _balanceController = TextEditingController(text: widget.balance.toString());
     Get.find<BankController>().setMethod(isUpdate: false);
+    
   }
 
   @override
@@ -37,8 +36,7 @@ class _WithdrawRequestBottomSheetState
       padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(Dimensions.radiusLarge)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusLarge)),
       ),
       child: GetBuilder<BankController>(builder: (bankController) {
         return SingleChildScrollView(
@@ -73,34 +71,22 @@ class _WithdrawRequestBottomSheetState
                           child: MyTextField(
                             fillColor: Color.fromARGB(255, 240, 245, 250),
                             isBorderenabled: false,
-                            titleName:
-                                bankController.methodFields[index].inputName,
-                            hintText:
-                                bankController.methodFields[index].placeholder,
-                            controller:
-                                bankController.textControllerList[index],
+                            titleName: bankController.methodFields[index].inputName,
+                            hintText: bankController.methodFields[index].placeholder,
+                            controller: bankController.textControllerList[index],
                             capitalization: TextCapitalization.words,
-                            inputType:
-                                bankController.methodFields[index].inputType ==
-                                        'phone'
-                                    ? TextInputType.phone
-                                    : bankController.methodFields[index]
-                                                .inputType ==
-                                            'number'
-                                        ? TextInputType.number
-                                        : bankController.methodFields[index]
-                                                    .inputType ==
-                                                'email'
-                                            ? TextInputType.emailAddress
-                                            : TextInputType.name,
+                            inputType: bankController.methodFields[index].inputType == 'phone'
+                                ? TextInputType.phone
+                                : bankController.methodFields[index].inputType == 'number'
+                                    ? TextInputType.number
+                                    : bankController.methodFields[index].inputType == 'email'
+                                        ? TextInputType.emailAddress
+                                        : TextInputType.name,
                             focusNode: bankController.focusList[index],
-                            nextFocus:
-                                index != bankController.methodFields.length - 1
-                                    ? bankController.focusList[index + 1]
-                                    : _amountFocus,
-                            isRequired:
-                                bankController.methodFields[index].isRequired ==
-                                    1,
+                            nextFocus: index != bankController.methodFields.length - 1
+                                ? bankController.focusList[index + 1]
+                                : _amountFocus,
+                            isRequired: bankController.methodFields[index].isRequired == 1,
                           ),
                         ),
                         bankController.methodFields[index].inputType == 'date'
@@ -114,11 +100,9 @@ class _WithdrawRequestBottomSheetState
                                   );
                                   if (pickedDate != null) {
                                     String formattedDate =
-                                        DateConverter.dateTimeForCoupon(
-                                            pickedDate);
+                                        DateConverter.dateTimeForCoupon(pickedDate);
                                     setState(() {
-                                      bankController.textControllerList[index]
-                                          .text = formattedDate;
+                                      bankController.textControllerList[index].text = formattedDate;
                                     });
                                   }
                                 },
@@ -161,8 +145,7 @@ class _WithdrawRequestBottomSheetState
                       for (var element in bankController.methodFields) {
                         if (element.isRequired == 1) {
                           if (bankController
-                              .textControllerList[
-                                  bankController.methodFields.indexOf(element)]
+                              .textControllerList[bankController.methodFields.indexOf(element)]
                               .text
                               .isEmpty) {
                             fieldEmpty = true;
@@ -170,40 +153,37 @@ class _WithdrawRequestBottomSheetState
                         }
                       }
 
-                      if (fieldEmpty) {
-                        showCustomSnackBar(
-                            'required_fields_can_not_be_empty'.tr);
-                      } else if (_balanceController.text.trim().isEmpty) {
-                        showCustomSnackBar('enter_amount'.tr);
-                      } else {
-                        // Get.to(() => PaymentScreen(
-                        //       id: bankController
-                        //           .widthDrawMethods![
-                        //               bankController.methodIndex!]
-                        //           .id
-                        //           .toString(),
-                        //       balance:
-                        //           double.parse(_balanceController.text.trim()),
-                        //     ));
+                      // if (fieldEmpty) {
+                      //   showCustomSnackBar(
+                      //       'required_fields_can_not_be_empty'.tr);
+                      // } else if (_balanceController.text.trim().isEmpty) {
+                      //   showCustomSnackBar('enter_amount'.tr);
+                      // } else {
+                      //   // Get.to(() => PaymentScreen(
+                      //   //       id: bankController
+                      //   //           .widthDrawMethods![
+                      //   //               bankController.methodIndex!]
+                      //   //           .id
+                      //   //           .toString(),
+                      //   //       balance:
+                      //   //           double.parse(_balanceController.text.trim()),
+                      //   //     ));
+                      // }
+                      // }
+                      // else {
+                      Map<String?, String> data = {};
+                      data['id'] = bankController.widthDrawMethods![bankController.methodIndex!].id
+                          .toString();
+                      data['amount'] = _balanceController.text.trim();
+                      for (var result in bankController.methodFields) {
+                        data[result.inputName] = bankController
+                            .textControllerList[bankController.methodFields.indexOf(result)].text
+                            .trim();
                       }
-                    }
-                    // else {
-                    //   Map<String?, String> data = {};
-                    //   data['id'] = bankController
-                    //       .widthDrawMethods![bankController.methodIndex!].id
-                    //       .toString();
-                    //   data['amount'] = _balanceController.text.trim();
-                    //   for (var result in bankController.methodFields) {
-                    //     data[result.inputName] = bankController
-                    //         .textControllerList[
-                    //             bankController.methodFields.indexOf(result)]
-                    //         .text
-                    //         .trim();
-                    //   }
-                    //   bankController.requestWithdraw(data);
-                    // }
-                    // },
-                    )
+                      bankController.requestWithdraw(data);
+                      // }
+                    },
+                  )
                 : const Center(child: CircularProgressIndicator()),
           ]),
         );

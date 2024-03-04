@@ -1,12 +1,15 @@
 import 'package:efood_multivendor_restaurant/controller/auth_controller.dart';
 import 'package:efood_multivendor_restaurant/controller/bank_controller.dart';
+import 'package:efood_multivendor_restaurant/data/model/response/withdraw_model.dart';
 import 'package:efood_multivendor_restaurant/helper/price_converter.dart';
 import 'package:efood_multivendor_restaurant/helper/route_helper.dart';
 import 'package:efood_multivendor_restaurant/util/dimensions.dart';
 import 'package:efood_multivendor_restaurant/util/styles.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_snackbar.dart';
+import 'package:efood_multivendor_restaurant/view/screens/bank/payment_screen.dart';
 import 'package:efood_multivendor_restaurant/view/screens/bank/widget/edit_amount_bottom_sheet.dart';
 import 'package:efood_multivendor_restaurant/view/screens/bank/widget/wallet_widget.dart';
+import 'package:efood_multivendor_restaurant/view/screens/bank/widget/withdraw_request_bottom_sheet.dart';
 import 'package:efood_multivendor_restaurant/view/screens/bank/widget/withdraw_widget.dart';
 import 'package:efood_multivendor_restaurant/view/screens/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +65,8 @@ class WalletScreen extends StatelessWidget {
                                   onTap: () => Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => DashboardScreen(pageIndex: 0))),
+                                          builder: (context) =>
+                                              const DashboardScreen(pageIndex: 0))),
                                   child: Container(
                                     // margin: const EdgeInsets.only(left: 3),
                                     padding: const EdgeInsets.only(
@@ -89,7 +93,7 @@ class WalletScreen extends StatelessWidget {
                               const SizedBox(width: Dimensions.paddingSizeDefault),
                               Text(
                                 'wallet'.tr,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontFamily: "Sen",
                                   fontSize: 17,
                                   fontWeight: FontWeight.w400,
@@ -102,7 +106,7 @@ class WalletScreen extends StatelessWidget {
                           const SizedBox(height: Dimensions.paddingSizeSmall),
                           Text(
                             'wallet_amount'.tr,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: "Sen",
                               fontSize: 16,
                               fontWeight: FontWeight.w400,
@@ -113,7 +117,7 @@ class WalletScreen extends StatelessWidget {
                           const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                           Text(
                             PriceConverter.convertPrice(authController.profileModel!.balance),
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: "Sen",
                               fontSize: 40,
                               fontWeight: FontWeight.w700,
@@ -121,59 +125,120 @@ class WalletScreen extends StatelessWidget {
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          InkWell(
-                            onTap: () {
-                              if (bankController.widthDrawMethods != null &&
-                                  bankController.widthDrawMethods!.isNotEmpty) {
-                                // Get.to(() => PaymentScreen(
-                                //       id: authController.profileModel!.id ??
-                                //           0,
-                                //       balance: authController
-                                //               .profileModel!.balance ??
-                                //           0.0,
-                                //     ));
-                                // Get.bottomSheet(
-                                //     WithdrawRequestBottomSheet(
-                                //         balance: authController
-                                //             .profileModel!.balance),
-                                //     isScrollControlled: true);
-                                Get.bottomSheet(
-                                    EditAmountBottomSheet(
-                                        balance: authController.profileModel!.balance),
-                                    isScrollControlled: true);
-                              } else {
-                                showCustomSnackBar('currently_no_bank_account_added'.tr);
-                              }
-                            },
-                            child: Padding(
-                                padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 1,
-                                      color: Color(0xffFFFFFF),
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: Theme.of(context).primaryColor,
-                                  ),
-                                  width: 100,
-                                  height: 37,
-                                  child: Center(
-                                    child: Text('withdraw'.tr,
-                                        style: senRegular.copyWith(
-                                          fontSize: Dimensions.fontSizeSmall,
-                                          color: themeController.darkTheme
-                                              ? Colors.white
-                                              : Theme.of(context).cardColor,
-                                        )),
-                                  ),
-                                  // Icon(Icons.keyboard_arrow_down,
-                                  //     color: themeController.darkTheme
-                                  //         ? Colors.white
-                                  //         : Theme.of(context)
-                                  //             .cardColor,
-                                  //     size: 20),
-                                )),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  if (bankController.widthDrawMethods != null &&
+                                      bankController.widthDrawMethods!.isNotEmpty) {
+                                    // Get.to(() => PaymentScreen(
+                                    //       id: authController.profileModel!.id ?? 0,
+                                    //       balance: authController.profileModel!.balance ?? 0.0,
+                                    //     ));
+                                    Get.bottomSheet(
+                                        WithdrawRequestBottomSheet(
+                                            balance: authController.profileModel!.balance),
+                                        isScrollControlled: true);
+                                    // Get.bottomSheet(
+                                    //     EditAmountBottomSheet(
+                                    //         balance: authController.profileModel!.balance),
+                                    //     isScrollControlled: true);
+                                  } else {
+                                    showCustomSnackBar('currently_no_bank_account_added'.tr);
+                                  }
+                                },
+                                child: Padding(
+                                    padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 1,
+                                          color: const Color(0xffFFFFFF),
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                      width: 140,
+                                      height: 37,
+                                      child: Center(
+                                        child: Text('Withdraw Request'.tr,
+                                            style: senRegular.copyWith(
+                                              fontSize: Dimensions.fontSizeSmall,
+                                              color: themeController.darkTheme
+                                                  ? Colors.white
+                                                  : Theme.of(context).cardColor,
+                                            )),
+                                      ),
+                                      // Icon(Icons.keyboard_arrow_down,
+                                      //     color: themeController.darkTheme
+                                      //         ? Colors.white
+                                      //         : Theme.of(context)
+                                      //             .cardColor,
+                                      //     size: 20),
+                                    )),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  BankController bankController = Get.find();
+                                  double approvedAmount = 0;
+                                  for (WithdrawModel method in bankController.withdrawList!) {
+                                    if (method.status == 'Approved') {
+                                      approvedAmount = method.amount ?? 0;
+                                      break;
+                                    }
+                                  }
+                                  if (approvedAmount > 0) {
+                                    // Get.to(() => PaymentScreen(
+                                    //       id: authController.profileModel!.id ?? 0,
+                                    //       balance: authController.profileModel!.balance ?? 0.0,
+                                    //     ));
+                                    // Get.bottomSheet(
+                                    //     WithdrawRequestBottomSheet(
+                                    //         balance: authController.profileModel!.balance),
+                                    //     isScrollControlled: true);
+
+                                    Get.bottomSheet(
+                                      EditAmountBottomSheet(balance: approvedAmount),
+                                      isScrollControlled: true,
+                                    );
+                                  } else {
+                                    showCustomSnackBar('Please request withdraw first');
+                                  }
+                                },
+                                child: Padding(
+                                    padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          width: 1,
+                                          color: const Color(0xffFFFFFF),
+                                        ),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                      width: 100,
+                                      height: 37,
+                                      child: Center(
+                                        child: Text(
+                                          'withdraw'.tr,
+                                          style: senRegular.copyWith(
+                                            fontSize: Dimensions.fontSizeSmall,
+                                            color: themeController.darkTheme
+                                                ? Colors.white
+                                                : Theme.of(context).cardColor,
+                                          ),
+                                        ),
+                                      ),
+                                      // Icon(Icons.keyboard_arrow_down,
+                                      //     color: themeController.darkTheme
+                                      //         ? Colors.white
+                                      //         : Theme.of(context)
+                                      //             .cardColor,
+                                      //     size: 20),
+                                    )),
+                              ),
+                            ],
                           ),
                         ]),
                       ),
@@ -225,8 +290,8 @@ class WalletScreen extends StatelessWidget {
                       const SizedBox(height: Dimensions.paddingSizeSmall),
                       bankController.withdrawList!.isNotEmpty
                           ? ListView.builder(
-                              padding:
-                                  EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: Dimensions.paddingSizeLarge),
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: bankController.withdrawList!.length > 10

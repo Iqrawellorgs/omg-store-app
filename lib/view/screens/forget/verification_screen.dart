@@ -102,7 +102,7 @@ class VerificationScreenState extends State<VerificationScreen> {
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                       // border: Border.all(color: Theme.of(context).dividerColor, width: 5),
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30),
                       ),
@@ -224,9 +224,10 @@ class VerificationScreenState extends State<VerificationScreen> {
                                         authController.verifyToken(widget.email).then((value) {
                                           if (value.isSuccess) {
                                             Get.toNamed(RouteHelper.getResetPasswordRoute(
-                                                widget.email,
-                                                authController.verificationCode,
-                                                'reset-password'));
+                                              widget.email,
+                                              authController.verificationCode,
+                                              'reset-password',
+                                            ));
                                           } else {
                                             showCustomSnackBar(value.message);
                                           }

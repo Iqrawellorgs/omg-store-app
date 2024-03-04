@@ -13,9 +13,11 @@ class CustomButton extends StatelessWidget {
   final double? height;
   final double? width;
   final double? fontSize;
-  final Color? color;
-  final IconData? icon;
   final double radius;
+  final IconData? icon;
+  final Color? color;
+  final Color? textColor;
+  final bool isLoading;
   const CustomButton(
       {Key? key,
       this.onPressed,
@@ -25,9 +27,11 @@ class CustomButton extends StatelessWidget {
       this.width,
       this.height,
       this.fontSize,
-      this.color,
+      this.radius = 10,
       this.icon,
-      this.radius = Dimensions.radiusSmall})
+      this.color,
+      this.textColor,
+      this.isLoading = false})
       : super(key: key);
 
   @override
@@ -38,48 +42,57 @@ class CustomButton extends StatelessWidget {
           : transparent
               ? Colors.transparent
               : color ?? Theme.of(context).primaryColor,
-      minimumSize: Size(width != null ? width! : 1170, height != null ? height! : 45),
+      minimumSize:
+          Size(width != null ? width! : Dimensions.webMaxWidth, height != null ? height! : 50),
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(radius),
       ),
     );
 
-    return Padding(
-      padding: margin == null ? const EdgeInsets.all(0) : margin!,
-      child: TextButton(
-        onPressed: onPressed as void Function()?,
-        style: flatButtonStyle,
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          icon != null
-              ? Icon(icon,
-                  color: transparent ? Theme.of(context).primaryColor : Theme.of(context).cardColor)
-              : const SizedBox(),
-          SizedBox(width: icon != null ? Dimensions.paddingSizeSmall : 0),
-          Text(
-            buttonText,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: "Sen",
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: transparent
-                  ? Theme.of(context).primaryColor
-                  : Get.find<ThemeController>().darkTheme
-                      ? Colors.white
-                      : Theme.of(context).cardColor,
-            ),
-            // robotoBold.copyWith(
-            //   color: transparent
-            //       ? Theme.of(context).primaryColor
-            //       : Get.find<ThemeController>().darkTheme
-            //           ? Colors.white
-            //           : Theme.of(context).cardColor,
-            //   fontSize: fontSize ?? Dimensions.fontSizeLarge,
-            // ),
-          ),
-        ]),
-      ),
-    );
+    return Center(
+        child: SizedBox(
+            width: width ?? Dimensions.webMaxWidth,
+            child: Padding(
+              padding: margin == null ? const EdgeInsets.all(0) : margin!,
+              child: TextButton(
+                onPressed: isLoading ? null : onPressed as void Function()?,
+                style: flatButtonStyle,
+                child: isLoading
+                    ? Center(
+                        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                          const SizedBox(
+                            height: 15,
+                            width: 15,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                              strokeWidth: 2,
+                            ),
+                          ),
+                          const SizedBox(width: Dimensions.paddingSizeSmall),
+                          Text('loading'.tr, style: senMedium.copyWith(color: Colors.white)),
+                        ]),
+                      )
+                    : Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                        icon != null
+                            ? Padding(
+                                padding:
+                                    const EdgeInsets.only(right: Dimensions.paddingSizeExtraSmall),
+                                child: Icon(icon,
+                                    color: transparent
+                                        ? Theme.of(context).primaryColor
+                                        : Theme.of(context).cardColor),
+                              )
+                            : const SizedBox(),
+                        Text(buttonText,
+                            textAlign: TextAlign.center,
+                            style: senBold.copyWith(
+                              color: textColor ??
+                                  (transparent ? Theme.of(context).primaryColor : Colors.white),
+                              fontSize: fontSize ?? Dimensions.fontSizeLarge,
+                            )),
+                      ]),
+              ),
+            )));
   }
 }

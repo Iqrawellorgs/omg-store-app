@@ -52,6 +52,7 @@ dependencies:
   phonepe_payment_sdk: ^2.0.1
   flutter_inappwebview: ^5.7.1+2
   crypto: ^3.0.3
+  firebase_auth: ^4.17.6
 dependency_overrides:
   modal_bottom_sheet: ^3.0.0-pre
 

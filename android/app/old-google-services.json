@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "950833318341",
+    "project_id": "order-my-gift",
+    "storage_bucket": "order-my-gift.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950833318341:android:2261a736ab18ee3106e3ac",
+        "android_client_info": {
+          "package_name": "com.incroyable.storeomg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950833318341-gh2gn7il0d73n4in05k18bt9207e07gb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPVxAjlf8HzTI0JETwZ44rdSgjHrT3tb8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950833318341-gh2gn7il0d73n4in05k18bt9207e07gb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950833318341:android:fefae56de7e161d906e3ac",
+        "android_client_info": {
+          "package_name": "com.incroyable.omguser"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950833318341-gh2gn7il0d73n4in05k18bt9207e07gb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPVxAjlf8HzTI0JETwZ44rdSgjHrT3tb8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950833318341-gh2gn7il0d73n4in05k18bt9207e07gb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

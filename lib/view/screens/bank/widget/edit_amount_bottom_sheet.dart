@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:efood_multivendor_restaurant/controller/bank_controller.dart';
 import 'package:efood_multivendor_restaurant/util/dimensions.dart';
 import 'package:flutter/material.dart';
@@ -38,8 +40,7 @@ class _EditAmountBottomSheetState extends State<EditAmountBottomSheet> {
       padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(Dimensions.radiusLarge)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusLarge)),
       ),
       child: GetBuilder<BankController>(builder: (bankController) {
         return SingleChildScrollView(
@@ -48,6 +49,7 @@ class _EditAmountBottomSheetState extends State<EditAmountBottomSheet> {
             Image.asset(Images.bank, height: 30, width: 30),
             const SizedBox(height: Dimensions.paddingSizeExtraLarge),
             MyTextField(
+              isEnabled: false,
               fillColor: Color.fromARGB(255, 240, 245, 250),
               isBorderenabled: false,
               hintText: 'enter_amount'.tr,
@@ -63,17 +65,13 @@ class _EditAmountBottomSheetState extends State<EditAmountBottomSheet> {
                 ? CustomButton(
                     buttonText: 'withdraw'.tr,
                     onPressed: () {
-                      double amount =
-                          double.parse(_balanceController.text.trim());
+                      double amount = double.parse(_balanceController.text.trim());
                       if (amount == amount.toInt()) {
                         amount = amount.toInt().toDouble();
                       }
 
                       Get.to(() => PaymentScreen(
-                            id: bankController
-                                    .widthDrawMethods![
-                                        bankController.methodIndex!]
-                                    .id ??
+                            id: bankController.widthDrawMethods![bankController.methodIndex!].id ??
                                 0,
                             balance: amount,
                           ));

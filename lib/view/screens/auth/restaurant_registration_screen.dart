@@ -18,6 +18,7 @@ import 'package:efood_multivendor_restaurant/view/base/custom_app_bar.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_button.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_snackbar.dart';
 import 'package:efood_multivendor_restaurant/view/base/custom_text_field.dart';
+import 'package:efood_multivendor_restaurant/view/screens/auth/otp_verify_screen.dart';
 import 'package:efood_multivendor_restaurant/view/screens/auth/widget/condition_check_box.dart';
 import 'package:efood_multivendor_restaurant/view/screens/auth/widget/custom_time_picker.dart';
 import 'package:efood_multivendor_restaurant/view/screens/auth/widget/pass_view.dart';
@@ -60,6 +61,8 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
   final FocusNode _pinCodeFocus = FocusNode();
   final bool _canBack = false;
   bool firstTime = true;
+  bool isPhoneNumberVerified = false;
+  String prevPhone = '';
 
   final List<Language>? _languageList = Get.find<SplashController>().configModel!.language;
   String? _countryDialCode;
@@ -908,7 +911,7 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                     !ResponsiveHelper.isDesktop(context)
                                 ? 'next'.tr
                                 : 'submit'.tr,
-                            onPressed: () {
+                            onPressed: () async {
                               bool defaultNameNull = false;
                               bool defaultAddressNull = false;
                               for (int index = 0; index < _languageList!.length; index++) {
@@ -958,6 +961,8 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                   showCustomSnackBar('enter_restaurant_address'.tr);
                                 } else if (pinCode.isEmpty) {
                                   showCustomSnackBar('Enter store pincode'.tr);
+                                } else if (vat.isEmpty) {
+                                  showCustomSnackBar('enter_vat_amount'.tr);
                                 } else if (minTime.isEmpty) {
                                   showCustomSnackBar('enter_minimum_delivery_time'.tr);
                                 } else if (maxTime.isEmpty) {
@@ -1019,30 +1024,40 @@ class _RestaurantRegistrationScreenState extends State<RestaurantRegistrationScr
                                         .toString());
                                   }
                                   customPrint('-----cuisines------: $cuisines');
+                                  if (!isPhoneNumberVerified || prevPhone != phone) {
+                                    prevPhone = phone;
+                                    isPhoneNumberVerified = await Get.to(OtpVerificationScreen(
+                                        number: '${_countryDialCode ?? '+91'}$phone'));
+                                  }
 
-                                  authController.registerRestaurant(
-                                    RestaurantBody(
-                                      deliveryTimeType: authController.storeTimeUnit,
-                                      translation: jsonEncode(translation),
-                                      vat: vat,
-                                      minDeliveryTime: minTime,
-                                      maxDeliveryTime: maxTime,
-                                      lat: authController.restaurantLocation!.latitude.toString(),
-                                      email: email,
-                                      lng: authController.restaurantLocation!.longitude.toString(),
-                                      fName:
-                                          fName.substring(0, 1).toUpperCase() + fName.substring(1),
-                                      lName:
-                                          lName.substring(0, 1).toUpperCase() + lName.substring(1),
-                                      phone: phone,
-                                      password: password,
-                                      zoneId: authController
-                                          .zoneList![authController.selectedZoneIndex!].id
-                                          .toString(),
-                                      cuisineId: cuisines,
-                                      pinCode: pinCode,
-                                    ),
-                                  );
+                                  if (isPhoneNumberVerified) {
+                                    authController.registerRestaurant(
+                                      RestaurantBody(
+                                        deliveryTimeType: authController.storeTimeUnit,
+                                        translation: jsonEncode(translation),
+                                        vat: vat,
+                                        minDeliveryTime: minTime,
+                                        maxDeliveryTime: maxTime,
+                                        lat: authController.restaurantLocation!.latitude.toString(),
+                                        email: email,
+                                        lng:
+                                            authController.restaurantLocation!.longitude.toString(),
+                                        fName: fName.substring(0, 1).toUpperCase() +
+                                            fName.substring(1),
+                                        lName: lName.substring(0, 1).toUpperCase() +
+                                            lName.substring(1),
+                                        phone: phone,
+                                        password: password,
+                                        zoneId: authController
+                                            .zoneList![authController.selectedZoneIndex!].id
+                                            .toString(),
+                                        cuisineId: cuisines,
+                                        pinCode: pinCode,
+                                      ),
+                                    );
+                                  } else {
+                                    showCustomSnackBar('Please verify your phone number');
+                                  }
                                 }
                               }
                             },
